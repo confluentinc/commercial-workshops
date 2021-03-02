@@ -318,7 +318,7 @@ In this step, we will explore using Python scripts to consume these messages. Th
 
     ```bash
     # Navigate to the 'Getting Started' workshop folder in the 'Designing Event-Driven Microservices' series folder.
-    cd series-microservices/workshop-getting-started
+    cd series-microservices/workshop-getting-started-mac
     ```
 
 1. Open the `setup.properties` file and add the values for `BOOTSTRAP_SERVERS`, `API_KEY`, and `API_SECRET`. Save and close when finished. 

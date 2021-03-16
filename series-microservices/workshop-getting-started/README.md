@@ -22,8 +22,6 @@
 
 ## **Architecture Diagram**
 
-Todo: add different architecture diagram that is consistent with the lab
-
 <div align="center">
     <img src="images/architecture.png" width=75% height=75%>
 </div>

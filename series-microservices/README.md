@@ -12,6 +12,6 @@ This three part series will walk through examples of using your microservice arc
 
 * [Getting Started with Confluent Cloud](https://github.com/confluentinc/commercial-workshops/tree/master/series-microservices/workshop-getting-started).
 * Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect.
-* Enable Real-time Data Transformations and Stream Processing with ksqlDB.
+* [Enable Real-time Data Transformations and Stream Processing with ksqlDB](https://github.com/confluentinc/commercial-workshops/tree/master/series-microservices/workshop-ksql).
 
 For more information about the series and details to register, navigate [here](https://events.confluent.io/workshopmicroservices).

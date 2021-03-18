@@ -30,7 +30,7 @@
     - Sign up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).
     - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”, then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
 
-> **Note:** We will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop. 
+> **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop. 
 
 <div align="center" padding=25px>
     <img src="images/billing.png" width=75% height=75%>
@@ -42,13 +42,13 @@
 
 <br>
 
-Welcome to “Enable Real-Time Data Transformations and Stream Processing with ksqlDB”! In this workshop, we will learn how to build stream processing applications using ksqlDB as well as learn about the use cases ksqlDB unlocks: streaming ETL, data discovery and enrichment, anomaly detection, and more.
+Welcome to “Enable Real-Time Data Transformations and Stream Processing with ksqlDB”! In this workshop, you will learn how to build stream processing applications using ksqlDB as well as learn about the use cases ksqlDB unlocks: streaming ETL, data discovery and enrichment, anomaly detection, and more.
 
-If you attended the first workshop in our Microservices Series, “Getting Started with Microservices in Confluent Cloud”, we walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
+If you attended the first workshop in our Microservices Series, “Getting Started with Microservices in Confluent Cloud”, you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
 
-The second workshop in our series, “Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect”, covered fully managed and self managed connectors. We walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
+The second workshop in our series, “Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
 
-We have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
+You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
 
 By the conclusion of the workshop, you will have learned how to leverage ksqlDB to perform continuous transformations, create materialized views, and serve lookups against these materialized views all with the data you already have in Confluent Cloud.
 
@@ -63,7 +63,7 @@ By the conclusion of the workshop, you will have learned how to leverage ksqlDB 
     <img src="images/login.png" width=50% height=50%>
 </div>
 
-2. If you are logging in for the first time, you will see a self-guided wizard that walks you through spinning up a cluster. Please minimize this as we will walk through those steps in this workshop. 
+2. If you are logging in for the first time, you will see a self-guided wizard that walks you through spinning up a cluster. Please minimize this as you will walk through those steps in this workshop. 
 
 ***
 
@@ -79,9 +79,9 @@ An environment contains clusters and its deployed components such as Connectors,
     <img src="images/environment.png" width=50% height=50%>
 </div>
 
-2. Now that we have an environment, click **Create Cluster**. 
+2. Now that you have an environment, click **Create Cluster**. 
 
-> **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so we will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
+> **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so you will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
 3. Chose the **Basic** cluster type. 
 
@@ -138,8 +138,8 @@ An environment contains clusters and its deployed components such as Connectors,
 
 > **Note:** Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
 
-6. After topic creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When we begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas.
-7. Below is a look at our topic, **users_topic**, but we need to send data to this topic before we see any metrics.
+6. After topic creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas.
+7. Below is a look at our topic, **users_topic**, but you need to send data to this topic before you see any metrics.
 
 <div align="center" padding=25px>
     <img src="images/users-topic.png" width=75% height=75%>
@@ -150,7 +150,7 @@ An environment contains clusters and its deployed components such as Connectors,
 ## <a name="step-5"></a>Create an API Key Pair
 
 1. Select **API Access** on the navigation menu. 
-2. A key pair has already been created for the ksqlDB application we created in *Step 3*. Select **+ Add Key** to create another key pair. 
+2. A key pair has already been created for the ksqlDB application you created in *Step 3*. Select **+ Add Key** to create another key pair. 
 
 <div align="center" padding=25px>
     <img src="images/create-key.png" width=75% height=75%>
@@ -167,9 +167,9 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ## <a name="step-6"></a>Create Datagen Connectors for Users and Stocks
 
-The next step is to produce sample data using the Datagen Source connector. We will create two Datagen Source connectors. One connector will send sample user data to **users_topic** and the other connector will send sample stock data to **stocks_topic**.
+The next step is to produce sample data using the Datagen Source connector. You will create two Datagen Source connectors. One connector will send sample user data to **users_topic** and the other connector will send sample stock data to **stocks_topic**.
 
-1. First, we will create the connector that will send data to **users_topic**. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Click on the **Datagen Source** icon.
+1. First, you will create the connector that will send data to **users_topic**. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Click on the **Datagen Source** icon.
 
 <div align="center" padding=25px>
     <img src="images/connectors.png" width=75% height=75%>
@@ -200,7 +200,7 @@ The next step is to produce sample data using the Datagen Source connector. We w
     <img src="images/add-datagen-conn.png" width=50% height=50%>
 </div>
 
-5. Next, we will create the second connector that will send data to **stocks_topic**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
+5. Next, create the second connector that will send data to **stocks_topic**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
 
 6. Enter the following configuration details. The remaining fields can be left blank. 
 
@@ -229,7 +229,7 @@ The next step is to produce sample data using the Datagen Source connector. We w
 > * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
 > * If neither of these steps work, try creating another Datagen connector.
 
-9. We can view the sample data flowing into our topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
+9. You can view the sample data flowing into our topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
 
 <div align="center">
     <img src="images/users-topic-overview.png" width=75% height=75%>
@@ -253,15 +253,15 @@ The next step is to produce sample data using the Datagen Source connector. We w
 
 ## <a name="step-7"></a>Create a Stream and a Table
 
-Now that we are producing a continuous stream of data to our **users_topic** and **stocks_topic**, we will use ksqlDB to understand our data better by performing continuous transformations, masking certain fields, and creating new derived topics with the enriched data.
+Now that you are producing a continuous stream of data to **users_topic** and **stocks_topic**, you will use ksqlDB to understand our data better by performing continuous transformations, masking certain fields, and creating new derived topics with the enriched data.
 
-We will start by creating a stream and table, which will be the foundation for our transformations in the upcoming steps.
+You will start by creating a stream and table, which will be the foundation for our transformations in the upcoming steps.
 
 A *stream* provides immutable data. It supports only inserting (appending) new events, whereas existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 
 A *table* provides mutable data. New events—rows—can be inserted, and existing rows can be updated and deleted. Like streams, tables are persistent, durable, and fault tolerant. A table behaves much like an RDBMS materialized view because it is being changed automatically as soon as any of its input streams or tables change, rather than letting you directly run insert, update, or delete operations against it.
 
-To learn more about *streams* and *tables* we recommend the following resources:
+To learn more about *streams* and *tables*, the following resources are recommended:
 - [Streams and Talbes in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
 - [ksqlDB: Data Definition](https://docs.ksqldb.io/en/latest/reference/sql/data-definition/)
 
@@ -269,9 +269,9 @@ To learn more about *streams* and *tables* we recommend the following resources:
 
 1. Navigate back to the **ksqlDB** tab and click on your application name. This will bring us to the ksqlDB editor. 
 
-> **Note:** We can interact with ksqlDB through the **Editor**. You can create a stream by using the `CREATE STREAM` statement and a table using the `CREATE TABLE` statement. <br><br>To write streaming queries against **users_topic** and **stocks_topic**, we will need to register the topics with ksqlDB as a stream and/or table. 
+> **Note:** You can interact with ksqlDB through the **Editor**. You can create a stream by using the `CREATE STREAM` statement and a table using the `CREATE TABLE` statement. <br><br>To write streaming queries against **users_topic** and **stocks_topic**, you will need to register the topics with ksqlDB as a stream and/or table. 
 
-2. First, let's create a **Stream** by registering the **stocks_topic** as a stream called **stocks_stream**. 
+2. First, create a **Stream** by registering the **stocks_topic** as a stream called **stocks_stream**. 
 
 ```sql
 CREATE STREAM stocks_stream (
@@ -316,7 +316,7 @@ CREATE TABLE users (
 WITH (KAFKA_TOPIC='users_topic', VALUE_FORMAT='JSON');
 ```
 
-8. Once you have created the **USERS** table, let’s repeat what we did above with **STOCKS_STREAMS** and query our **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 
+8. Once you have created the **USERS** table, repeat what you did above with **STOCKS_STREAMS** and query our **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 
 
 ```sql
 SELECT * FROM USERS EMIT CHANGES;
@@ -338,7 +338,7 @@ SELECT * FROM USERS EMIT CHANGES;
 
 A *Persistent Query* runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
 
-1. We will now create a **Persistent Query** named **stocks_enriched** by left joining our stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
+1. Create a **Persistent Query** named **stocks_enriched** by left joining our stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
 
 ```sql
 CREATE STREAM stocks_enriched AS
@@ -356,7 +356,7 @@ CREATE STREAM stocks_enriched AS
 EMIT CHANGES;
 ```
 
-2. Using the **Editor**, query the new stream. You can either type in a select statement or you can navigate to the stream and select the query button, similar to how we did it in a previous step. You can also choose to set `auto.offset.reset=earliest`. Your statement should be the following. 
+2. Using the **Editor**, query the new stream. You can either type in a select statement or you can navigate to the stream and select the query button, similar to how you did it in a previous step. You can also choose to set `auto.offset.reset=earliest`. Your statement should be the following. 
 
 ```sql
 SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;

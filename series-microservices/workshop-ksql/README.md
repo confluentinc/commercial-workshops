@@ -48,7 +48,7 @@ If you attended the first workshop in our Microservices Series, “Getting Start
 
 The second workshop in our series, “Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect”, covered fully managed and self managed connectors. We walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
 
-We have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data within Kafka? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
+We have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
 
 By the conclusion of the workshop, you will have learned how to leverage ksqlDB to perform continuous transformations, create materialized views, and serve lookups against these materialized views all with the data you already have in Confluent Cloud.
 
@@ -120,7 +120,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 1. On the navigation menu, you will see **Cluster Overview**. 
 
-> **Note:** This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Kafka. 
+> **Note:** This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud. 
 
 <div align="center" padding=25px>
     <img src="images/cluster-metrics.png" width=75% height=75%>
@@ -494,7 +494,7 @@ SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
 
 In this last step, we will learn how we can use ksqlDB to mask data that may contain sensitive information and is often applicable to use cases that have PII data.
 
-1. To demonstrate data masking, let’s create a new stream named **accounts_masking**. We will persist the events in the original topic to a new Kafka topic with the **account** field within our data set removed. Copy the following statement and run it in the **Editor**. 
+1. To demonstrate data masking, let’s create a new stream named **accounts_masking**. We will persist the events in the original topic to a new topic with the **account** field within our data set removed. Copy the following statement and run it in the **Editor**. 
 
 ```sql
 CREATE STREAM accounts_masking

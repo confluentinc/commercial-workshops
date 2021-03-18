@@ -367,9 +367,9 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
     <img src="images/stocks-enriched-select-results.png" width=75% height=75%>
 </div> 
 
-> **Note:** that we have a stream of records from the left join of our **USERS** table and **STOCKS_STREAM** stream we can view the relationship between user and trades in real-time.
+> **Note:** Now that you have a stream of records from the left join of the **USERS** table and **STOCKS_STREAM** stream, you can view the relationship between user and trades in real-time.
 
-4. Next, let’s take a look at the topic created when we created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. Note this topic name as we will need it in a later step.
+4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. Note this topic name as you will need it in a later step.
 
 <div align="center">
     <img src="images/stocks-enriched-topic.png" width=75% height=75%>
@@ -385,9 +385,9 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
 
 ## <a name="step-9"></a>Aggregate Data
 
-ksqlDB supports several aggregate functions, like `COUNT` and `SUM`, and you can use these to build stateful aggregates on streaming data. In this step, we will walk through some key examples on different ways you can aggregate your data.
+ksqlDB supports several aggregate functions, like `COUNT` and `SUM`, and you can use these to build stateful aggregates on streaming data. In this step, you will walk through some key examples on different ways you can aggregate your data.
 
-1. First, let’s do some aggregation of the data by counting buys and sells of our stocks. Navigate back to the Editor and paste the following query to create a new table named **number_of_times_stock_bought**.
+1. First, aggregate the data by counting buys and sells of stocks. Navigate back to the Editor and paste the following query to create a new table named **number_of_times_stock_bought**.
 
 ```sql
 CREATE TABLE number_of_times_stock_bought AS
@@ -430,11 +430,11 @@ CREATE TABLE total_stock_purchased AS
 
 ## <a name="step-10"></a> Windowing Operations and Fraud Detection
 
-We will walk through a few examples on how to use ksqlDB for Windowing, including how to use it for anomaly or fraud detection. ksqlDB enables aggregation operations on streams and tables, as we saw in the previous step, and you have the ability to set time boundaries named windows. A window has a start time and an end time, which you access in your queries by using `WINDOWSTART` and `WINDOWEND`. When using Windowing, aggregate functions are applied only to the records that occur within the specified time window. ksqlDB tracks windows per record key.
+You will walk through a few examples on how to use ksqlDB for Windowing, including how to use it for anomaly or fraud detection. ksqlDB enables aggregation operations on streams and tables, as you saw in the previous step, and you have the ability to set time boundaries named windows. A window has a start time and an end time, which you access in your queries by using `WINDOWSTART` and `WINDOWEND`. When using Windowing, aggregate functions are applied only to the records that occur within the specified time window. ksqlDB tracks windows per record key.
 
 There are a few different Windowing operations you can use with ksqlDB. You can learn more about them [here](https://docs.ksqldb.io/en/latest/concepts/time-and-windows-in-ksqldb-queries/#window-types).
 
-1. In the ksqlDB **Editor**, paste the following command in order to create a windowed table named **stocks_purchased_today** from the **stocks_topic**. You can set the size of the window to any duration. We will set it to 5 minutes in this example.
+1. In the ksqlDB **Editor**, paste the following command in order to create a windowed table named **stocks_purchased_today** from the **stocks_topic**. You can set the size of the window to any duration. Set it to 5 minutes in this example.
 
 ```sql
 CREATE TABLE stocks_purchased_today
@@ -462,7 +462,7 @@ SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
 
 3. Going along with the theme of fraud detection, let’s now create a table named **accounts_to_monitor** with accounts we want to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
 
-> **Note:** Change the topic name in the 2nd line to include your unique topic name we noted in [*Step 8*](#step-8). It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**.
+> **Note:** Change the topic name in the 2nd line to include your unique topic name as noted in [*Step 8*](#step-8). It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**.
 
 ```sql
 CREATE TABLE accounts_to_monitor
@@ -492,7 +492,7 @@ SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
 
 ## <a name="step-11"></a>Data Masking
 
-In this last step, we will learn how we can use ksqlDB to mask data that may contain sensitive information and is often applicable to use cases that have PII data.
+In this last step, you will learn how you can use ksqlDB to mask data that may contain sensitive information and is often applicable to use cases that have PII data.
 
 1. To demonstrate data masking, let’s create a new stream named **accounts_masking**. We will persist the events in the original topic to a new topic with the **account** field within our data set removed. Copy the following statement and run it in the **Editor**. 
 
@@ -526,19 +526,19 @@ SELECT * FROM ACCOUNTS_MASKING EMIT CHANGES
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges.
 
-1. The first item we should delete is our ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
+1. The first item to delete is the ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
 
 <div align="center">
     <img src="images/delete-ksqldb.png" width=75% height=75%>
 </div>
 
-2. Next, we can delete the Datagen Source connectors for **users** and **stocks**. Navigate to the **Connectors** tab and select each connector. In the top right corner, you will see a **trash** icon. Click the icon and enter the **Connector Name**. Delete both the **users** and **stocks** connectors. 
+2. Next, delete the Datagen Source connectors for **users** and **stocks**. Navigate to the **Connectors** tab and select each connector. In the top right corner, you will see a **trash** icon. Click the icon and enter the **Connector Name**. Delete both the **users** and **stocks** connectors. 
 
 <div align="center">
     <img src="images/delete-connectors.png" width=75% height=75%>
 </div>
 
-3. Finally, under **Cluster Settings** we can select the **Delete Cluster** button at the bottom. Enter the **Cluster Name** and select **Confirm**. 
+3. Finally, under **Cluster Settings**, select the **Delete Cluster** button at the bottom. Enter the **Cluster Name** and select **Confirm**. 
 
 <div align="center">
     <img src="images/delete-cluster.png" width=50% height=50%>

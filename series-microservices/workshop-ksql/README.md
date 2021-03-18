@@ -8,7 +8,7 @@
 
 ## **Agenda**
 1. [Log into Confluent Cloud](#step-1)
-2. [Create an Environment and Kafka Cluster](#step-2)
+2. [Create an Environment and Cluster](#step-2)
 3. [Create ksqlDB Application](#step-3)
 4. [Create Topics and walk through Confluent Cloud Dashboard](#step-4)
 5. [Create an API Key Pair](#step-5)
@@ -67,9 +67,9 @@ By the conclusion of the workshop, you will have learned how to leverage ksqlDB 
 
 ***
 
-## <a name="step-2"></a>Create an Environment and Kafka Cluster
+## <a name="step-2"></a>Create an Environment and Cluster
 
-An environment contains Kafka clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. We’ve seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. For example, you can use environments to separate Development/Testing, Pre-Production, and Production clusters. 
 
 1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
 
@@ -136,7 +136,7 @@ An environment contains Kafka clusters and its deployed components such as Conne
 
 5. Repeat the previous step and create a second topic name **stocks_topic** and **1** as the number of partitions. 
 
-> **Note:** Topics have many configurable parameters that dictate how Kafka handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
+> **Note:** Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
 
 6. After topic creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When we begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas.
 7. Below is a look at our topic, **users_topic**, but we need to send data to this topic before we see any metrics.

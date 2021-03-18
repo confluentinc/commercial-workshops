@@ -44,9 +44,9 @@
 
 Welcome to “Enable Real-Time Data Transformations and Stream Processing with ksqlDB”! In this workshop, you will learn how to build stream processing applications using ksqlDB as well as learn about the use cases ksqlDB unlocks: streaming ETL, data discovery and enrichment, anomaly detection, and more.
 
-If you attended the first workshop in our Microservices Series, “Getting Started with Microservices in Confluent Cloud”, you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
+If you attended the first workshop of the Microservices Series, “Getting Started with Microservices in Confluent Cloud”, you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
 
-The second workshop in our series, “Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
+The second workshop in the series, “Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
 
 You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
 
@@ -139,7 +139,7 @@ An environment contains clusters and its deployed components such as Connectors,
 > **Note:** Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
 
 6. After topic creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas.
-7. Below is a look at our topic, **users_topic**, but you need to send data to this topic before you see any metrics.
+7. Below is a look at the topic, **users_topic**, but you need to send data to this topic before you see any metrics.
 
 <div align="center" padding=25px>
     <img src="images/users-topic.png" width=75% height=75%>
@@ -157,7 +157,7 @@ An environment contains clusters and its deployed components such as Connectors,
 </div>
 
 3. Select **Global Access** and then click **Next**. 
-4. Copy or save your API Key and Secret somewhere. We will need these later on in the lab. 
+4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab. 
 
 > **Note:** Once you close the dialogue, you won't be able to view your API Secret again. If you didn't save this somewhere in the previous step, remove the key and create it again this time saving the secret somewhere. 
 
@@ -229,7 +229,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 > * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
 > * If neither of these steps work, try creating another Datagen connector.
 
-9. You can view the sample data flowing into our topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
+9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
 
 <div align="center">
     <img src="images/users-topic-overview.png" width=75% height=75%>
@@ -253,9 +253,9 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 ## <a name="step-7"></a>Create a Stream and a Table
 
-Now that you are producing a continuous stream of data to **users_topic** and **stocks_topic**, you will use ksqlDB to understand our data better by performing continuous transformations, masking certain fields, and creating new derived topics with the enriched data.
+Now that you are producing a continuous stream of data to **users_topic** and **stocks_topic**, you will use ksqlDB to understand the data better by performing continuous transformations, masking certain fields, and creating new derived topics with the enriched data.
 
-You will start by creating a stream and table, which will be the foundation for our transformations in the upcoming steps.
+You will start by creating a stream and table, which will be the foundation for your transformations in the upcoming steps.
 
 A *stream* provides immutable data. It supports only inserting (appending) new events, whereas existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 
@@ -304,7 +304,7 @@ SELECT * FROM STOCKS_STREAM EMIT CHANGES;
 </div>
 
 6. Click **Stop**. 
-7. Next, let's create a **Table** by registering the **users_topic** as a table named **users**. Copy the following code into the **Editor** and click **Run**. 
+7. Next, create a **Table** by registering the **users_topic** as a table named **users**. Copy the following code into the **Editor** and click **Run**. 
 
 ```sql
 CREATE TABLE users (
@@ -316,7 +316,7 @@ CREATE TABLE users (
 WITH (KAFKA_TOPIC='users_topic', VALUE_FORMAT='JSON');
 ```
 
-8. Once you have created the **USERS** table, repeat what you did above with **STOCKS_STREAMS** and query our **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 
+8. Once you have created the **USERS** table, repeat what you did above with **STOCKS_STREAMS** and query the **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 
 
 ```sql
 SELECT * FROM USERS EMIT CHANGES;
@@ -338,7 +338,7 @@ SELECT * FROM USERS EMIT CHANGES;
 
 A *Persistent Query* runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
 
-1. Create a **Persistent Query** named **stocks_enriched** by left joining our stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
+1. Create a **Persistent Query** named **stocks_enriched** by left joining the stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
 
 ```sql
 CREATE STREAM stocks_enriched AS
@@ -410,7 +410,7 @@ SELECT * FROM NUMBER_OF_TIMES_STOCK_BOUGHT EMIT CHANGES;
     <img src="images/times-bought-select-results.png" width=75% height=75%>
 </div>
 
-3. Next, let’s create a table that calculates the total number of stocks purchased per symbol. You can choose to set `auto.offset.reset=earliest`.
+3. Next, create a table that calculates the total number of stocks purchased per symbol. You can choose to set `auto.offset.reset=earliest`.
 
 ```sql
 CREATE TABLE total_stock_purchased AS
@@ -460,7 +460,7 @@ SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
     <img src="images/today-bought-select-results.png" width=75% height=75%>
 </div>
 
-3. Going along with the theme of fraud detection, let’s now create a table named **accounts_to_monitor** with accounts we want to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
+3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
 
 > **Note:** Change the topic name in the 2nd line to include your unique topic name as noted in [*Step 8*](#step-8). It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**.
 
@@ -494,7 +494,7 @@ SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
 
 In this last step, you will learn how you can use ksqlDB to mask data that may contain sensitive information and is often applicable to use cases that have PII data.
 
-1. To demonstrate data masking, let’s create a new stream named **accounts_masking**. We will persist the events in the original topic to a new topic with the **account** field within our data set removed. Copy the following statement and run it in the **Editor**. 
+1. To demonstrate data masking, create a new stream named **accounts_masking**. This will persist the events in the original topic to a new topic with the **account** field removed. Copy the following statement and run it in the **Editor**. 
 
 ```sql
 CREATE STREAM accounts_masking
@@ -548,7 +548,7 @@ Deleting the resources you created during this workshop will prevent you from in
 
 ## <a name="step-13"></a>Confluent Resources and Further Testing
 
-Here are some links to check out if your interested in further testing:
+Here are some links to check out if you are interested in further testing:
 - [ksqlDB Tutorials](https://kafka-tutorials.confluent.io/)
 - [ksqlDB: The Event Streaming Database, Purpose-Build for Stream Processing](https://ksqldb.io/)
 - [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)

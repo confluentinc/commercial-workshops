@@ -443,7 +443,7 @@ In this step, we will set up a fully-managed connector to an object storage. You
        <img src="images/cc-sink-config-example.png" width=30% height=30%>
     </div>
 
-4. View the connector, its status, and metrics on the **Connectors **page.
+4. View the connector, its status, and metrics on the **Connectors** page.
 
     <div align="center">  
        <img src="images/cc-connector-status.png" width=75% height=75%>

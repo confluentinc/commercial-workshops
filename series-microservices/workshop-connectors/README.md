@@ -394,9 +394,9 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
 - [Google Cloud Storage Sink Connector for Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-gcs-sink.html#cc-gcs-connect-sink)
 
-> **Note:** With fully-managed connectors, Confluent hosts and manages the Connect cluster and connector for you. Simply configure the connector of your choice to stream events between Confluent Cloud and your external systems. Confluent offers 20+ fully-managed connectors, with more on the way! You can view the full list [here](https://docs.confluent.io/cloud/current/connectors/index.html). 
+> **Note:** With fully-managed connectors, Confluent hosts and manages the Connect cluster and connector for you. Simply configure the connector of your choice to stream events between Confluent Cloud and your external systems. Confluent offers 30+ fully-managed connectors, with more on the way! You can view the full list [here](https://docs.confluent.io/cloud/current/connectors/index.html). 
 
-1. Within Confluent Cloud, click on **Connectors**. You should see a list of connectors under **Confluent Managed**. 
+1. Within Confluent Cloud, click on **Connectors**. You should see a list of connectors under **Fully Managed**. 
 
     <div align="center">
        <img src="images/cc-fully-managed-connectors.png" width=75% height=75%>

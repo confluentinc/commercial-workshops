@@ -9,7 +9,7 @@
 ## **Agenda**
 
 1. [Log in to Confluent Cloud](#step-1)
-1. [Create an Environment and Kafka Cluster](#step-2)
+1. [Create an Environment and Cluster](#step-2)
 1. [Create a Topic and Cloud Dashboard Walkthrough](#step-3)
 1. [Create an API Key Pair](#step-4)
 1. [Enable Schema Registry](#step-5)
@@ -97,15 +97,15 @@ Welcome to "Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka C
 
 If you attended the first workshop in our Microservices Series, "Getting Started with Microservices in Confluent Cloud", you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
 
-Now, you'll cover what to do when you have other systems you want to pull data from or push data to? This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Kafka using one of the pre-built connectors.
+Now, you'll cover what to do when you have other systems you want to pull data from or push data to? This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Confluent Cloud using one of the pre-built connectors.
 
 During the workshop, you will first set up your Confluent Cloud account, including creating your first cluster and topic, and setting up Schema Registry. 
 
 Next, you will set up and deploy 2 different types of connectors: Self Managed and Fully-Managed.
 
-* Self Managed Connectors are installed on a self managed Kafka Connect cluster that is then connected to your Confluent Cloud cluster. You will be walking through how to set up a local Connect cluster by downloading Confluent Platform, installing the connector offered by Confluent, and then connecting it to your Kafka cluster running in Confluent Cloud.
+* Self Managed Connectors are installed on a self managed Connect cluster that is then connected to your Confluent Cloud cluster. You will be walking through how to set up a local Connect cluster by downloading Confluent Platform, installing the connector offered by Confluent, and then connecting it to your cluster running in Confluent Cloud.
 
-* Fully-Managed Connectors are available as fully-managed and fully hosted in Confluent Cloud. With a simple GUI-based configuration and elastic scaling with no infrastructure to manage, these fully-managed connectors make moving data in and out of Kafka simple. You will be walking through how to launch a fully-managed connector in the UI. Note that it can also be launched using the ccloud CLI. 
+* Fully-Managed Connectors are available as fully-managed and fully hosted in Confluent Cloud. With a simple GUI-based configuration and elastic scaling with no infrastructure to manage, these fully-managed connectors make moving data in and out of Confluent simple. You will be walking through how to launch a fully-managed connector in the UI. Note that it can also be launched using the ccloud CLI. 
 
 You will also learn more about Schema Registry and how you can use it in Confluent Cloud to ensure data compatibility and to manage your schemas. 
 
@@ -122,9 +122,9 @@ By the conclusion of the workshop, you will have learned how to leverage both se
 
 *** 
 
-## <a name="step-2"></a>**Create an Environment and Kafka Cluster**
+## <a name="step-2"></a>**Create an Environment and Cluster**
 
-An environment contains Kafka clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. You’ve seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. You’ve seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters. 
 
 1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
 
@@ -167,7 +167,7 @@ An environment contains Kafka clusters and its deployed components such as Conne
 
 1. On the left hand side navigation menu, you will see **Cluster overview. **
 
-    This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Kafka. 
+    This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud. 
 
 <div align="center" padding=25px>
     <img src="images/cluster-overview.png" width=50% height=50%>
@@ -183,7 +183,7 @@ An environment contains Kafka clusters and its deployed components such as Conne
 
     **dbserver1.inventory.customers** is the name of the table within the Postgres database you will be setting up in a later section.
 
-    > **Note:** Topics have many configurable parameters that dictate how Kafka handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
+    > **Note:** Topics have many configurable parameters that dictate how messages are handled. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
 
 6. After creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas. 
 
@@ -206,7 +206,7 @@ An environment contains Kafka clusters and its deployed components such as Conne
 
 ## <a name="step-5"></a>**Enable Schema Registry**
 
-A Kafka topic contains messages, and each message is a key-value pair. The message key or the message value (or both) can be serialized as JSON, Avro, or Protobuf. A schema defines the structure of the data format. 
+A topic contains messages, and each message is a key-value pair. The message key or the message value (or both) can be serialized as JSON, Avro, or Protobuf. A schema defines the structure of the data format. 
 
 Confluent Cloud Schema Registry is used to manage schemas and it defines a scope in which schemas can evolve. It stores a versioned history of all schemas, provides multiple compatibility settings, and allows schemas to evolve according to these compatibility settings. It is also fully-managed.
 
@@ -233,17 +233,17 @@ Let’s say you have a database, or object storage such as AWS S3, Azure Blob St
 There are 2 options: <br>
 
 1. Develop your own connectors using the Kafka Connect framework (this requires a lot of development time and effort).  
-2. You can leverage the 180+ connectors Confluent offers out-of-the-box which allows you to configure your sources and sinks to Kafka in a few, simple steps. To view the complete list of connectors that Confluent offers, please see [Confluent Hub](https://www.confluent.io/hub/).
+2. You can leverage the 180+ connectors Confluent offers out-of-the-box which allows you to configure your sources and sinks in a few, simple steps. To view the complete list of connectors that Confluent offers, please see [Confluent Hub](https://www.confluent.io/hub/).
 
 With Confluent’s connectors, your data systems can communicate with your microservices, completing your data pipeline. 
 
-If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Kafka Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components. 
+If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components. 
 
 Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your Kafka cluster in Confluent Cloud that you created in Step 2. 
 
 1. Click on **Connectors**, and then click on **Self Managed**. If you already have existing connectors running, click on **+ Add Connector** first.
 
-    > **Note:** Self Managed connectors are installed on a local Connect cluster backed by a source Kafka cluster in Confluent Cloud. This Connect cluster will be hosted and managed by you, and Confluent will fully support it. 
+    > **Note:** Self Managed connectors are installed on a local Connect cluster backed by a source cluster in Confluent Cloud. This Connect cluster will be hosted and managed by you, and Confluent will fully support it. 
     
     <div align="center" padding=25px>
        <img src="images/connectors-self-managed.png" width=75% height=75%>
@@ -271,7 +271,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
     | property               | created in step                         |
     |------------------------|-----------------------------------------|
-    | `BOOTSTRAP_SERVERS`      | [*create an environment and kafka cluster*](#create-an-environment-and-kafka-cluster) |
+    | `BOOTSTRAP_SERVERS`      | [*create an environment and cluster*](#create-an-environment-and-kafka-cluster) |
     | `CLOUD_KEY`              | [*create an api key pair*](#create-an-api-key-pair)                  |
     | `CLOUD_SECRET`           | [*create an api key pair*](#create-an-api-key-pair)                  |
     | `SCHEMA_REGISTRY_KEY`    | [*enable schema registry*](#enable-schema-registry)                  |
@@ -280,9 +280,9 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
 1. View the **docker-compose.yml**. 
 
-    This will launch a PostgreSQL database and 2 Confluent Platform components - a Connect cluster and Confluent Control Center. Control Center is used to monitor your Confluent deployment. The file will not provision the Kafka brokers because you will be using the cluster you created in Confluent Cloud.
+    This will launch a PostgreSQL database and 2 Confluent Platform components - a Connect cluster and Confluent Control Center. Control Center is used to monitor your Confluent deployment. The file will not provision the brokers because you will be using the cluster you created in Confluent Cloud.
 
-    The docker-compose.yml also has parameterized the values to connect to your Confluent Cloud instance, including the bootstrap servers and security configuration. You could fill in these Confluent Cloud credentials manually, but a more programmatic method is to create a local file with configuration parameters to connect to your Kafka clusters. To make it a lot easier and faster, you will use this method.
+    The docker-compose.yml also has parameterized the values to connect to your Confluent Cloud instance, including the bootstrap servers and security configuration. You could fill in these Confluent Cloud credentials manually, but a more programmatic method is to create a local file with configuration parameters to connect to your clusters. To make it a lot easier and faster, you will use this method.
 
     You will be using Docker during this workshop. Alternatively, you can set up these Confluent Platform components and connect them to Confluent Cloud by installing Confluent Platform as a local install.
 
@@ -296,7 +296,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
 ## <a name="step-7"></a>**Deploy: Connect Self Managed Services to Confluent Cloud**
 
-You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your Kafka cluster in Confluent Cloud, which is what you accomplished in Step 6.
+You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your cluster in Confluent Cloud, which is what you accomplished in Step 6.
 
 1. Start Docker Desktop.
 
@@ -416,8 +416,8 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
     | Which topics do you want to get data from? | dbserver1.inventory.customers                      |
     | Name                                       | Enter any connector name                           |
     | Message Format                             | Avro                                               |
-    | Kafka API Key                              | Key created in [*create an api key pair*](#step-4) |
-    | Kafka API Secret                           | Key created in [*create an api key pair*](#step-4) |
+    | API Key                              | Key created in [*create an api key pair*](#step-4) |
+    | API Secret                           | Key created in [*create an api key pair*](#step-4) |
     | Bucket Name                                | Enter the name of your bucket/container            |
     | Output Message Format                      | AVRO                                               |
     | Time Interval                              | HOURLY                                             |

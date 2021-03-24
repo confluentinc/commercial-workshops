@@ -239,9 +239,9 @@ With Confluent’s connectors, your data systems can communicate with your micro
 
 If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components. 
 
-Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your Kafka cluster in Confluent Cloud that you created in Step 2. 
+Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your cluster in Confluent Cloud that you created earlier. 
 
-1. Click on **Connectors**, and then click on **Self Managed**. If you already have existing connectors running, click on **+ Add Connector** first.
+1. Click on **Connectors**, and then click on **Self Managed**. 
 
     > **Note:** Self Managed connectors are installed on a local Connect cluster backed by a source cluster in Confluent Cloud. This Connect cluster will be hosted and managed by you, and Confluent will fully support it. 
     
@@ -249,7 +249,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
        <img src="images/connectors-self-managed.png" width=75% height=75%>
     </div>
 
-1. To begin setting up **Connect**, start by cloning Confluent's Commercial SE workshop repository.
+1. To begin setting up **Connect**, you should have already cloned the repository during the Prerequisites step. If you have not, start by cloning Confluent's Commercial SE workshop repository.
     > **Note:** This repository contains **all** of the workshops and workshop series led by Confluent's Commercial SE team. Be sure to navigate to the correct sub-directory to access the right content. 
     ```bash
     # Clone Confluent's Commercial SE Workshop repo

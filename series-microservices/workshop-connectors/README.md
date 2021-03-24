@@ -36,7 +36,7 @@
 <br>
 
 1. Confluent Cloud Account
-    - Sign-up for a free account [here](https://www.confluent.io/confluent-cloud/tryfree/)
+    - Sign-up for an account [here](https://www.confluent.io/confluent-cloud/tryfree/)
     - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on "Billing & payment", then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
 
     > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop.
@@ -75,7 +75,7 @@
 
     - IAM Policy configured for bucket access
         - AWS: Follow the directions outlined in [IAM Policy for S3](https://docs.confluent.io/cloud/current/connectors/cc-s3-sink.html#cc-s3-bucket-policy)
-        - GCP:  Your GCP service account role must have permission to create new objects in the GCS bucket. For example, the Storage Admin role can be selected for this purpose. If you are concerned about security and do not want to use the Storage Admin role, only use the storage.objects.get and storage.objects.create roles. Also, note that the Storage Object Admin
+        - GCP:  Your GCP service account role must have permission to create new objects in the GCS bucket. For example, the Storage Admin role can be selected for this purpose. If you are concerned about security and do not want to use the Storage Admin role, only use the storage.objects.get and storage.objects.create roles. Also, note that the Storage Object Admin role does not work for this purpose.
 
 1. Clone Confluent's Commercial SE workshop repository to your machine to access useful files. 
     > **Note:** This repository contains **all** of the workshops and workshop series Confluent's Commercial SE team has created. Be sure to navigate to the correct sub-folder to use the right content.
@@ -97,7 +97,7 @@ Welcome to "Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka C
 
 If you attended the first workshop in our Microservices Series, "Getting Started with Microservices in Confluent Cloud", you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
 
-Now, you'll cover what to do when you have other systems you want to pull data from or push data to? This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Confluent Cloud using one of the pre-built connectors.
+Now, you'll cover what to do when you have other systems you want to pull data from or push data to. This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Confluent Cloud using one of the pre-built connectors.
 
 During the workshop, you will first set up your Confluent Cloud account, including creating your first cluster and topic, and setting up Schema Registry. 
 
@@ -124,7 +124,7 @@ By the conclusion of the workshop, you will have learned how to leverage both se
 
 ## <a name="step-2"></a>**Create an Environment and Cluster**
 
-An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. You’ve seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. Confluent has seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters.
 
 1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
 
@@ -165,7 +165,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ## <a name="step-3"></a>**Create a Topic and Cloud Dashboard Walkthrough**
 
-1. On the left hand side navigation menu, you will see **Cluster overview. **
+1. On the left hand side navigation menu, you will see **Cluster**.
 
     This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud. 
 
@@ -173,7 +173,7 @@ An environment contains clusters and its deployed components such as Connectors,
     <img src="images/cluster-overview.png" width=50% height=50%>
 </div>
 
-2. Click on **Cluster Settings**. This is an important tab that should be noted. This is where you can find your cluster ID, bootstrap server, cloud details, cluster type, and capacity limits. 
+2. Click on **Settings**. This is an important tab that should be noted. This is where you can find your cluster ID, bootstrap server, cloud details, cluster type, and capacity limits. 
 3. Copy and save the bootstrap server - you will use it later in the workshop.
 4. On that same navigation menu, select **Topics** and click **Create Topic**. 
 5. Enter **dbserver1.inventory.customers** as the Topic name and **1** as the Number of partitions, then click on **Create with defaults**.
@@ -194,7 +194,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ## <a name="step-4"></a>**Create an API Key Pair**
 
-1. Select **API Access** on the navigation menu. 
+1. Select **API keys** on the navigation menu. 
 2. If this is your first API key within your cluster, click **Create key**. If you have set up API keys in your cluster in the past and already have an existing API key, click **+ Add key**.
     <div align="center" padding=25px>
        <img src="images/create-cc-api-key.png" width=50% height=50%>
@@ -202,7 +202,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 3. Select **Global Access**, then click Next.
 4. Save your API key and secret - you will need these during the workshop.
-5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Access** tab. If you don’t see the API key populate right away, refresh the browser. 
+5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API keys** tab. If you don’t see the API key populate right away, refresh the browser. 
 
 ## <a name="step-5"></a>**Enable Schema Registry**
 
@@ -217,14 +217,14 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
       <img src="images/sr-cluster.png" width=75% height=75%>
   </div>
 
-2. Click on **Schemas**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
+2. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
   <div align="center">
       <img src="images/sr-tab.png" width=75% height=75%>
   </div>
 
-3. Next, you will create an API Key for Schema Registry. From here, click on **Settings** and expand **Schema Registry API access**.
-4. Click on **+ Create Key** and save your API key and secret - you will also need these during the workshop.
-5. **Important**: Make note of where it says *"Make requests to the Schema Registry endpoint using your API key and secret for authentication"*. You will use this endpoint in one of the steps later in the workshop.
+3. Next, you will create an API Key for Schema Registry. From here, click on the Edit icon under **API credentials**.
+4. Click on **Add key** and save your API key and secret - you will also need these during the workshop. Click on **Done**.
+5. **Important**: Make note of the **API endpoint**. You will use this endpoint in one of the steps later in the workshop.
 
 ## **<a name="step-6"></a>Set up and Connect Self Managed Services to Confluent Cloud**
 
@@ -239,9 +239,9 @@ With Confluent’s connectors, your data systems can communicate with your micro
 
 If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components. 
 
-Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your Kafka cluster in Confluent Cloud that you created in Step 2. 
+Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your cluster in Confluent Cloud that you created earlier. 
 
-1. Click on **Connectors**, and then click on **Self Managed**. If you already have existing connectors running, click on **+ Add Connector** first.
+1. Click on **Connectors**, and then click on **Self Managed**. 
 
     > **Note:** Self Managed connectors are installed on a local Connect cluster backed by a source cluster in Confluent Cloud. This Connect cluster will be hosted and managed by you, and Confluent will fully support it. 
     
@@ -249,7 +249,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
        <img src="images/connectors-self-managed.png" width=75% height=75%>
     </div>
 
-1. To begin setting up **Connect**, start by cloning Confluent's Commercial SE workshop repository.
+1. To begin setting up **Connect**, you should have already cloned the repository during the Prerequisites step. If you have not, start by cloning Confluent's Commercial SE workshop repository.
     > **Note:** This repository contains **all** of the workshops and workshop series led by Confluent's Commercial SE team. Be sure to navigate to the correct sub-directory to access the right content. 
     ```bash
     # Clone Confluent's Commercial SE Workshop repo
@@ -296,7 +296,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
 ## <a name="step-7"></a>**Deploy: Connect Self Managed Services to Confluent Cloud**
 
-You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your cluster in Confluent Cloud, which is what you accomplished in Step 6.
+You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your cluster in Confluent Cloud, which is what you accomplished in the earlier steps.
 
 1. Start Docker Desktop.
 
@@ -311,7 +311,7 @@ You have successfully installed the Debezium PostgreSQL CDC Source connector on 
 
 ## <a name="step-9"></a>**Launch: PostgreSQL Source Connector in Confluent Control Center**
 
-You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Because you have Confluent Platform services deployed, you can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from your set up in Step 6. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this Step 9.
+You have seen and worked within the Confluent Cloud Dashboard in the previous steps. Because you have Confluent Platform services deployed, you can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from your set up. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this step.
 
 1. Open a browser and go to **http://localhost:9021/** to access Confluent Control Center.
 
@@ -333,7 +333,7 @@ You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Be
        <img src="images/c3-all-connect.png" width=75% height=75%>
     </div>
 
-4. Click on **connect-default**, **Add Connector**, and then on the **PostgresConnector Source** tile that you installed in Step 8. 
+4. Click on **connect-default**, **Add Connector**, and then on the **PostgresConnector Source** tile. 
 
     <div align="center">
        <img src="images/c3-browse-connect.png" width=75% height=75%>
@@ -368,7 +368,7 @@ You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Be
 
 9. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
 
-    Remember, you created this topic in Step 3 with 1 partition. That partition is Partition 0.
+    Remember, you created this topic with 1 partition. That partition is Partition 0.
 	
 10. You should now be able to see the messages within the UI. Click on the cards view (left option) to see the messages in a different format.
 
@@ -394,9 +394,9 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
 - [Google Cloud Storage Sink Connector for Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-gcs-sink.html#cc-gcs-connect-sink)
 
-> **Note:** With fully-managed connectors, Confluent hosts and manages the Connect cluster and connector for you. Simply configure the connector of your choice to stream events between Confluent Cloud and your external systems. Confluent offers 20+ fully-managed connectors, with more on the way! You can view the full list [here](https://docs.confluent.io/cloud/current/connectors/index.html). 
+> **Note:** With fully-managed connectors, Confluent hosts and manages the Connect cluster and connector for you. Simply configure the connector of your choice to stream events between Confluent Cloud and your external systems. Confluent offers 30+ fully-managed connectors, with more on the way! You can view the full list [here](https://docs.confluent.io/cloud/current/connectors/index.html). 
 
-1. Within Confluent Cloud, click on **Connectors**. You should see a list of connectors under **Confluent Managed**. 
+1. Within Confluent Cloud, click on **Connectors**. You should see a list of connectors under **Fully Managed**. 
 
     <div align="center">
        <img src="images/cc-fully-managed-connectors.png" width=75% height=75%>
@@ -457,7 +457,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
     > **Note:** The following scenario describes one of the ways records may be flushed to storage, depending on the configuration settings you chose: You use the default setting of 1000 for Flush Size and the partitioner is set to hourly. 500 records arrive at one partition from 2:00pm to 3:00pm. At 3:00pm, an additional 5 records arrive at the partition. You will see 500 records in storage at 3:00pm. 
 
-6. Finally, you will be talking about error handling with Connectors. An invalid record may occur for a number of reasons. With Connect, errors that may occur are typically serialization and deserialization (serde) errors. For example, an error occurs when a record arrives at the sink connector in JSON format, but the sink connector configuration is expecting another format, like AVRO. 
+6. Finally, you will be going over error handling with Connectors. An invalid record may occur for a number of reasons. With Connect, errors that may occur are typically serialization and deserialization (serde) errors. For example, an error occurs when a record arrives at the sink connector in JSON format, but the sink connector configuration is expecting another format, like AVRO. 
 
     In Confluent Cloud, the connector does not stop when serde errors occur. Instead, the connector continues processing records and sends the errors to a [Dead Letter Queue (DLQ)](https://www.confluent.io/blog/kafka-connect-deep-dive-error-handling-dead-letter-queues/). You can use the record headers in a DLQ topic record to identify and troubleshoot an error when it occurs. Typically, these are configuration errors that can be easily corrected. 
 
@@ -468,7 +468,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
     You are not expecting any errors in your data so your DLQ topic should be empty. 
 
-8. Let’s walk through what it would look like if there were any errors by producing a message in JSON format when you are actually expecting Avro. Click on the **dbserver1.customers.inventory** topic, then click on **Messages**.
+8. You can walk through what it would look like if there were any errors by producing a message in JSON format when you are actually expecting Avro. Click on the **dbserver1.customers.inventory** topic, then click on **Messages**.
 
 9.  Click on **+ Produce a new message to this topic**.
 
@@ -492,7 +492,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
 In this final section of the workshop, you will explore Confluent Cloud Schema Registry, which is used to manage and store a versioned history of all of your schemas. Confluent Cloud Schema Registry is fully-managed and supports JSON, Avro, and Protobuf.
 
-1. Earlier, you enabled Schema Registry. Let’s take a look at it now. Click on **Topics**, then **dbserver1.customers.inventory**, and then **Schema**.
+1. Earlier, you enabled Schema Registry. Click on **Topics**, then **dbserver1.customers.inventory**, and then **Schema**.
 
 2. Here you can see the schema value for your topic, **dbserver1.customers.inventory**. The following is an example of what your schema may look like. Note that it shows the Format (AVRO), Compatibility Mode (Default is set as Backward), Schema ID, and Version. 
 
@@ -508,13 +508,13 @@ In this final section of the workshop, you will explore Confluent Cloud Schema R
 
 4. Return to your environment.
 
-5. Click on **Settings** and expand the **Schema Registry compatibility configuration**. You can also change the compatibility configuration here. 
+5. Click on **Schema Registry** and edit the **Compatibility setting**. 
 
     <div align="center">
        <img src="images/cc-sr-settings.png" width=75% height=75%>
     </div>
 
-6. Click on **Schemas** to view a searchable list of all your schemas available in your Confluent Cloud environment.
+6. Click on **View & Manage Schemas** to view a searchable list of all your schemas available in your Confluent Cloud environment.
 
 ## <a name="step-12"></a>**Clean Up Resources**
 
@@ -526,7 +526,7 @@ Deleting the resources you created during this workshop will prevent you from in
     </div>
     
 
-2. Next, under **Cluster Settings**, you can select the **Delete Cluster** hyperlink at the bottom of your screen. Enter the cluster name and select Confirm.
+2. Next, under **Settings**, you can select the **Delete Cluster** hyperlink at the bottom of your screen. Enter the cluster name and select Confirm.
 
     <div align="center">
        <img src="images/cc-delete-cluster.png" width=75% height=75%>

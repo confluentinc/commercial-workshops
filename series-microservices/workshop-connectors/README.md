@@ -41,7 +41,7 @@
 
     > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop.
 
-2. Ports 443 and 9092 need to be open to the public internet for outbound traffic. To check, try accessing the following from our youb browser:
+2. Ports 443 and 9092 need to be open to the public internet for outbound traffic. To check, try accessing the following from your web browser:
     - portquiz.net:443
     - portquiz.net:9092
 
@@ -99,15 +99,15 @@ If you attended the first workshop in our Microservices Series, "Getting Started
 
 Now, you'll cover what to do when you have other systems you want to pull data from or push data to? This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Kafka using one of the pre-built connectors.
 
-During the workshop, you will first set up our Confluent Cloud account, including creating our first cluster and topic, and setting up Schema Registry. 
+During the workshop, you will first set up your Confluent Cloud account, including creating your first cluster and topic, and setting up Schema Registry. 
 
 Next, you will set up and deploy 2 different types of connectors: Self Managed and Fully-Managed.
 
-* Self Managed Connectors are installed on a self managed Kafka Connect cluster that is then connected to your Confluent Cloud cluster. You will be walking through how to set up a local Connect cluster by downloading Confluent Platform, installing the connector offered by Confluent, and then connecting it to our Kafka cluster running in Confluent Cloud.
+* Self Managed Connectors are installed on a self managed Kafka Connect cluster that is then connected to your Confluent Cloud cluster. You will be walking through how to set up a local Connect cluster by downloading Confluent Platform, installing the connector offered by Confluent, and then connecting it to your Kafka cluster running in Confluent Cloud.
 
 * Fully-Managed Connectors are available as fully-managed and fully hosted in Confluent Cloud. With a simple GUI-based configuration and elastic scaling with no infrastructure to manage, these fully-managed connectors make moving data in and out of Kafka simple. You will be walking through how to launch a fully-managed connector in the UI. Note that it can also be launched using the ccloud CLI. 
 
-You will also learn more about Schema Registry and how you can use it in Confluent Cloud to ensure data compatibility and to manage our schemas. 
+You will also learn more about Schema Registry and how you can use it in Confluent Cloud to ensure data compatibility and to manage your schemas. 
 
 By the conclusion of the workshop, you will have learned how to leverage both self managed and fully-managed connectors to complete your data pipeline!
 
@@ -187,7 +187,7 @@ An environment contains Kafka clusters and its deployed components such as Conne
 
 6. After creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas. 
 
-7. Below is a look at our topic, dbserver1.inventory.customers, but you need to send data to this topic before we see any metrics. 
+7. Below is a look at your topic, dbserver1.inventory.customers, but you need to send data to this topic before you see any metrics. 
     <div align="center" padding=25px>
        <img src="images/topic-overview.png" width=50% height=50%>
     </div>
@@ -210,7 +210,7 @@ A Kafka topic contains messages, and each message is a key-value pair. The messa
 
 Confluent Cloud Schema Registry is used to manage schemas and it defines a scope in which schemas can evolve. It stores a versioned history of all schemas, provides multiple compatibility settings, and allows schemas to evolve according to these compatibility settings. It is also fully-managed.
 
-You will be exploring Confluent Cloud Schema Registry in more detail towards the end of the workshop. First, you will need to enable Schema Registry within our environment.
+You will be exploring Confluent Cloud Schema Registry in more detail towards the end of the workshop. First, you will need to enable Schema Registry within your environment.
 
 1. Return to your environment by clicking on the Confluent icon at the top left corner and then clicking your environment tile.
   <div align="center">
@@ -239,7 +239,7 @@ With Confluent’s connectors, your data systems can communicate with your micro
 
 If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Kafka Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components. 
 
-Now that you have completed setting up our Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your Kafka cluster in Confluent Cloud that we created in Step 2. 
+Now that you have completed setting up your Confluent Cloud account, cluster, topic, and Schema Registry, this next step will guide you how to configure a local Connect cluster backed by your Kafka cluster in Confluent Cloud that you created in Step 2. 
 
 1. Click on **Connectors**, and then click on **Self Managed**. If you already have existing connectors running, click on **+ Add Connector** first.
 
@@ -280,7 +280,7 @@ Now that you have completed setting up our Confluent Cloud account, cluster, top
 
 1. View the **docker-compose.yml**. 
 
-    This will launch a PostgreSQL database and 2 Confluent Platform components - a Connect cluster and Confluent Control Center. Control Center is used to monitor your Confluent deployment. The file will not provision the Kafka brokers because you will be using the cluster we created in Confluent Cloud.
+    This will launch a PostgreSQL database and 2 Confluent Platform components - a Connect cluster and Confluent Control Center. Control Center is used to monitor your Confluent deployment. The file will not provision the Kafka brokers because you will be using the cluster you created in Confluent Cloud.
 
     The docker-compose.yml also has parameterized the values to connect to your Confluent Cloud instance, including the bootstrap servers and security configuration. You could fill in these Confluent Cloud credentials manually, but a more programmatic method is to create a local file with configuration parameters to connect to your Kafka clusters. To make it a lot easier and faster, you will use this method.
 
@@ -296,7 +296,7 @@ Now that you have completed setting up our Confluent Cloud account, cluster, top
 
 ## <a name="step-7"></a>**Deploy: Connect Self Managed Services to Confluent Cloud**
 
-You are now ready to start our Confluent Platform services - Connect and Control Center. Both will be connected to our Kafka cluster in Confluent Cloud, which is what you accomplished in Step 6.
+You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your Kafka cluster in Confluent Cloud, which is what you accomplished in Step 6.
 
 1. Start Docker Desktop.
 
@@ -307,11 +307,11 @@ You are now ready to start our Confluent Platform services - Connect and Control
 
 3. Within Docker Desktop, go to Dashboard. Check if the services, including the PostgreSQL database, are all running successfully.
 
-You have successfully installed the Debezium PostgreSQL CDC Source connector on our local Connect cluster. you also have a PostgreSQL database running in the container. These are all connected to Confluent Cloud. We are now ready to start producing data from our PostgreSQL database to Confluent Cloud.
+You have successfully installed the Debezium PostgreSQL CDC Source connector on your local Connect cluster. You also have a PostgreSQL database running in the container. These are all connected to Confluent Cloud. You are now ready to start producing data from your PostgreSQL database to Confluent Cloud.
 
 ## <a name="step-9"></a>**Launch: PostgreSQL Source Connector in Confluent Control Center**
 
-You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Because you have Confluent Platform services deployed, we can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from our set up in Step 6. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this Step 9.
+You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Because you have Confluent Platform services deployed, you can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from your set up in Step 6. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this Step 9.
 
 1. Open a browser and go to **http://localhost:9021/** to access Confluent Control Center.
 
@@ -321,13 +321,13 @@ You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Be
 
     You will notice that the UI looks very similar to the Confluent Cloud dashboard. 
 
-2. Click on the cluster, then click on **Topics**, and you should notice the **dbserver1.inventory.customers** topic that you had created in Confluent Cloud in Step 3. This is our first confirmation that Control Center and local Connect cluster are successfully connected to Confluent Cloud.
+2. Click on the cluster, then click on **Topics**, and you should notice the **dbserver1.inventory.customers** topic that you had created in Confluent Cloud in Step 3. This is your first confirmation that Control Center and local Connect cluster are successfully connected to Confluent Cloud.
     
     <div align="center">
        <img src="images/c3-all-topics.png" width=50% height=50%>
     </div>
 
-3. Click on **Connect**. You will see a cluster already here named **connect-default**. If not, please refresh the page. This is our local Connect cluster that you have running in Docker. 
+3. Click on **Connect**. You will see a cluster already here named **connect-default**. If not, please refresh the page. This is your local Connect cluster that you have running in Docker. 
 
     <div align="center">
        <img src="images/c3-all-connect.png" width=75% height=75%>
@@ -364,7 +364,7 @@ You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Be
        <img src="images/c3-running-connectors.png" width=75% height=75%>
     </div>
 
-8. Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **dbserver1.inventory.customers**. You will now confirm that our PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
+8. Return to the Confluent Cloud UI, click on your cluster tile, then on **Topics**, then on the topic **dbserver1.inventory.customers**. You will now confirm that your PostgreSQL connector is working by checking to see if data is being produced to our Confluent Cloud cluster. You will see data being produced under the **Production** tile. 
 
 9. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
 
@@ -449,7 +449,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
        <img src="images/cc-connector-status.png" width=75% height=75%>
     </div>
 
-5. Now let’s check on our bucket. Here is an example of what it will look like for S3. Notice the organizational method here is by year, month, day, and hour. 
+5. Now let’s check on your bucket. Here is an example of what it will look like for S3. Notice the organizational method here is by year, month, day, and hour. 
 
     <div align="center">
        <img src="images/s3-bucket-view.png" width=75% height=75%>
@@ -466,7 +466,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
        <img src="images/cc-sink-connector-topic.png" width=75% height=75%>
     </div>
 
-    You are not expecting any errors in our data so our DLQ topic should be empty. 
+    You are not expecting any errors in your data so your DLQ topic should be empty. 
 
 8. Let’s walk through what it would look like if there were any errors by producing a message in JSON format when you are actually expecting Avro. Click on the **dbserver1.customers.inventory** topic, then click on **Messages**.
 
@@ -494,7 +494,7 @@ In this final section of the workshop, you will explore Confluent Cloud Schema R
 
 1. Earlier, you enabled Schema Registry. Let’s take a look at it now. Click on **Topics**, then **dbserver1.customers.inventory**, and then **Schema**.
 
-2. Here you can see the schema value for our topic, **dbserver1.customers.inventory**. The following is an example of what your schema may look like. Note that it shows the Format (AVRO), Compatibility Mode (Default is set as Backward), Schema ID, and Version. 
+2. Here you can see the schema value for your topic, **dbserver1.customers.inventory**. The following is an example of what your schema may look like. Note that it shows the Format (AVRO), Compatibility Mode (Default is set as Backward), Schema ID, and Version. 
 
     <div align="center">
        <img src="images/cc-schema.png" width=75% height=75%>

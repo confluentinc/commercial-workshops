@@ -492,7 +492,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
 In this final section of the workshop, you will explore Confluent Cloud Schema Registry, which is used to manage and store a versioned history of all of your schemas. Confluent Cloud Schema Registry is fully-managed and supports JSON, Avro, and Protobuf.
 
-1. Earlier, you enabled Schema Registry. Let’s take a look at it now. Click on **Topics**, then **dbserver1.customers.inventory**, and then **Schema**.
+1. Earlier, you enabled Schema Registry. Click on **Topics**, then **dbserver1.customers.inventory**, and then **Schema**.
 
 2. Here you can see the schema value for your topic, **dbserver1.customers.inventory**. The following is an example of what your schema may look like. Note that it shows the Format (AVRO), Compatibility Mode (Default is set as Backward), Schema ID, and Version. 
 

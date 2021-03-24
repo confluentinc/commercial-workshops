@@ -36,7 +36,7 @@
 <br>
 
 1. Confluent Cloud Account
-    - Sign-up for a free account [here](https://www.confluent.io/confluent-cloud/tryfree/)
+    - Sign-up for an account [here](https://www.confluent.io/confluent-cloud/tryfree/)
     - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on "Billing & payment", then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
 
     > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop.
@@ -75,7 +75,7 @@
 
     - IAM Policy configured for bucket access
         - AWS: Follow the directions outlined in [IAM Policy for S3](https://docs.confluent.io/cloud/current/connectors/cc-s3-sink.html#cc-s3-bucket-policy)
-        - GCP:  Your GCP service account role must have permission to create new objects in the GCS bucket. For example, the Storage Admin role can be selected for this purpose. If you are concerned about security and do not want to use the Storage Admin role, only use the storage.objects.get and storage.objects.create roles. Also, note that the Storage Object Admin
+        - GCP:  Your GCP service account role must have permission to create new objects in the GCS bucket. For example, the Storage Admin role can be selected for this purpose. If you are concerned about security and do not want to use the Storage Admin role, only use the storage.objects.get and storage.objects.create roles. Also, note that the Storage Object Admin role does not work for this purpose.
 
 1. Clone Confluent's Commercial SE workshop repository to your machine to access useful files. 
     > **Note:** This repository contains **all** of the workshops and workshop series Confluent's Commercial SE team has created. Be sure to navigate to the correct sub-folder to use the right content.
@@ -97,7 +97,7 @@ Welcome to "Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka C
 
 If you attended the first workshop in our Microservices Series, "Getting Started with Microservices in Confluent Cloud", you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
 
-Now, you'll cover what to do when you have other systems you want to pull data from or push data to? This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Confluent Cloud using one of the pre-built connectors.
+Now, you'll cover what to do when you have other systems you want to pull data from or push data to. This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Confluent Cloud using one of the pre-built connectors.
 
 During the workshop, you will first set up your Confluent Cloud account, including creating your first cluster and topic, and setting up Schema Registry. 
 
@@ -124,7 +124,7 @@ By the conclusion of the workshop, you will have learned how to leverage both se
 
 ## <a name="step-2"></a>**Create an Environment and Cluster**
 
-An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. You’ve seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. Confluent has seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters.
 
 1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
 
@@ -165,7 +165,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ## <a name="step-3"></a>**Create a Topic and Cloud Dashboard Walkthrough**
 
-1. On the left hand side navigation menu, you will see **Cluster overview. **
+1. On the left hand side navigation menu, you will see **Cluster**.
 
     This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud. 
 
@@ -173,7 +173,7 @@ An environment contains clusters and its deployed components such as Connectors,
     <img src="images/cluster-overview.png" width=50% height=50%>
 </div>
 
-2. Click on **Cluster Settings**. This is an important tab that should be noted. This is where you can find your cluster ID, bootstrap server, cloud details, cluster type, and capacity limits. 
+2. Click on **Settings**. This is an important tab that should be noted. This is where you can find your cluster ID, bootstrap server, cloud details, cluster type, and capacity limits. 
 3. Copy and save the bootstrap server - you will use it later in the workshop.
 4. On that same navigation menu, select **Topics** and click **Create Topic**. 
 5. Enter **dbserver1.inventory.customers** as the Topic name and **1** as the Number of partitions, then click on **Create with defaults**.

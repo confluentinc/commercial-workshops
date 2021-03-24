@@ -194,7 +194,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ## <a name="step-4"></a>**Create an API Key Pair**
 
-1. Select **API Access** on the navigation menu. 
+1. Select **API keys** on the navigation menu. 
 2. If this is your first API key within your cluster, click **Create key**. If you have set up API keys in your cluster in the past and already have an existing API key, click **+ Add key**.
     <div align="center" padding=25px>
        <img src="images/create-cc-api-key.png" width=50% height=50%>
@@ -202,7 +202,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 3. Select **Global Access**, then click Next.
 4. Save your API key and secret - you will need these during the workshop.
-5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Access** tab. If you don’t see the API key populate right away, refresh the browser. 
+5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API keys** tab. If you don’t see the API key populate right away, refresh the browser. 
 
 ## <a name="step-5"></a>**Enable Schema Registry**
 
@@ -217,14 +217,14 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
       <img src="images/sr-cluster.png" width=75% height=75%>
   </div>
 
-2. Click on **Schemas**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
+2. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
   <div align="center">
       <img src="images/sr-tab.png" width=75% height=75%>
   </div>
 
-3. Next, you will create an API Key for Schema Registry. From here, click on **Settings** and expand **Schema Registry API access**.
-4. Click on **+ Create Key** and save your API key and secret - you will also need these during the workshop.
-5. **Important**: Make note of where it says *"Make requests to the Schema Registry endpoint using your API key and secret for authentication"*. You will use this endpoint in one of the steps later in the workshop.
+3. Next, you will create an API Key for Schema Registry. From here, click on the Edit icon under **API credentials**.
+4. Click on **Add key** and save your API key and secret - you will also need these during the workshop. Click on **Done**.
+5. **Important**: Make note of the **API endpoint**. You will use this endpoint in one of the steps later in the workshop.
 
 ## **<a name="step-6"></a>Set up and Connect Self Managed Services to Confluent Cloud**
 

@@ -368,7 +368,7 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
 
 9. Another way to confirm is to view the messages within the UI. Click on **Messages**. In the search bar at the top, set it to **Jump to Offset**. Enter **0** as the offset and click on the result **0 / Partition: 0**. 
 
-    Remember, you created this topic in Step 3 with 1 partition. That partition is Partition 0.
+    Remember, you created this topic with 1 partition. That partition is Partition 0.
 	
 10. You should now be able to see the messages within the UI. Click on the cards view (left option) to see the messages in a different format.
 
@@ -508,13 +508,13 @@ In this final section of the workshop, you will explore Confluent Cloud Schema R
 
 4. Return to your environment.
 
-5. Click on **Settings** and expand the **Schema Registry compatibility configuration**. You can also change the compatibility configuration here. 
+5. Click on **Schema Registry** and edit the **Compatibility setting**. 
 
     <div align="center">
        <img src="images/cc-sr-settings.png" width=75% height=75%>
     </div>
 
-6. Click on **Schemas** to view a searchable list of all your schemas available in your Confluent Cloud environment.
+6. Click on **View & Manage Schemas** to view a searchable list of all your schemas available in your Confluent Cloud environment.
 
 ## <a name="step-12"></a>**Clean Up Resources**
 
@@ -526,7 +526,7 @@ Deleting the resources you created during this workshop will prevent you from in
     </div>
     
 
-2. Next, under **Cluster Settings**, you can select the **Delete Cluster** hyperlink at the bottom of your screen. Enter the cluster name and select Confirm.
+2. Next, under **Settings**, you can select the **Delete Cluster** hyperlink at the bottom of your screen. Enter the cluster name and select Confirm.
 
     <div align="center">
        <img src="images/cc-delete-cluster.png" width=75% height=75%>

@@ -36,7 +36,7 @@
 <br>
 
 1. Confluent Cloud Account
-    - Sign-up for an account [here](https://www.confluent.io/confluent-cloud/tryfree/)
+    - Sign-up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/)
     - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on "Billing & payment", then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
 
     > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop.
@@ -80,12 +80,12 @@
 1. Clone Confluent's Commercial SE workshop repository to your machine to access useful files. 
     > **Note:** This repository contains **all** of the workshops and workshop series Confluent's Commercial SE team has created. Be sure to navigate to the correct sub-folder to use the right content.
     ```bash
-    # Clone the Commercial SE workshop repository
+    # clone the Commercial SE workshop repository
     git clone https://github.com/confluentinc/commercial-workshops.git
     ```
     Navigate to the correct sub-folder to access this labs content. This should act as your working directory for the remainder of the lab. 
     ```bash 
-    # Navigate to the correct sub-folder
+    # navigate to the correct sub-folder
     cd commercial-workshops/series-microservices/workshop-connectors/
     ```
 
@@ -286,13 +286,19 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
     You will be using Docker during this workshop. Alternatively, you can set up these Confluent Platform components and connect them to Confluent Cloud by installing Confluent Platform as a local install.
 
+1. Run the following command to export the required properties to the console. 
+    ```bash
+    # export the variables to the console
+    source setup.properties
+    ```
+
 
 1. Validate your credentials to Confluent Cloud Schema Registry.
     ```bash
     curl -u $SCHEMA_REGISTRY_BASIC_AUTH_USER_INFO $SCHEMA_REGISTRY_URL/subjects
     ```
 
-    If successful, your output will return: { }%
+    If successful, your output will return: `{ }%`
 
 ## <a name="step-7"></a>**Deploy: Connect Self Managed Services to Confluent Cloud**
 
@@ -413,7 +419,7 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
 
     | Configuration Setting               | Value                         |
     |------------------------|-----------------------------------------|
-    | Which topics do you want to get data from? | dbserver1.inventory.customers                      |
+    | Which topics do you want to get data from? | `dbserver1.inventory.customers`                      |
     | Name                                       | Enter any connector name                           |
     | Message Format                             | Avro                                               |
     | API Key                              | Key created in [*create an api key pair*](#step-4) |

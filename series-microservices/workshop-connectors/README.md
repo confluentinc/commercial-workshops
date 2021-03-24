@@ -296,7 +296,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
 ## <a name="step-7"></a>**Deploy: Connect Self Managed Services to Confluent Cloud**
 
-You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your cluster in Confluent Cloud, which is what you accomplished in Step 6.
+You are now ready to start your Confluent Platform services - Connect and Control Center. Both will be connected to your cluster in Confluent Cloud, which is what you accomplished in the earlier steps.
 
 1. Start Docker Desktop.
 
@@ -311,7 +311,7 @@ You have successfully installed the Debezium PostgreSQL CDC Source connector on 
 
 ## <a name="step-9"></a>**Launch: PostgreSQL Source Connector in Confluent Control Center**
 
-You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Because you have Confluent Platform services deployed, you can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from your set up in Step 6. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this Step 9.
+You have seen and worked within the Confluent Cloud Dashboard in the previous steps. Because you have Confluent Platform services deployed, you can use Confluent Control Center (C3) to manage and monitor Confluent Platform, and it is also connected to Confluent Cloud from your set up. You will see confirmation that Control Center is indeed connected to Confluent Cloud by the end of this step.
 
 1. Open a browser and go to **http://localhost:9021/** to access Confluent Control Center.
 
@@ -333,7 +333,7 @@ You have seen and worked within the Confluent Cloud Dashboard in Steps 1 - 5. Be
        <img src="images/c3-all-connect.png" width=75% height=75%>
     </div>
 
-4. Click on **connect-default**, **Add Connector**, and then on the **PostgresConnector Source** tile that you installed in Step 8. 
+4. Click on **connect-default**, **Add Connector**, and then on the **PostgresConnector Source** tile. 
 
     <div align="center">
        <img src="images/c3-browse-connect.png" width=75% height=75%>

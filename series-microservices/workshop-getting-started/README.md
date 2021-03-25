@@ -33,7 +33,7 @@
 These prerequisites outline what is necessary to have in order to be successful with this guide. If you are not able to complete the prerequisite steps for whatever reason, Confluent's Commercial SE team presents this lab guide live on an ongoing basis. The event registration can be found on the [Confluent Events Calendar](https://events.confluent.io/) by searching for the workshop series name. Attendees can follow along, or just observe to absorb the concepts. Alternatively, those sessions are typically recorded and available for viewing. 
 
 1. Confluent Cloud Account
-    * Sign-up for a free account [here](https://www.confluent.io/confluent-cloud/tryfree/).
+    * Sign-up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).
     * Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”, then enter payment details under “Payment details & contacts”.
 
     > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop. 

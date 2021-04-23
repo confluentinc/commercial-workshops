@@ -15,7 +15,6 @@
 1. [Enable Schema Registry](#step-5)
 1. [Set Up: Connect Self Managed Services to Confluent Cloud](#step-6)
 1. [Deploy: Connect Self Managed Services to Confluent Cloud](#step-7)
-1. [Install: Self Managed Debezium PostgreSQL CDC Source Connector](#step-8)
 1. [Launch: PostgreSQL Source Connector in Confluent Control Center](#step-9)
 1. [Fully-Managed AWS S3 Sink / Azure Blob Storage Sink / Google Cloud Storage Sink Connectors](#step-10)
 1. [Confluent Cloud Schema Registry](#step-11)

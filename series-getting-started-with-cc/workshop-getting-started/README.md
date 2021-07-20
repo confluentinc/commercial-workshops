@@ -2,7 +2,7 @@
     <img src="images/confluent.png" width=50% height=50%>
 </div>
 
-# <div align="center">Getting Started with Microservices in Confluent Cloud</div>
+# <div align="center">Getting Started with Confluent: How You Can Set Your Data in Motion</div>
 ## <div align="center">Lab Guide</div>
 
 ## **Agenda**
@@ -68,7 +68,7 @@ These prerequisites outline what is necessary to have in order to be successful 
     Navigate to the correct sub-folder to access this labs content. This should act as your working directory for the remainder of the lab. 
     ```bash 
     # Navigate to the correct sub-folder
-    cd commercial-workshops/series-microservices/workshop-getting-started/
+    cd commercial-workshops/series-getting-started-with-cc/workshop-getting-started/
     ```
 
 
@@ -76,13 +76,13 @@ These prerequisites outline what is necessary to have in order to be successful 
 
 ## **Objective**
 
-In this workshop, you will learn how to apply a simple microservices use case to set your *data in motion* with Confluent Cloud. 
+In this workshop, you will learn how to set your *data in motion* with Confluent Cloud. 
 
 First, you will learn the basics of configuring a Confluent Cloud cluster, streaming data to a topic created through the Cloud UI and the CCloud CLI, and then consume the data. On that note, you will download and use the Cloud CLI as an alternative method to creating and managing Confluent Cloud clusters outside of the Confluent Cloud UI. 
 
-Microservices can be both producers and consumers. You will be creating the **Datagen Source Connector** to stream mock data to topics called `users` and `pageviews`. For the purpose of this workshop, the datagen connector can be thought of as any one of your microservices. You can view the data flowing into Confluent in real-time. You will also explore using Nodejs to consume these messages. 
+You will be creating the **Datagen Source Connector** to stream mock data to topics called `users` and `pageviews`. For the purpose of this workshop, the datagen connector can be thought of as any one of your services that produce data. You can view the data flowing into Confluent in real-time. You will also explore using Nodejs to consume these messages. 
 
-Once you have data from microservices' flowing into Confluent, you will then create a ksqlDB application to query against the topics you created. **ksqlDB** enables you to build real-time event streaming applications on top of Confluent Cloud. You no longer need to spend time on coding complex applications. You can unlock use cases for streaming ETL, monitoring and analytics, anomaly detection, and data discovery and enrichment (just to name a few), all by using simple SQL statements.
+Once you have data flowing into Confluent, you will then create a ksqlDB application to query against the topics you created. **ksqlDB** enables you to build real-time event streaming applications on top of Confluent Cloud. You no longer need to spend time on coding complex applications. You can unlock use cases for streaming ETL, monitoring and analytics, anomaly detection, and data discovery and enrichment (just to name a few), all by using simple SQL statements.
 
 ***
 
@@ -118,7 +118,7 @@ An environment contains Confluent clusters and its deployed components such as C
 
 1. After launching the cluster, find the **Cluster Settings** in the navigation menu and select it. On the **Cluster Settings** page, copy the **Bootstrap server**.
     * Open the `setup.properties` file that should be the present working directory in your command line. 
-        > **Note:** If you closed the command line or prefer to open the file using a text editor, it is located at `commercial-workshops/series-microservices/workshop-getting-started/setup.properties` wherever you cloned the repository. 
+        > **Note:** If you closed the command line or prefer to open the file using a text editor, it is located at `commercial-workshops/series-getting-started-with-cc/workshop-getting-started/setup.properties` wherever you cloned the repository. 
     * Replace `<BOOTSTRAP_SERVERS>` with the value you just copied and **preserve the double-quotes** surrounding the value. You'll need this later on. 
 
 ***
@@ -259,7 +259,7 @@ In this step you will pull a docker image that comes pre-built with the `ccloud`
 
 ## <a name="create-datagen-connectors-for-your-topics"></a>Create Datagen Connectors for your Topics
 
-Microservices can be both *producers* and *consumers*. In this step, you will be creating the **Datagen Source Connector** to stream mock data to the `users` and `pageviews` topics. For the purpose of this workshop, the datagen connector can be thought of as any one of your microservices. Our goal here is to produce data to Confluent and view the messages in real-time as they are being produced.
+In this step, you will be creating the **Datagen Source Connector** to stream mock data to the `users` and `pageviews` topics. For the purpose of this workshop, the datagen connector can be thought of as any one of your services that produce data. Our goal here is to produce data to Confluent and view the messages in real-time as they are being produced.
 
 1. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. 
 
@@ -369,7 +369,7 @@ In this step, you will explore using Nodejs to consume these messages. Think of 
 
 ## <a name="create-streams-and-tables-using-ksqldb"></a>Create Streams and Tables using ksqlDB
 
-Now that you have data from 'microservices' flowing through Confluent, you can now easily build stream processing applications using ksqlDB. You are able to continuously transform, enrich, join, and aggregate your data using simple SQL syntax. You can gain value from your data directly from Confluent in real-time. Also, ksqlDB is a fully managed service within Confluent Cloud with a 99.9% uptime SLA. You can now focus on developing your microservices and building your data pipeline while letting Confluent manage your resources for you.
+Now that you have data flowing through Confluent, you can now easily build stream processing applications using ksqlDB. You are able to continuously transform, enrich, join, and aggregate your data using simple SQL syntax. You can gain value from your data directly from Confluent in real-time. Also, ksqlDB is a fully managed service within Confluent Cloud with a 99.9% uptime SLA. You can now focus on developing services and building your data pipeline while letting Confluent manage your resources for you.
 
 With ksqlDB, you have the ability to leverage streams and tables from your topics in Confluent. A **stream** in ksqlDB is a topic with a schema and it records the history of what has happened in the world as a sequence of events. **Tables** are similar to traditional RDBMS tables. If you’re interested in learning more about ksqlDB and the differences between **streams** and **tables**, I recommend reading these two blogs [here](https://www.confluent.io/blog/kafka-streams-tables-part-3-event-processing-fundamentals/) and [here](https://www.confluent.io/blog/how-real-time-stream-processing-works-with-ksqldb/).
 
@@ -471,8 +471,8 @@ You have accomplished quite a few steps.
 
 First, you learned how to set up our clusters and topics within Confluent Cloud, and saw that this process is easy to complete within the cloud dashboard or ccloud CLI. 
 
-Once you had everything set up, you used the **Datagen Source Connector** to produce data to Confluent Cloud and you viewed the messages flowing into Confluent in real-time. Next, you deployed a Nodejs application that acted as a consumer. This is a simple example of how your microservices can connect to Confluent and how they can act as either a producer or consumer. At this point, you have established an end-to-end flow of our data within Confluent Cloud! 
+Once you had everything set up, you used the **Datagen Source Connector** to produce data to Confluent Cloud and you viewed the messages flowing into Confluent in real-time. Next, you deployed a Nodejs application that acted as a consumer. This is a simple example of how a service can connect to Confluent and how it can act as either a producer or consumer. At this point, you have established an end-to-end flow of our data within Confluent Cloud! 
 
 You then built stream processing applications using ksqlDB and saw how you were able to instantly gain value from our data that is directly in Confluent, all by using simple SQL statements. You only covered some simple ksqlDB examples during this workshop, so you are encouraged to test it out more! 
 
-Finally, you briefly looked at the pre-built connectors and how you can easily connect your other data systems to Confluent Cloud. This last step completes our data pipeline by connecting the data from your microservices as well as the data from your external systems to Confluent.
+Finally, you briefly looked at the pre-built connectors and how you can easily connect your other data systems to Confluent Cloud. This last step completes our data pipeline by connecting the data from your services as well as the data from your external systems to Confluent.

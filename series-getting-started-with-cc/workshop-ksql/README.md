@@ -44,9 +44,9 @@
 
 Welcome to “Enable Real-Time Data Transformations and Stream Processing with ksqlDB”! In this workshop, you will learn how to build stream processing applications using ksqlDB as well as learn about the use cases ksqlDB unlocks: streaming ETL, data discovery and enrichment, anomaly detection, and more.
 
-If you attended the first workshop of the Microservices Series, “Getting Started with Microservices in Confluent Cloud”, you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
+If you attended the first workshop of the series, “Getting Started with Confluent”, you walked through how to apply your *Data in Motion* use case to the world of event streaming with Confluent Cloud. 
 
-The second workshop in the series, “Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
+The second workshop in the series, “Seamlessly Connect Sources and Sinks to Confluent Cloud”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
 
 You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
 

@@ -2,7 +2,7 @@
     <img src="images/confluent.png" width=50% height=50%>
 </div>
 
-# <div align="center">Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect</div>
+# <div align="center">Seamlessly Connect Sources and Sinks to Confluent Cloud</div>
 ## <div align="center">Lab Guide</div>
 <br>
 
@@ -85,7 +85,7 @@
     Navigate to the correct sub-folder to access this labs content. This should act as your working directory for the remainder of the lab. 
     ```bash 
     # navigate to the correct sub-folder
-    cd commercial-workshops/series-microservices/workshop-connectors/
+    cd commercial-workshops/series-getting-started-with-cc/workshop-connectors/
     ```
 
 ***
@@ -94,7 +94,7 @@
 
 Welcome to "Seamlessly Connect Sources and Sinks to Confluent Cloud with Kafka Connect"! In this workshop, you will learn how to connect your external systems to Confluent Cloud using Connectors. Confluent offers 180+ pre-built connectors for you to start using today with no coding or developing required. To view the complete list of connectors from Confluent, please see [Confluent Hub](https://www.confluent.io/hub/).
 
-If you attended the first workshop in our Microservices Series, "Getting Started with Microservices in Confluent Cloud", you walked through how to apply your microservices use case to the world of event streaming with Confluent Cloud. 
+If you attended the first workshop in our series, "Getting Started with Confluent", you walked through how to apply your *Data in Motion* use case to the world of event streaming with Confluent Cloud. 
 
 Now, you'll cover what to do when you have other systems you want to pull data from or push data to. This can be anything from a database or data warehouse to object storage or a software application. You can easily connect these systems to Confluent Cloud using one of the pre-built connectors.
 
@@ -227,14 +227,14 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 
 ## **<a name="step-6"></a>Set up and Connect Self Managed Services to Confluent Cloud**
 
-Let’s say you have a database, or object storage such as AWS S3, Azure Blob Storage, or Google Cloud Storage, or a data warehouse such as Snowflake. How do you connect these data systems to your microservices architecture?
+Let’s say you have a database, or object storage such as AWS S3, Azure Blob Storage, or Google Cloud Storage, or a data warehouse such as Snowflake. How do you connect these data systems to your architecture?
 
 There are 2 options: <br>
 
 1. Develop your own connectors using the Kafka Connect framework (this requires a lot of development time and effort).  
 2. You can leverage the 180+ connectors Confluent offers out-of-the-box which allows you to configure your sources and sinks in a few, simple steps. To view the complete list of connectors that Confluent offers, please see [Confluent Hub](https://www.confluent.io/hub/).
 
-With Confluent’s connectors, your data systems can communicate with your microservices, completing your data pipeline. 
+With Confluent’s connectors, your data systems can communicate with your services, completing your data pipeline. 
 
 If you want to run a connector not yet available as fully-managed in Confluent Cloud, you may run it yourself in a self-managed Connect cluster and connect it to Confluent Cloud. Please note that Confluent will still support any self managed components. 
 
@@ -257,7 +257,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
     Then, navigate to the sub-directory for this lab.
     ```bash
     # Navigate to 'workshop-connectors'
-    cd commercial-workshops/series-microservices/workshop-connectors
+    cd commercial-workshops/series-getting-started-with-cc/workshop-connectors
     ```
 
     This directory contains two important supporting files, `setup.properties` and `docker-compose.yml`. 

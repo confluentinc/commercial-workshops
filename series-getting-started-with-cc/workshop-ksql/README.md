@@ -475,7 +475,7 @@ CREATE TABLE accounts_to_monitor AS
 SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
 ```
 
-* The output from the query should look like the following. 
+* The output from this query should look like the following. 
 
 <div align="center">
     <img src="images/accounts-to-monitor-select-results.png" width=75% height=75%>

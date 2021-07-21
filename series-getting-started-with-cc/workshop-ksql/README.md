@@ -48,7 +48,7 @@ If you attended the first workshop of the series, “Getting Started with Conflu
 
 The second workshop in the series, “Seamlessly Connect Sources and Sinks to Confluent Cloud”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
 
-You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
+You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as a fully managed service within Confluent Cloud.
 
 By the conclusion of the workshop, you will have learned how to leverage ksqlDB to perform continuous transformations, create materialized views, and serve lookups against these materialized views all with the data you already have in Confluent Cloud.
 
@@ -108,7 +108,7 @@ An environment contains clusters and its deployed components such as Connectors,
 2. Select **Global Access** and then **Continue**.
 3. Name you ksqlDB application and set the streaming units to **4**. Click **Launch Application!**
 
-> **Note:** A streaming unit, also known as a Confluent Streaming Unit (CSU), is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the linearity of performance.
+> **Note:** A Confluent Streaming Unit is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the size of your kSQL cluster and scales linearly. 
 
 <div align="center" padding=25px>
     <img src="images/create-application.png" width=50% height=50%>
@@ -157,10 +157,7 @@ An environment contains clusters and its deployed components such as Connectors,
 </div>
 
 3. Select **Global Access** and then click **Next**. 
-4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab. 
-
-> **Note:** Once you close the dialogue, you won't be able to view your API Secret again. If you didn't save this somewhere in the previous step, remove the key and create it again this time saving the secret somewhere. 
-
+4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab, you will not be able to view the secret again once you close this dialogue. 
 5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Access** tab. If you don’t see the API key populate right away, refresh the browser.
 
 ***
@@ -229,6 +226,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 > * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
 > * If neither of these steps work, try creating another Datagen connector.
 
+
 9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
 
 <div align="center">
@@ -262,7 +260,7 @@ A *stream* provides immutable data. It supports only inserting (appending) new e
 A *table* provides mutable data. New events—rows—can be inserted, and existing rows can be updated and deleted. Like streams, tables are persistent, durable, and fault tolerant. A table behaves much like an RDBMS materialized view because it is being changed automatically as soon as any of its input streams or tables change, rather than letting you directly run insert, update, or delete operations against it.
 
 To learn more about *streams* and *tables*, the following resources are recommended:
-- [Streams and Talbes in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
+- [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
 - [ksqlDB: Data Definition](https://docs.ksqldb.io/en/latest/reference/sql/data-definition/)
 
 <br>
@@ -285,7 +283,7 @@ CREATE STREAM stocks_stream (
 WITH (kafka_topic='stocks_topic', value_format='JSON');
 ```
 
-3. Next, go to the **Streams** tab at the topic and clock on **STOCKS_STREAM**. This provides information on the stream, topic (including replication, partitions, and key and value serialization), and schemas.
+3. Next, go to the **Streams** tab at the top and click on **STOCKS_STREAM**. This provides information on the stream, output topic (including replication, partitions, and key and value serialization), and schemas.
 
 <div align="center">
     <img src="images/stream-detail.png" width=50% height=50%>
@@ -437,12 +435,9 @@ There are a few different Windowing operations you can use with ksqlDB. You can 
 1. In the ksqlDB **Editor**, paste the following command in order to create a windowed table named **stocks_purchased_today** from the **stocks_topic**. You can set the size of the window to any duration. Set it to 5 minutes in this example.
 
 ```sql
-CREATE TABLE stocks_purchased_today
-WITH (kafka_topic='stocks_topic') AS
+CREATE TABLE stocks_purchased_today AS
     SELECT symbol,
            COUNT(*) AS quantity,
-           WINDOWSTART AS window_start,
-           WINDOWEND AS window_end
     FROM stocks_enriched
     WINDOW TUMBLING (SIZE 5 MINUTES)
     GROUP BY symbol;
@@ -469,7 +464,8 @@ CREATE TABLE accounts_to_monitor
 WITH (kafka_topic='pksqlc-xxxxxSTOCKS_ENRICHED', partitions=1, value_format='JSON') AS
     SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
            TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
-           ACCOUNT
+           ACCOUNT,
+           COUNT(*) AS quantity
     FROM STOCKS_ENRICHED
     WINDOW TUMBLING (SIZE 2 HOURS)
     GROUP BY ACCOUNT

@@ -367,7 +367,7 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
 
 > **Note:** Now that you have a stream of records from the left join of the **USERS** table and **STOCKS_STREAM** stream, you can view the relationship between user and trades in real-time.
 
-4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. Note this topic name as you will need it in a later step.
+4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. 
 
 <div align="center">
     <img src="images/stocks-enriched-topic.png" width=75% height=75%>
@@ -457,19 +457,16 @@ SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
 
 3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
 
-> **Note:** Change the topic name in the 2nd line to include your unique topic name as noted in [*Step 8*](#step-8). It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**.
-
 ```sql
-CREATE TABLE accounts_to_monitor
-WITH (kafka_topic='pksqlc-xxxxxSTOCKS_ENRICHED', partitions=1, value_format='JSON') AS
+CREATE TABLE accounts_to_monitor AS
     SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
            TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
            ACCOUNT,
            COUNT(*) AS quantity
     FROM STOCKS_ENRICHED
-    WINDOW TUMBLING (SIZE 2 HOURS)
+    WINDOW TUMBLING (SIZE 5 MINUTES)
     GROUP BY ACCOUNT
-    HAVING COUNT(*) > 3;
+    HAVING COUNT(*) > 10;
 ```
 
 4. Once you have created the **ACCOUNTS_TO_MONITOR** table, use either the **Editor** or the **Tables** tab to query the data from the table. If you construct the statement on your own, make sure it looks like the following.
@@ -520,7 +517,7 @@ SELECT * FROM ACCOUNTS_MASKING EMIT CHANGES
 
 ## <a name="step-12"></a>Clean Up Resources
 
-Deleting the resources you created during this workshop will prevent you from incurring additional charges.
+Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
 
 1. The first item to delete is the ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
 

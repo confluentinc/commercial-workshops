@@ -26,7 +26,7 @@
 ## **Prerequisites**
 <br>
 
-1. Create a Confluent Cloud Account.
+1. Create a Confluent Cloud Account test.
     - Sign up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).
     - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”, then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
 

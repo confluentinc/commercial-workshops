@@ -494,16 +494,16 @@ Building on our Fraud Detection example from the last step, let’s say our frau
 1. First we need to add a property to our query. Pull queries only filter by the primary key by default. To filter by other fields, we need to enable table scans. You can add a property under the auto.offset.reset one already included. You will need to set ksql.query.pull.table.scan.enabled to true
 
 <div align="center">
-    <img src="images/table-scan-true.png" width=75% height=75%>
+    <img src="images/table-scan-true.png" width=50% height=50%>
 </div>
 
-2. Now let’s run our pull query to see how our accounts are behaving.  
+2. Now let’s run our pull query in the Editor to see how our accounts are behaving.  
 
 ```sql
 SELECT * FROM ACCOUNTS_TO_MONITOR
      WHERE QUANTITY > 100;
 ```
-3. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our stocks_enriched stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
+3. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our **STOCKS_ENRICHED** stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
 
 ```sql
 SELECT * FROM STOCKS_ENRICHED 

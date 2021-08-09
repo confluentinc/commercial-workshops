@@ -17,7 +17,7 @@
 8. [Create a Persistent Query](#step-8)
 9. [Aggregate data](#step-9)
 10. [Windowing Operations and Fraud Detection](#step-10)
-11. [Data Masking](#step-11)
+11. [Pull Queries](#step-11)
 12. [Clean Up Resources](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
 
@@ -247,6 +247,10 @@ The next step is to produce sample data using the Datagen Source connector. You 
     <img src="images/card-view-values.png" width=75% height=75%>
 </div>
 
+<div align="center">
+    <p style="color:red">STOP HERE FOR PRESENTATION</p>
+</div>
+
 ***
 
 ## <a name="step-7"></a>Create a Stream and a Table
@@ -255,7 +259,7 @@ Now that you are producing a continuous stream of data to **users_topic** and **
 
 You will start by creating a stream and table, which will be the foundation for your transformations in the upcoming steps.
 
-A *stream* provides immutable data. It supports only inserting (appending) new events, whereas existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
+A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 
 A *table* provides mutable data. New events—rows—can be inserted, and existing rows can be updated and deleted. Like streams, tables are persistent, durable, and fault tolerant. A table behaves much like an RDBMS materialized view because it is being changed automatically as soon as any of its input streams or tables change, rather than letting you directly run insert, update, or delete operations against it.
 
@@ -289,7 +293,7 @@ WITH (kafka_topic='stocks_topic', value_format='JSON');
     <img src="images/stream-detail.png" width=50% height=50%>
 </div>
 
-4. Click on **Query Stream** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. An option is to set the `auto.offset.reset=earliest` before clicking **Run query**. <br> <br> Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following.
+4. Click on **Query Stream** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. To see data already in the topic, you can set the `auto.offset.reset=earliest` property before clicking **Run query**. <br> <br> Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following.
 
 ```sql
 SELECT * FROM STOCKS_STREAM EMIT CHANGES;
@@ -483,36 +487,29 @@ SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
 
 ***
 
-## <a name="step-11"></a>Data Masking
+## <a name="step-11"></a>Pull Queries
 
-In this last step, you will learn how you can use ksqlDB to mask data that may contain sensitive information and is often applicable to use cases that have PII data.
+Building on our Fraud Detection example from the last step, let’s say our fraud service wants to check on high frequency accounts. The fraud service can send a pull query via the ksql API, today we will just mock it with the UI. Then we can monitor the activity for a suspicious account. 
 
-1. To demonstrate data masking, create a new stream named **accounts_masking**. This will persist the events in the original topic to a new topic with the **account** field removed. Copy the following statement and run it in the **Editor**. 
-
-```sql
-CREATE STREAM accounts_masking
-WITH (kafka_topic='masking_stocks_topic', value_format='json', partitions=1) AS
-    SELECT MASK(ACCOUNT) AS ACCOUNT,
-  	       USERID, 
-           SIDE, 
-           QUANTITY, 
-           SYMBOL, 
-           PRICE
-    FROM STOCKS_STREAM;
-```
-
-2. Next, query the newly create stream using either the **Editor** or the **streams** tab. If you construct the statement on your own, make sure it looks like the following. 
-
-```sql
-SELECT * FROM ACCOUNTS_MASKING EMIT CHANGES
-```
-
-* The output should be similar to the following. 
+1. First we need to add a property to our query. Pull queries only filter by the primary key by default. To filter by other fields, we need to enable table scans. You can add a property under the auto.offset.reset one already included. You will need to set ksql.query.pull.table.scan.enabled to true
 
 <div align="center">
-    <img src="images/accounts-masking-select-results.png" width=75% height=75%>
+    <img src="images/table-scan-true.png" width=75% height=75%>
 </div>
 
+2. Now let’s run our pull query to see how our accounts are behaving.  
+
+```sql
+SELECT * FROM ACCOUNTS_TO_MONITOR
+     WHERE QUANTITY > 100;
+```
+3. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our stocks_enriched stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
+
+```sql
+SELECT * FROM STOCKS_ENRICHED 
+	WHERE ACCOUNT = 'ABC123'
+	EMIT CHANGES;
+```
 ***
 
 ## <a name="step-12"></a>Clean Up Resources

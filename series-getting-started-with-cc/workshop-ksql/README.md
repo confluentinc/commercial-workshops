@@ -17,7 +17,7 @@
 8. [Create a Persistent Query](#step-8)
 9. [Aggregate data](#step-9)
 10. [Windowing Operations and Fraud Detection](#step-10)
-11. [Data Masking](#step-11)
+11. [Pull Queries](#step-11)
 12. [Clean Up Resources](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
 
@@ -48,7 +48,7 @@ If you attended the first workshop of the series, “Getting Started with Conflu
 
 The second workshop in the series, “Seamlessly Connect Sources and Sinks to Confluent Cloud”, covered fully managed and self managed connectors. You walked through how to set up both types of connectors and this gave us the ability to connect our external systems to Confluent Cloud.
 
-You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as fully managed within Confluent Cloud.
+You have now established data flow to and from Confluent Cloud with the help of these two workshops. Now what if you want to instantly gain additional value and insight from your data? You can use ksqlDB to create stream processing applications, all by using simple SQL statements. ksqlDB is available as a fully managed service within Confluent Cloud.
 
 By the conclusion of the workshop, you will have learned how to leverage ksqlDB to perform continuous transformations, create materialized views, and serve lookups against these materialized views all with the data you already have in Confluent Cloud.
 
@@ -108,7 +108,7 @@ An environment contains clusters and its deployed components such as Connectors,
 2. Select **Global Access** and then **Continue**.
 3. Name you ksqlDB application and set the streaming units to **4**. Click **Launch Application!**
 
-> **Note:** A streaming unit, also known as a Confluent Streaming Unit (CSU), is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the linearity of performance.
+> **Note:** A Confluent Streaming Unit is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the size of your kSQL cluster and scales linearly. 
 
 <div align="center" padding=25px>
     <img src="images/create-application.png" width=50% height=50%>
@@ -157,10 +157,7 @@ An environment contains clusters and its deployed components such as Connectors,
 </div>
 
 3. Select **Global Access** and then click **Next**. 
-4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab. 
-
-> **Note:** Once you close the dialogue, you won't be able to view your API Secret again. If you didn't save this somewhere in the previous step, remove the key and create it again this time saving the secret somewhere. 
-
+4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab, you will not be able to view the secret again once you close this dialogue. 
 5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Access** tab. If you don’t see the API key populate right away, refresh the browser.
 
 ***
@@ -229,6 +226,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 > * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
 > * If neither of these steps work, try creating another Datagen connector.
 
+
 9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
 
 <div align="center">
@@ -249,6 +247,10 @@ The next step is to produce sample data using the Datagen Source connector. You 
     <img src="images/card-view-values.png" width=75% height=75%>
 </div>
 
+<div align="center">
+    <p style="color:red">STOP HERE FOR PRESENTATION</p>
+</div>
+
 ***
 
 ## <a name="step-7"></a>Create a Stream and a Table
@@ -257,12 +259,12 @@ Now that you are producing a continuous stream of data to **users_topic** and **
 
 You will start by creating a stream and table, which will be the foundation for your transformations in the upcoming steps.
 
-A *stream* provides immutable data. It supports only inserting (appending) new events, whereas existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
+A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 
 A *table* provides mutable data. New events—rows—can be inserted, and existing rows can be updated and deleted. Like streams, tables are persistent, durable, and fault tolerant. A table behaves much like an RDBMS materialized view because it is being changed automatically as soon as any of its input streams or tables change, rather than letting you directly run insert, update, or delete operations against it.
 
 To learn more about *streams* and *tables*, the following resources are recommended:
-- [Streams and Talbes in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
+- [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
 - [ksqlDB: Data Definition](https://docs.ksqldb.io/en/latest/reference/sql/data-definition/)
 
 <br>
@@ -285,13 +287,13 @@ CREATE STREAM stocks_stream (
 WITH (kafka_topic='stocks_topic', value_format='JSON');
 ```
 
-3. Next, go to the **Streams** tab at the topic and clock on **STOCKS_STREAM**. This provides information on the stream, topic (including replication, partitions, and key and value serialization), and schemas.
+3. Next, go to the **Streams** tab at the top and click on **STOCKS_STREAM**. This provides information on the stream, output topic (including replication, partitions, and key and value serialization), and schemas.
 
 <div align="center">
     <img src="images/stream-detail.png" width=50% height=50%>
 </div>
 
-4. Click on **Query Stream** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. An option is to set the `auto.offset.reset=earliest` before clicking **Run query**. <br> <br> Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following.
+4. Click on **Query Stream** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. To see data already in the topic, you can set the `auto.offset.reset=earliest` property before clicking **Run query**. <br> <br> Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following.
 
 ```sql
 SELECT * FROM STOCKS_STREAM EMIT CHANGES;
@@ -369,7 +371,7 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
 
 > **Note:** Now that you have a stream of records from the left join of the **USERS** table and **STOCKS_STREAM** stream, you can view the relationship between user and trades in real-time.
 
-4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. Note this topic name as you will need it in a later step.
+4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. 
 
 <div align="center">
     <img src="images/stocks-enriched-topic.png" width=75% height=75%>
@@ -437,12 +439,9 @@ There are a few different Windowing operations you can use with ksqlDB. You can 
 1. In the ksqlDB **Editor**, paste the following command in order to create a windowed table named **stocks_purchased_today** from the **stocks_topic**. You can set the size of the window to any duration. Set it to 5 minutes in this example.
 
 ```sql
-CREATE TABLE stocks_purchased_today
-WITH (kafka_topic='stocks_topic') AS
+CREATE TABLE stocks_purchased_today AS
     SELECT symbol,
            COUNT(*) AS quantity,
-           WINDOWSTART AS window_start,
-           WINDOWEND AS window_end
     FROM stocks_enriched
     WINDOW TUMBLING (SIZE 5 MINUTES)
     GROUP BY symbol;
@@ -462,18 +461,16 @@ SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
 
 3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
 
-> **Note:** Change the topic name in the 2nd line to include your unique topic name as noted in [*Step 8*](#step-8). It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**.
-
 ```sql
-CREATE TABLE accounts_to_monitor
-WITH (kafka_topic='pksqlc-xxxxxSTOCKS_ENRICHED', partitions=1, value_format='JSON') AS
+CREATE TABLE accounts_to_monitor AS
     SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
            TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
-           ACCOUNT
+           ACCOUNT,
+           COUNT(*) AS quantity
     FROM STOCKS_ENRICHED
-    WINDOW TUMBLING (SIZE 2 HOURS)
+    WINDOW TUMBLING (SIZE 5 MINUTES)
     GROUP BY ACCOUNT
-    HAVING COUNT(*) > 3;
+    HAVING COUNT(*) > 10;
 ```
 
 4. Once you have created the **ACCOUNTS_TO_MONITOR** table, use either the **Editor** or the **Tables** tab to query the data from the table. If you construct the statement on your own, make sure it looks like the following.
@@ -490,41 +487,34 @@ SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
 
 ***
 
-## <a name="step-11"></a>Data Masking
+## <a name="step-11"></a>Pull Queries
 
-In this last step, you will learn how you can use ksqlDB to mask data that may contain sensitive information and is often applicable to use cases that have PII data.
+Building on our Fraud Detection example from the last step, let’s say our fraud service wants to check on high frequency accounts. The fraud service can send a pull query via the ksql API, today we will just mock it with the UI. Then we can monitor the activity for a suspicious account. 
 
-1. To demonstrate data masking, create a new stream named **accounts_masking**. This will persist the events in the original topic to a new topic with the **account** field removed. Copy the following statement and run it in the **Editor**. 
-
-```sql
-CREATE STREAM accounts_masking
-WITH (kafka_topic='masking_stocks_topic', value_format='json', partitions=1) AS
-    SELECT MASK(ACCOUNT) AS ACCOUNT,
-  	       USERID, 
-           SIDE, 
-           QUANTITY, 
-           SYMBOL, 
-           PRICE
-    FROM STOCKS_STREAM;
-```
-
-2. Next, query the newly create stream using either the **Editor** or the **streams** tab. If you construct the statement on your own, make sure it looks like the following. 
-
-```sql
-SELECT * FROM ACCOUNTS_MASKING EMIT CHANGES
-```
-
-* The output should be similar to the following. 
+1. First we need to add a property to our query. Pull queries only filter by the primary key by default. To filter by other fields, we need to enable table scans. You can add a property under the auto.offset.reset one already included. You will need to set ksql.query.pull.table.scan.enabled to true
 
 <div align="center">
-    <img src="images/accounts-masking-select-results.png" width=75% height=75%>
+    <img src="images/table-scan-true.png" width=50% height=50%>
 </div>
 
+2. Now let’s run our pull query in the Editor to see how our accounts are behaving.  
+
+```sql
+SELECT * FROM ACCOUNTS_TO_MONITOR
+     WHERE QUANTITY > 100;
+```
+3. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our **STOCKS_ENRICHED** stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
+
+```sql
+SELECT * FROM STOCKS_ENRICHED 
+	WHERE ACCOUNT = 'ABC123'
+	EMIT CHANGES;
+```
 ***
 
 ## <a name="step-12"></a>Clean Up Resources
 
-Deleting the resources you created during this workshop will prevent you from incurring additional charges.
+Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
 
 1. The first item to delete is the ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
 

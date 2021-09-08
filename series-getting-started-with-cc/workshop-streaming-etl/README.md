@@ -76,7 +76,7 @@ An environment contains Confluent clusters and its deployed components such as C
 1. Now that you have an environment, let's create a cluster. Select **Create Cluster**.
     > **Note**: Confluent Cloud clusters are available in 3 types: **Basic**, **Standard**, and **Dedicated**. Basic is intended for development use cases so you should use that for this lab. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you’re interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
-    * Chose the **Basic** cluster type.
+    * Choose the **Basic** cluster type.
 
     * Click **Begin Configuration**.
 
@@ -98,6 +98,10 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 1. Return to your environment by clicking on the Confluent icon at the top left corner and then clicking your environment tile.
 
 1. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
+
+<div align="center">
+    <img src="images/schema-registry.png" width=75% height=75%>
+</div>
 
 ***
 
@@ -170,7 +174,7 @@ The next step is to source data from mongoDB using the [fully-managed mongoDB At
 
 3. Click on **Next**.
 
-1. Before launching the connector, you should see something similar to the following.  If everything looks similar, select **Launch**.
+1. Before launching the connector, you will be brought to the summary page.  Once you have reviewed the configs and everything looks good, select **Launch**.
 
 1. This should return you to the main Connectors landing page. Wait for your newly created connector to change status from **Provisioning** to **Running**.
 
@@ -350,7 +354,7 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 3. Click on **Next**.
 
-4. Before launching the connector, you should see something similar to the following.  If everything looks similar, select **Launch**.
+4. Before launching the connector, you will be brought to the summary page.  Once you have reviewed the configs and everything looks good, select **Launch**.
 
 5. This should return you to the main Connectors landing page. Wait for your newly created connector to change status from **Provisioning** to **Running**.
 

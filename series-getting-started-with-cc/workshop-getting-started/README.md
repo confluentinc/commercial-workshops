@@ -2,20 +2,22 @@
     <img src="images/confluent.png" width=50% height=50%>
 </div>
 
-# <div align="center">Getting Started with Confluent: How You Can Set Your Data in Motion</div>
+# <div align="center">Streaming ETL with Confluent for Analytics</div>
 ## <div align="center">Lab Guide</div>
 
 ## **Agenda**
-1. [Log Into Confluent Cloud](#log-into-confluent-cloud)
-1. [Create an Environment and Cluster](#create-an-environment-and-cluster)
-1. [Create a Topic using the Cloud UI](#create-a-topic-using-the-cloud-ui)
-1. [Launch Docker and Test CCloud CLI Utility](#launch-docker-and-test-ccloud-cli-utility)
-1. [Create a Topic Using the CCloud Utility](#create-a-topic-using-the-ccloud-utility)
-1. [Create a ksqlDB Application](#create-a-ksqldb-application)
-1. [Create Datagen Connectors for your Topics](#create-datagen-connectors-for-your-topics)
-1. [Consume Topics Using NodeJs](#consume-topics-using-nodejs)
-1. [Create Streams and Tables using ksqlDB](#create-streams-and-tables-using-ksqldb)
-1. [Clean Up Resources](#clean-up-resources)
+1. [Log Into Confluent Cloud](#step-1)
+1. [Create an Environment and Cluster](#step-2)
+1. [Create a Schema Registry Instance](#step-3)
+1. [Setup ksqlDB](#step-4)
+1. [Create a Topic using the Cloud UI](#step-5)
+1. [Create an API Key Pair](#step-6)
+1. [Connect mongoDB Atlas source to Confluent Cloud](#step-7)
+1. [Cloud Dashboard Walkthrough](#step-8)
+1. [Create Streams and Tables using ksqlDB](#step-9)
+1. [Stream Processing with ksqlDB](#step-10)
+1. [Connect BigQuery sink to Confluent Cloud](#step-11)
+1. [Clean Up Resources](#step-11)
 1. [Confluent Resources and Further Testing](#confluent-resources-and-further-testing)
 
 ***
@@ -26,453 +28,366 @@
     <img src="images/architecture.png" width=75% height=75%>
 </div>
 
+This workshop will be utilizing mongoDB Atlas, BigQuery, and Data Studio instances that are being managed by Confluent. You will not be able to access these instances outside of the workshop time.  To test ksqlDB and connectors outside of the workshop you can take a look at the ksqlDB [quickstart](https://docs.confluent.io/cloud/current/get-started/ksql.html) and fully-managed connectors [page](https://docs.confluent.io/cloud/current/connectors/index.html#kafka-connect-cloud).
 ***
 
 ## **Prerequisites**
-
-These prerequisites outline what is necessary to have in order to be successful with this guide. If you are not able to complete the prerequisite steps for whatever reason, Confluent's Commercial SE team presents this lab guide live on an ongoing basis. The event registration can be found on the [Confluent Events Calendar](https://events.confluent.io/) by searching for the workshop series name. Attendees can follow along, or just observe to absorb the concepts. Alternatively, those sessions are typically recorded and available for viewing. 
 
 1. Confluent Cloud Account
     * Sign-up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).
     * Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”, then enter payment details under “Payment details & contacts”.
 
-    > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop. 
+    > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get up to $200 per month deducted from your Confluent Cloud statement for the first three months. This will cover the cost of resources created during the workshop.
 
 1. Ports `443` and `9092` need to be open to the public internet for outbound traffic. To check, try accessing the following from your web browser:
     * portquiz.net:443
     * portquiz.net:9092
 
-1. This workshop requires access to a command line interface.
-    * **Mac users:** The built in terminal works completely fine. iTerm2 is also a viable and recommend alternative. 
-    
-    * **Windows users:** The built in Command Prompt is recommended. 
-
-1. This workshop requires `docker`. Download *Docker Desktop* [here](https://www.docker.com/products/docker-desktop) and after installation, verify that you have the command line utility with the following command. 
-    ```bash
-    # Check the docker version
-    docker --version
-    ```
-
-1. Git. If you don't already have it, down load it [here](https://git-scm.com/downloads) (you'll need it for the next prerequisite). Check for successful installation using the following command. 
-    ```bash
-    # Check the git version
-    git --version
-    ```
-
-1. Clone Confluent's Commercial SE workshop repository to your machine to access useful files. 
-    > **Note:** This repository contains **all** of the workshops and workshop series Confluent's Commercial SE team has created. Be sure to navigate to the correct sub-folder to use the right content.
-    ```bash
-    # Clone the Commercial SE workshop repository
-    git clone https://github.com/confluentinc/commercial-workshops.git
-    ```
-    Navigate to the correct sub-folder to access this labs content. This should act as your working directory for the remainder of the lab. 
-    ```bash 
-    # Navigate to the correct sub-folder
-    cd commercial-workshops/series-getting-started-with-cc/workshop-getting-started/
-    ```
-
-
 ***
 
 ## **Objective**
 
-In this workshop, you will learn how to set your *data in motion* with Confluent Cloud. 
+In this workshop you will learn how Confluent Cloud can enable you to quickly and easily stand up a streaming ETL pipeline. During this workshop you’ll get hands-on experience with building out an end-to-end ETL pipeline; from extracting & loading data from out-of-the-box source & target systems with connectors to transforming the data in real-time with ksqlDB all in Confluent Cloud. The use case will be centered around creating dynamic product promotions based on real-time purchases, inventory levels, and clickstream data applying a number of transformations like filter, aggregate or join on your data streams, and then easily loading it in the destination application, all without having to type a single line of code.
 
-First, you will learn the basics of configuring a Confluent Cloud cluster, streaming data to a topic created through the Cloud UI and the CCloud CLI, and then consume the data. On that note, you will download and use the Cloud CLI as an alternative method to creating and managing Confluent Cloud clusters outside of the Confluent Cloud UI. 
+Attendees will leave with a clear understanding of their upcoming ETL implementation, how to get started with Confluent Cloud, and the resources available to assist with development.
 
-You will be creating the **Datagen Source Connector** to stream mock data to topics called `users` and `pageviews`. For the purpose of this workshop, the datagen connector can be thought of as any one of your services that produce data. You can view the data flowing into Confluent in real-time. You will also explore using Nodejs to consume these messages. 
-
-Once you have data flowing into Confluent, you will then create a ksqlDB application to query against the topics you created. **ksqlDB** enables you to build real-time event streaming applications on top of Confluent Cloud. You no longer need to spend time on coding complex applications. You can unlock use cases for streaming ETL, monitoring and analytics, anomaly detection, and data discovery and enrichment (just to name a few), all by using simple SQL statements.
+This workshop is perfect for those looking to build the foundation for your data processing pipeline and ETL use cases and to get started with Confluent Cloud. This is also a great session to ask the engineers your questions and participate in a forum with other attendees who already use Confluent Cloud or plan to use Confluent Cloud.
 
 ***
 
-## <a name="log-into-confluent-cloud"></a>Log Into Confluent Cloud
+## <a name="step-1"></a>Step 1: Log Into Confluent Cloud
 
 1. First, access Confluent Cloud sign-in by navigating [here](https://confluent.cloud).
 1. When provided with the *username* and *password* prompts, fill in your credentials.
-    > **Note:** If you're logging in for the first time you will see a wizard that will walk you through the some tutorials. Minimize this as you will walk through these steps in this guide. 
+    > **Note:** If you're logging in for the first time you will see a wizard that will walk you through the some tutorials. Minimize this as you will walk through these steps in this guide.
 
-*** 
+***
 
-## <a name="create-an-environment-and-cluster"></a>Create an Environment and Cluster
+## <a name="step-2"></a>Step 2: Create an Environment and Cluster
 
-An environment contains Confluent clusters and its deployed components such as Connect, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. Confluent has seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains Confluent clusters and its deployed components such as Connect, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. Confluent has seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters.
 
-1. Click **+ Add environment**. 
+1. Click **+ Add environment**.
     > **Note:** There is a *default* environment ready in your account upon account creation. You can use this *default* environment for the purpose of this workshop if you do not wish to create an additional environment.
 
-    * Specify a meaningful `name` for your environment and then click **Create**. 
-        > **Note:** It will take a few minutes to assign the resources to make this new environment available for use. 
+    * Specify a meaningful `name` for your environment and then click **Create**.
+        > **Note:** It will take a few minutes to assign the resources to make this new environment available for use.
 
-1. Now that you have an environment, let's create a cluster. Select **Create Cluster**. 
+1. Now that you have an environment, let's create a cluster. Select **Create Cluster**.
     > **Note**: Confluent Cloud clusters are available in 3 types: **Basic**, **Standard**, and **Dedicated**. Basic is intended for development use cases so you should use that for this lab. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you’re interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
     * Chose the **Basic** cluster type.
 
     * Click **Begin Configuration**.
 
-    * Choose your preferred **Cloud Provider**, **Region**, and **Availability Zone**.
-        > **Note:** Here you have the ability to choose which cloud provider you want (AWS, GCP, or Azure). It's recommended to use the **Region** and **Availability Zone** closest to you. 
+    * Choose **GCP** as your Cloud Provider and your preferred Region.
+        > **Note:** GCP is required as your Cloud Provider since we will be utilizing the fully-managed BigQuery sink connector for this workshop
 
-    * Specify a meaningful **Cluster Name** and then review the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* before clicking **Launch Cluster**. 
-
-1. After launching the cluster, find the **Cluster Settings** in the navigation menu and select it. On the **Cluster Settings** page, copy the **Bootstrap server**.
-    * Open the `setup.properties` file that should be the present working directory in your command line. 
-        > **Note:** If you closed the command line or prefer to open the file using a text editor, it is located at `commercial-workshops/series-getting-started-with-cc/workshop-getting-started/setup.properties` wherever you cloned the repository. 
-    * Replace `<BOOTSTRAP_SERVERS>` with the value you just copied and **preserve the double-quotes** surrounding the value. You'll need this later on. 
+    * Specify a meaningful **Cluster Name** and then review the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* before clicking **Launch Cluster**.
 
 ***
 
-## <a name="create-a-topic-using-the-cloud-ui"></a>Create a Topic using the Cloud UI
+## <a name="step-3"></a>Step 3: Create a Schema Registry Instance
+
+A topic contains messages, and each message is a key-value pair. The message key or the message value (or both) can be serialized as JSON, Avro, or Protobuf. A schema defines the structure of the data format.
+
+Confluent Cloud Schema Registry is used to manage schemas and it defines a scope in which schemas can evolve. It stores a versioned history of all schemas, provides multiple compatibility settings, and allows schemas to evolve according to these compatibility settings. It is also fully-managed.
+
+You will be exploring Confluent Cloud Schema Registry in more detail towards the end of the workshop. First, you will need to enable Schema Registry within your environment.
+
+1. Return to your environment by clicking on the Confluent icon at the top left corner and then clicking your environment tile.
+
+1. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
+
+***
+
+## <a name="step-4"></a>Step 4: Setup ksqlDB
+
+1. On the navigation menu, select **ksqlDB** and click **Create application myself**.
+
+1. Select **Global Access** and then **Continue**.
+
+1. Name your ksqlDB application and set the streaming units to
+
+1. Click **Launch Application**!
+> **Note:** A streaming unit, also known as a Confluent Streaming Unit (CSU), is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the linearity of performance.
+
+***
+
+## <a name="step-5"></a>Step 5: Create a Topic using the Cloud UI
 
 1. On the navigation menu, select **Topics** and click **Create Topic**.
-    > **Note:** Refresh the page if your cluster is still spinning up. 
+    > **Note:** Refresh the page if your cluster is still spinning up.
 
-1. Enter `users` as the *Topic Name*.
-    > **Note:** Topics have many configurable parameters that dictate how Confluent handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  If you’re interested in viewing the default configurations, you can view them in the *Topic Summary* on the right side. 
+1. Enter **abc.inventory** as the Topic name and **1** as the Number of partitions
+    > **Note:** Topics have many configurable parameters that dictate how Confluent handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  If you’re interested in viewing the default configurations, you can view them in the *Topic Summary* on the right side.
 
-    * Click **Create with defaults**. 
+1. Click **Create with defaults**.
 
-    After creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages through, you will be able to view messages and message schemas. Creating a **Schema** will ensure messages are following a desired format and can be critical for production deployments. To learn more about **Schema Registry**, please go [here](https://docs.confluent.io/cloud/current/client-apps/schemas-manage.html#).
-
-***
-
-## <a name="launch-docker-and-test-ccloud-cli-utility"></a>Launch Docker and Test CCloud CLI Utility
-
-In this step you will pull a docker image that comes pre-built with the `ccloud` CLI utility. You can use this utility to perform administrative tasks within your account. 
-
-1. From the command line, pull the docker image.
-    ```bash
-    # Pull the pre-built image from Docker Hub
-    docker pull zachhamilton/workshop-getting-started-nodejs
-    ```
-    > **Note:** This image also contains the build for the Nodejs consumer you will use later on in the lab. 
-
-1. Run the image using the following command.
-    ```bash
-    # Start the image in interactive mode and remove the container on exit
-    docker run -it --rm --name ccloud \
-    zachhamilton/workshop-getting-started-nodejs
-    ```
-
-1. This will run the container in interactive mode and place you within the `/confluent` directory and with `ccloud` preinstalled. Check the `ccloud` version with the following command.
-    ```bash
-    # Verify ccloud version
-    ccloud --version
-    ```
-    > **Note:** For good measure, execute `ccloud update` to verify you have the most recent version. 
-
-1. Now that you have command line access to the `ccloud` utility, you can can log in with your cloud credentials. 
-    ```bash
-    # Log in using your username and password
-    ccloud login
-    ```
-
-1. You have the ability to `list` the environments in your Confluent Cloud Account. Select the environment you created in [*Create an Environment and Cluster*](#create-an-environment-and-cluster). you will use the `environment_id` to connect to our cluster.  
-    ```bash
-    # List the environments in the account
-    ccloud environment list
-    ```
-    ```bash
-    # Configure 'ccloud' to use a specific environment
-    ccloud environment use <environment_id>
-    ```
-    > **Note:** When replacing statements in a command, replace everything including the angle brackets. From the command above, you would change `<environment_id>` to `env-rjk73d`. For example: 
-    > ```bash
-    > ccloud environment use env-rjk73d
-    > ```
-
-1. You can also `list` and `use` the cluster you created in [*Create an Environment and Cluster*](#create-an-environment-and-cluster). Here, you need to specify the cluster you will use. Identify the `kafka_cluster_id` by running the first command. Use the second command to `use` that as your cluster. 
-
-    ```bash
-    # List the clusters in your current environment
-    ccloud kafka cluster list
-    ```
-    ```bash
-    # Configure 'ccloud' to use a specific cluster
-    ccloud kafka cluster use <kafka_cluster_id>
-    ```
-
-1. In order to create and manage resources from the CCloud CLI, you are required to `create` and `use` an **API Key**. This command will create an **API Key** pair for you.
-    > **Note:** It's very important to write the **API Key Secret** somewhere. It's value will be shown once and once only. If you don't save the value somewhere safe, you'll have no ability to see it again. 
-
-    ```bash
-    # Create an API key pair
-    ccloud api-key create --resource <kafka_cluster_id>
-    ```
-
-    > **Note:** Make sure to copy the value of both the **API Key** and **API Secret** into `setup.properties` the same way you did with **Bootstrap server**. You will need this later on in the lab.
-
-1. Configure the `ccloud` utility to use this key pair to authenticate in future commands.
-    ```bash
-    # Configure 'ccloud' to use your API key with your cluster
-    ccloud api-key use <api_key> --resource <kafka_cluster_id>
-    ```
-
-    You will see this **API Key** in the Confluent Cloud UI in the **API Access** tab. If you don't see the **API Key** populate right away, refresh the browser. 
+    * **inventory** is the name of one of the collections and abc is the database name within the mongoDB Atlas that you will be sourcing data from.
 
 ***
 
-## <a name="create-a-topic-using-the-ccloud-utility"></a>Creating a Topic using the CCloud Utility
 
-1. Now, back to the CLI. With the **API Key** created, you can now create and manage topics from the CLI.  Next, you will create another topic named `pageviews` using the CLI this time and it will be created with the default configuration. After you create it, you can check the list of topics in our cluster. You will see the `users` topic you created through the UI here as well.
+## <a name="step-6"></a>Step 6: Create an API Key Pair
 
-    ```bash
-    # Create the 'pageviews' topic
-    ccloud kafka topic create pageviews
-    ```
-    ```bash
-    # List the topics in the cluster
-    ccloud kafka topic list
-    ```
+1. Select **API keys** on the navigation menu.
 
-1. You can *produce* simple messages to the `pageviews` topic. This command will prompt you to manually enter messages. Feel free to produce a few messages to test this out. 
+1. If this is your first API key within your cluster, click **Create key**. If you have set up API keys in your cluster in the past and already have an existing API key, click **+ Add key**.
 
-    ```bash
-    # Use the console producer to produce messages to a topic
-    ccloud kafka topic produce pageviews
-    ```
-    Use **CTRL+C** to exit the console producer. 
+1. Select **Global Access**, then click Next.
 
-1. You can also *consume* those test messages you sent to the `pageviews` topic. The `-b` flag indicates you want to start reading from the beginning of the topic. 
+1. Save your API key and secret - you will need these during the workshop.
 
-    ```bash
-    # Use the console consumer to consumer messages from a topic
-    ccloud kafka topic consume -b pageviews
-    ```
-    Use **CTRL+C** to exit the console consumer. 
-
-1. In the Confluent Cloud UI locate the **Topics** tab within your **cluster** and **environment**. Here, you can see the `pageviews` topic you just created. 
+1. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API keys** tab. If you don’t see the API key populate right away, refresh the browser.
 
 ***
 
-## <a name="create-a-ksqldb-application"></a>Create a ksqlDB Application
+## <a name="step-7"></a>Step 7: Connect mongoDB Atlas to Confluent Cloud
 
-1. On the navigation menu, select **ksqlDB** and click **Create Application Myself**. 
-1. Select **Global Access** and then **Continue**.
-1. Name you ksqlDB application and set the streaming units to **4**. Click **Launch Application!**
-    > **Note:** A streaming unit, also known as a Confluent Streaming Unit (CSU), is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the linearity of performance.
+The next step is to source data from mongoDB using the [fully-managed mongoDB Atlas Source connector] (https://docs.confluent.io/cloud/current/connectors/cc-mongo-db-source.html). The connector will send real time data on clicks, inventory, and transactions to Confluent Cloud.
 
-    The ksqlDB application will take some time to provision. While that is taking place, you can move on and let it provision in the background. 
+1. First, you will create the connector that will send data to clicks, inventory, and transactions topics. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Search and click on the **mongoDB Atlas Source** icon.
 
-***
+1. Enter the following configuration details. The remaining fields can be left blank.
 
-## <a name="create-datagen-connectors-for-your-topics"></a>Create Datagen Connectors for your Topics
+<div align="center">
 
-In this step, you will be creating the **Datagen Source Connector** to stream mock data to the `users` and `pageviews` topics. For the purpose of this workshop, the datagen connector can be thought of as any one of your services that produce data. Our goal here is to produce data to Confluent and view the messages in real-time as they are being produced.
+| Setting            | Value                        |
+|------------------------|-----------------------------------------|
+| `Name`      | MongoDbAtlasSourceConnector |
+| `Kafka API Key`              | From step 6                 |
+| `Kafka API Secret`           | From step 6              |
+| `Connection host`    | Will be provided during workshop            |
+| `Connection user` | dbUser               |
+| `Connection password`    | MONGODB_PW             |
+| `Database name`    | abc           |
+| `Copy existing data`    | True             |
+| `Output message format`    | JSON           |
+| `Tasks`    | 1             |
 
-1. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. 
+</div>
 
-1. Click on the **Datagen Source** icon. 
+3. Click on **Next**.
 
-1. First, you will create the datagen connector that will send data to our `pageviews` topic. Use the following table to fill out the parameters of the new connector.
-    <div align="center">
+1. Before launching the connector, you should see something similar to the following.  If everything looks similar, select **Launch**.
 
-    | setting                            | value                            |
-    |------------------------------------|----------------------------------|
-    | name                               | DatagenSourceConnector_pageviews |
-    | api key                            | [*from this step* ](#create-an-api-key-pair)|
-    | api secret                         | [*from this step* ](#create-an-api-key-pair)|
-    | topic                              | pageviews                        |
-    | output message format              | JSON                             |
-    | quickstart                         | PAGEVIEWS                        |
-    | max interval between messages (ms) | 1000                             |
-    | tasks                              | 1                                |
-    </div>
+1. This should return you to the main Connectors landing page. Wait for your newly created connector to change status from **Provisioning** to **Running**.
 
-    > **Note:** If the connectors fails, there are a few different ways to troubleshoot the error:
-    > * Click on the *Connector Name*. You will see a play and pause button on this page. Click on the play button.
-    > * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
-    > * If neither of these steps work, try creating another Datagen Connector.
-
-1. Second, you will create the connector that will send data to our `users` topic. Click on the Datagen Source icon again. Same as above, use the following table to fill out the parameters of the new connector. 
-
-    <div align="center">
-
-    | setting                            | value                            |
-    |------------------------------------|----------------------------------|
-    | name                               | DatagenSourceConnector_users     |
-    | api key                            | [*from this step* ](#create-an-api-key-pair)|
-    | api secret                         | [*from this step* ](#create-an-api-key-pair)|
-    | topic                              | users                            |
-    | output message format              | JSON                             |
-    | quickstart                         | USERS                            |
-    | max interval between messages (ms) | 1000                             |
-    | tasks                              | 1                                |
-    </div>
-
-1. Switch to the CCloud CLI and run the following consumer commands to view the data being produced to our topics.  
-    > **Note:** The `-b` flag tells the consumer to start consuming from the beginning of the topic. 
-    
-    ```bash
-    # Consume messages from the 'pageviews' topic
-    ccloud kafka topic consume -b pageviews
-    ```
-    ```bash
-    # Consume messages from the 'users' topic
-    ccloud kafka topic consume -b users
-    ```
-    
-    Use **CTRL+C** to stop the console consumers. Then, take a moment to review the messages consumed. You should see new-line delimited JSON for the individual events in the console. 
-
-    The data produced to the `pageviews` topic represents how long users are spending on each page of a given website. The `users` topic is collecting information on when *users* registered for a website and also contains information on those *users*. These types of data could represent a simple microservice. 
-
-1. Exit the running container with a single exit command. You'll re-run the container in the next step with some additional properties.
-    ```bash
-    # 'exit' will kill the container and remove it
-    exit
-    ```
-
-*** 
-
-## <a name="consume-topics-using-nodejs"></a>Consume Topics using Nodejs
-
-In this step, you will explore using Nodejs to consume these messages. Think of this Nodejs script as a simple example of what your microservice could look like. The goal here is to show the end-to-end flow of data as it moves through Confluent. You produced data in a previous step, viewed the messages in real-time as they were being produced, and now you're ready to set up your own consumer.
-
-1. You'll need to pass some values as environment variables to the container so the consumer can access them. Start by exporting them to the console with the following command.
-    ```bash
-    # Export the 'bootstrap_servers', 'api_key', and 'api_secret' values
-    source setup.properties
-    ```
-
-1. You can now reference the values as variables passed to the container. Run the following command. 
-    ```bash
-    # '-e' will set the values you've exported locally as environment variables in the container
-    docker run -it --rm --name nodejs \
-    -e BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS \
-    -e API_KEY=$API_KEY \
-    -e API_SECRET=$API_SECRET \
-    zachhamilton/workshop-getting-started-nodejs
-    ```
-
-1. Inside the running container, you should once again land within the `/confluent` directory. From here, navigate to the `nodejs-consumer` directory.
-    ```bash
-    # The consumer is pre-built in this directory
-    cd nodejs-consumer
-    ```
-
-1. Run the Nodejs consumer using the following command. If you're curious what the consumer code looks like, take a look [here](https://github.com/zacharydhamilton/nodejs-consumer).
-    ```bash
-    # Run the consumer
-    node index.js
-    ```
-
-    You'll see messages start being written to the console (likely very quickly). Our consumer is configured with `auto.offset.reset=earliest` and is defined with a distinct consumer `group.id`. The consumer will start reading messages from the `users` topic from the `earliest` offset until it catches up. Any time after that, it will read from the consumer groups last committed offset. 
-
-1. You can either leave this running in the background, or use **CTRL+C** to stop the consumer and then `exit` to exit the container and remove it.
-    ```bash
-    # 'exit' will kill the container and remove it
-    exit
-    ```
+1. If you navigate back to the **Topics** tab you will notice two newly created topics **abc.transactions** and **abc.clicks**.  The connector automatically created these two additional topics based on the collections in the mongoDB Atlas database where data is being sourced from.
 
 ***
 
-## <a name="create-streams-and-tables-using-ksqldb"></a>Create Streams and Tables using ksqlDB
+## <a name="step-8"></a>Step 8: Cloud Dashboard Walkthrough
+
+This section will be conducted by the workshop instructor.  You can find additional information on the Cloud Dashboard [here](https://docs.confluent.io/cloud/current/overview.html) and [here](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html).
+
+***
+
+## <a name="step-9"></a>Step 9: Create Streams and Tables using ksqlDB
 
 Now that you have data flowing through Confluent, you can now easily build stream processing applications using ksqlDB. You are able to continuously transform, enrich, join, and aggregate your data using simple SQL syntax. You can gain value from your data directly from Confluent in real-time. Also, ksqlDB is a fully managed service within Confluent Cloud with a 99.9% uptime SLA. You can now focus on developing services and building your data pipeline while letting Confluent manage your resources for you.
 
-With ksqlDB, you have the ability to leverage streams and tables from your topics in Confluent. A **stream** in ksqlDB is a topic with a schema and it records the history of what has happened in the world as a sequence of events. **Tables** are similar to traditional RDBMS tables. If you’re interested in learning more about ksqlDB and the differences between **streams** and **tables**, I recommend reading these two blogs [here](https://www.confluent.io/blog/kafka-streams-tables-part-3-event-processing-fundamentals/) and [here](https://www.confluent.io/blog/how-real-time-stream-processing-works-with-ksqldb/).
+With ksqlDB, you have the ability to leverage streams and tables from your topics in Confluent. A stream in ksqlDB is a topic with a schema and it records the history of what has happened in the world as a sequence of events. Tables are similar to traditional RDBMS tables. If you’re interested in learning more about ksqlDB and the differences between streams and tables, I recommend reading these two blogs [here](https://www.confluent.io/blog/kafka-streams-tables-part-3-event-processing-fundamentals/) and [here](https://www.confluent.io/blog/how-real-time-stream-processing-works-with-ksqldb/).
 
-1. From the Confluent Cloud UI, click on the **ksqlDB** tab on the navigation menu and select the application you create in [*Create a ksqlDB Application*](#create-a-ksqldb-application).
+1. Navigate back to the ksqlDB tab and click on your application name. This will bring us to the ksqlDB editor.
 
-1. Begin by creating a new **stream** in the editor. Copy the follow statement into the editor and click **Run Query**. 
+>**Note:** You can interact with ksqlDB through the Editor. You can create a stream by using the CREATE STREAM statement and a table using the CREATE TABLE statement.
 
-    ```sql
-    CREATE STREAM pageviews (
-        viewtime bigint, 
-        userid varchar, 
-        pageid varchar
-    ) 
-    WITH (kafka_topic='pageviews', value_format='JSON');
-    ```
+To write streaming queries against topics, you will need to register the topics with ksqlDB as a stream and/or table.
 
-1. Now, if you want to check the messages coming through you can view the **Streams** tab and select the stream you created, `pageviews`. If you click on the name, it will take you to the stream information and give you the option to **Query stream** or **Drop stream**. Click on **Query stream** and run the select statement in the **Editor** tab. A sample output may already appear in the **Editor**. Alternatively, just copy the statement from below. 
+2. First, create a **Stream** by registering the **abc.clicks** topic as a stream called **clicks**
 
-    ```sql
-    SELECT * FROM pageviews EMIT CHANGES;
-    ```
+    * Insert the following query into the ksqlDB editor and click ‘**Run query**’ to execute
 
-    Wait a moment for results to be returned below the editor. The results should exemplify the persistent nature of querying a stream. There will be an unbounded, continuous stream of results returned.
+```SQL
+CREATE STREAM clicks(
+    ip VARCHAR,
+    userid INT,
+    prod_id INT,
+    bytes BIGINT,
+    referrer VARCHAR,
+    agent VARCHAR,
+    click_ts BIGINT
+    )
+WITH (
+    KAFKA_TOPIC='abc.clicks',
+    VALUE_FORMAT='JSON',
+    TIMESTAMP='click_ts'
+);
+```
 
-    After you've taken a look at the results, stop the query. 
+1. Create another **Stream** by registering the **abc.transactions** topic as a stream called **transactions**
 
-1. Now let's create a **table** for our `users` topic. Copy the following statement into the editor and execute. 
-    > **Note:** Compared to a **stream**, a **table** represents the state of the world at a particular point in time. Typically *now*. 
+```sql
+CREATE STREAM transactions (
+  fullDocument STRUCT<
+    cust_id INT,
+    prod_id INT,
+    txn_ts BIGINT>)
+  WITH (
+    KAFKA_TOPIC='abc.transactions',
+    VALUE_FORMAT='JSON'
+  );
+```
 
-    ```sql
-    CREATE TABLE users (
-        userid VARCHAR PRIMARY KEY, 
-        registertime BIGINT, 
-        gender VARCHAR, 
-        regionid VARCHAR
-    ) 
-    WITH(KAFKA_TOPIC='users', VALUE_FORMAT='JSON');
-    ```
+4. Create another **Stream** by registering the **abc.inventory** topic as a stream called **inventory00**
 
-    You used the `CREATE TABLE` statement to create a table from an underlying Kafka topic, `users`.
+```SQL
+CREATE STREAM inventory00 (
+  fullDocument STRUCT<
+    product_id INT,
+    name VARCHAR,
+    "list" INT,
+    discount INT,
+    available INT,
+    capacity INT,
+    txn_hour INT>)
+  WITH (
+    KAFKA_TOPIC='abc.inventory',
+    VALUE_FORMAT='JSON'
+  );
+```
 
-1. Next, let's view the data populating our new **table**, `users`. Enter the following into the **Editor** and execute the statement. 
+5. Create an **inventory Table** based on the **inventory00** stream that you just created
+    * Make sure to set ‘auto.offset.reset’ = ‘earliest’ first
+    * This is a Persistent Query.  A Persistent Query runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
 
-    ```sql
-    SELECT * FROM users EMIT CHANGES;
-    ```
+6. Next, go to the **Tables** tab at the top and click on **INVENTORY**. This provides information on the table, topic (including replication, partitions, and key and value serialization), and schemas.
 
-    You should be able to view this data in real-time below the editor, similarly to when you queried the stream before. 
+7. Click on **Query table** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. An option is to set the ‘auto.offset.reset=earliest’ before clicking **Run query**.
 
-    > **Note:** The results could take a minute to populate. Once you've observed the results, stop the query. 
+Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following:
 
-1. Create a **persistent query** by joining the previously created `pageviews` stream with the `users` table. This query will run until terminated with `TERMINATE`. Copy the following statement into the **Editor** and click **Run query**. 
+```SQL
+SELECT * FROM INVENTORY EMIT CHANGES;
+```
 
-    ```sql
-    CREATE STREAM pageviews_enriched AS
-        SELECT users.userid AS userid, 
-               pageid, 
-               regionid, 
-               gender
-        FROM pageviews
-        LEFT JOIN users
-            ON pageviews.userid = users.userid
-    EMIT CHANGES;
-    ```
+8. You should see the following data within your **INVENTORY** table.
 
-    You can view this in the **Running Queries** tab. This will show you details related to this stream. Click **Explain** to read more information. 
+9. Stop the query by clicking **Stop**
 
-    > **Note:** As more things are being connected, visualizing the relationship between individual parts can be useful. Click on the **Data Flow** tab, and take a look at the flow of data you have so far. 
-    > 
-    > This visualization can be used to understand what was accomplished in this section and how the piece fit together. Click around and get an understanding of what was accomplished. 
 
 ***
 
-## <a name="clean-up-resources"></a>Clean Up Resources
+## <a name="step-10"></a>Step 10: Stream Processing with ksqlDB
 
-Since resources were created in this lab that will incur charges if left running, it's important to tear them down once you are done using them. 
+1. Create a **PRODUCT_TXN_PER_HOUR** table based on the **INVENTORY** table and **TRANSACTIONS** stream.  Make sure to first set 'auto.offset.reset' = 'earliest' before running the query.
 
-1. Remove the **ksqlDB** application by selecting **ksqlDB** from the navigation menu and selecting **Delete** under the **Actions** column. 
+```SQL
+CREATE TABLE PRODUCT_TXN_PER_HOUR WITH (FORMAT='AVRO') AS
+SELECT T.FULLDOCUMENT->PROD_ID,
+       COUNT(*) AS TXN_PER_HOUR,
+       MAX(I.TXN_HOUR) AS EXPECTED_TXN_PER_HOUR,
+       (CAST(MAX(I.AVAILABLE) AS DOUBLE)/ CAST(MAX(I.CAPACITY) AS DOUBLE))*100 AS STOCK_LEVEL, I.NAME AS PRODUCT_NAME
+FROM  TRANSACTIONS T
+      LEFT JOIN INVENTORY I
+      ON T.FULLDOCUMENT->PROD_ID = I.PRODUCT_ID
+WINDOW HOPPING (SIZE 1 HOUR, ADVANCE BY 5 MINUTES)
+GROUP BY T.FULLDOCUMENT->PROD_ID,
+         I.NAME;
+```
 
-1. Remove the Datagen Source connectors by selecting **Connectors** from the navigation menu, selecting the name of the connector, and selecting the "**trashcan**" icon at the top left of the window. Do this for both of the connectors. 
+2. Create a stream on the underlying topic backing the **PRODUCT_TXN_PER_HOUR** table that we just created
+    * Determine the name of the backing topic by navigating to the **Topics** tab on the left hand side menu under **Cluster**.  You should see a topic that begins with **pksqlc-**… and ends with **PRODUCT_TXN_PER_HOUR**. Click on this topic and copy down this topic name as it will be required for the following query
+    * Create the stream based on the backing topic for PRODUCT_TXN_PER_HOUR table
 
-1. Remove the **cluster** itself by selecting **Cluster Settings** from the navigation menu, then selecting **Delete cluster** below the listed details. 
+```SQL
+CREATE STREAM PRODUCT_TXN_PER_HOUR_STREAM WITH (KAFKA_TOPIC='pksqlc-...PRODUCT_TXN_PER_HOUR', FORMAT='AVRO');
+```
+
+3. Now we want to perform a query to see which products we should create promotions for based on the following criteria
+    * High inventory level (>80% of capacity)
+    * Low transactions (< expected transactions/hour)
+
+```SQL
+CREATE STREAM ABC_PROMOTIONS AS
+SELECT  ROWKEY,
+        TIMESTAMPTOSTRING(ROWTIME,'yyyy-MM-dd HH:mm:ss','Europe/London') AS TS,
+        AS_VALUE(ROWKEY -> PROD_ID) AS PROD_ID ,
+        ROWKEY -> PRODUCT_NAME AS PRODUCT_NAME,
+        STOCK_LEVEL ,
+        TXN_PER_HOUR ,
+        EXPECTED_TXN_PER_HOUR
+   FROM PRODUCT_TXN_PER_HOUR_STREAM
+WHERE TXN_PER_HOUR < EXPECTED_TXN_PER_HOUR
+  AND  STOCK_LEVEL > 80
+  ;
+```
+
+4. Query the results.  Make sure to set ‘auto.offset.reset=earliest’
+
+```SQL
+SELECT * FROM ABC_PROMOTIONS EMIT CHANGES;
+```
+
+***
+
+## <a name="step-11"></a>Step 11: Connect BigQuery sink to Confluent Cloud
+
+The next step is to sink data from Confluent Cloud into BigQuery using the [fully-managed BigQuery Sink connector](https://docs.confluent.io/cloud/current/connectors/cc-gcp-bigquery-sink.html). The connector will send real time data on promotions into BigQuery.
+
+1. First, you will create the connector that will automatically create a BigQuery table and populate that table with the data from the promotions topic within Confluent Cloud. From the Confluent Cloud UI, click on the Connectors tab on the navigation menu and select **+Add connector**. Search and click on the BigQuery Sink icon.
+
+2. Enter the following configuration details. The remaining fields can be left blank.
+
+<div align="center">
+
+| Setting            | Value                        |
+|------------------------|-----------------------------------------|
+| `Topics`      | pksqlc-...ABC_PROMOTIONS |
+| `Name`              | BigQuerySinkConnector                 |
+| `Input message format`           | Avro            |
+| `Kafka API Key`    | From step 6           |
+| `Kafka API Secret` | From step 6              |
+| `GCP credentials file`    | JSON file link            |
+| `Project ID`    | Will be provided during workshop          |
+| `Dataset`    | workshop           |
+| `Auto create tables`    | True          |
+| `Tasks`    | 1             |
+
+</div>
+
+3. Click on **Next**.
+
+4. Before launching the connector, you should see something similar to the following.  If everything looks similar, select **Launch**.
+
+5. This should return you to the main Connectors landing page. Wait for your newly created connector to change status from **Provisioning** to **Running**.
+
+6. Shortly after, the workshop instructor will switch over to the BigQuery page within Google Console to show that a table matching the topic name you used when creating the BigQuery connector in Confluent Cloud has been created within the **workshop** dataset.  Clicking the table name should open a BigQuery editor for it:
+
+
+
+***
+
+## <a name="step-12"></a>Step 12: Clean Up Resources
+
+Deleting the resources you created during this workshop will prevent you from incurring additional charges.
+
+1. The first item to delete is the ksqlDB application. Select the Delete button under Actions and enter the Application Name to confirm the deletion.
+
+2. Delete the BigQuery sink connector by navigating to **Connectors** in the navigation panel, clicking your connector name, then clicking the trash can icon in the upper right and entering the connector name to confirm the deletion.
+
+3. Delete the mongoDB Atlas source connector by navigating to **Connectors** under Cluster in the navigation panel, clicking your connector name, then clicking the trash can icon in the upper right and entering the connector name to confirm the deletion.
+
+4. Delete the Cluster by going to the **Settings** tab and then selecting **Delete cluster**
+
+ 5. Delete the Environment by expanding right hand menu and going to **Environments** tab and then clicking on **Delete** for the associated Environment you would like to delete
 
 ***
 
 ## <a name="confluent-resources-and-further-testing"></a>Confluent Resources and Further Testing
 
-* Confluent Cloud [documentation](https://docs.confluent.io/cloud/current/overview.html) is a great resource for documentation.
-* Interested in learning more about connectors? The [Confluent Hub](https://www.confluent.io/hub/) lists all 180+ fully managed and self managed connectors that Confluent supports. 
-* Interested in learning more about ksqlDB? The [KSQL Recipes Guide](https://www.confluent.io/stream-processing-cookbook/) is useful to continue hands-on learning. 
-* Interested in learning more about Schema Registry? Take a look at [Manage Schemas in Confluent Cloud](https://docs.confluent.io/cloud/current/client-apps/schemas-manage.html#).
-* Interested in connecting your applications to Confluent Cloud? Check out [Best Practices for Developing Apache Kafka Applications on Confluent Cloud](https://assets.confluent.io/m/14397e757459a58d/original/20200205-WP-Best_Practices_for_Developing_Apache_Kafka_Applications_on_Confluent_Cloud.pdf) to get started.
+Here are some links to check out if you are interested in further testing:
 
-***
+* Confluent Cloud [Basics](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html)
 
-## Conclusion
+* [Quickstart](https://docs.confluent.io/cloud/current/get-started/index.html) with Confluent Cloud
 
-You have accomplished quite a few steps. 
+* Confluent Cloud ksqlDB [Quickstart](https://docs.confluent.io/cloud/current/get-started/ksql.html)
 
-First, you learned how to set up our clusters and topics within Confluent Cloud, and saw that this process is easy to complete within the cloud dashboard or ccloud CLI. 
+* Confluent Cloud [Demos/Examples](https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html)
 
-Once you had everything set up, you used the **Datagen Source Connector** to produce data to Confluent Cloud and you viewed the messages flowing into Confluent in real-time. Next, you deployed a Nodejs application that acted as a consumer. This is a simple example of how a service can connect to Confluent and how it can act as either a producer or consumer. At this point, you have established an end-to-end flow of our data within Confluent Cloud! 
+* ksqlDB [Tutorials](https://kafka-tutorials.confluent.io/)
 
-You then built stream processing applications using ksqlDB and saw how you were able to instantly gain value from our data that is directly in Confluent, all by using simple SQL statements. You only covered some simple ksqlDB examples during this workshop, so you are encouraged to test it out more! 
-
-Finally, you briefly looked at the pre-built connectors and how you can easily connect your other data systems to Confluent Cloud. This last step completes our data pipeline by connecting the data from your services as well as the data from your external systems to Confluent.
+* Full repository of Connectors within [Confluent Hub](https://www.confluent.io/hub/)

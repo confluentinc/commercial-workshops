@@ -217,7 +217,7 @@ WITH (
 );
 ```
 
-1. Create another **Stream** by registering the **abc.transactions** topic as a stream called **transactions**
+3. Create another **Stream** by registering the **abc.transactions** topic as a stream called **transactions**
 
 ```sql
 CREATE STREAM transactions (

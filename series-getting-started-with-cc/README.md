@@ -16,6 +16,6 @@ Attend all 3 sessions or attend 1 session - all of the sessions relate but are i
 
 ## Workshops:
 
-* [Getting Started with Event-Driven Architectures and Confluent Cloud](https://github.com/confluentinc/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-getting-started).
+* [Getting Started with Event-Driven Architectures and Confluent Cloud](https://github.com/confluentinc/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-streaming-etl).
 * [Seamlessly Connect Sources and Sinks to Confluent Cloud](https://github.com/confluentinc/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-connectors).
 * [Enable Real-time Data Transformations and Stream Processing with ksqlDB](https://github.com/confluentinc/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-ksql).

@@ -99,10 +99,6 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 
 1. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
 
-<div align="center">
-    <img src="images/schema-registry.png" width=75% height=75%>
-</div>
-
 ***
 
 ## <a name="step-4"></a>Step 4: Setup ksqlDB

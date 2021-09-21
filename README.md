@@ -9,3 +9,7 @@ This repository contains workshops and workshop series created and presented by 
 ## Series
 
 * [Getting Started with Confluent: How You Can Set Your Data in Motion](https://github.com/confluentinc/commercial-workshops/tree/master/series-getting-started-with-cc)
+
+## Demos
+
+* [Modernize Your Application with Confluent Cloud](https://github.com/confluentinc/commercial-workshops/tree/master/demos/application-modernization)

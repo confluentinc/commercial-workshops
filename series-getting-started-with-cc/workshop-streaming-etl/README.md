@@ -81,7 +81,7 @@ An environment contains Confluent clusters and its deployed components such as C
     * Click **Begin Configuration**.
 
     * Choose **GCP** as your Cloud Provider and your preferred Region.
-        > **Note:** GCP is required as your Cloud Provider since we will be utilizing the fully-managed BigQuery sink connector for this workshop
+        > **Note:** GCP is required as your Cloud Provider since you will be utilizing the fully-managed BigQuery sink connector for this workshop
 
     * Specify a meaningful **Cluster Name** and then review the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* before clicking **Launch Cluster**.
 
@@ -98,10 +98,6 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 1. Return to your environment by clicking on the Confluent icon at the top left corner and then clicking your environment tile.
 
 1. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
-
-<div align="center">
-    <img src="images/schema-registry.png" width=75% height=75%>
-</div>
 
 ***
 
@@ -221,7 +217,7 @@ WITH (
 );
 ```
 
-1. Create another **Stream** by registering the **abc.transactions** topic as a stream called **transactions**
+3. Create another **Stream** by registering the **abc.transactions** topic as a stream called **transactions**
 
 ```sql
 CREATE STREAM transactions (
@@ -292,7 +288,7 @@ GROUP BY T.FULLDOCUMENT->PROD_ID,
          I.NAME;
 ```
 
-2. Create a stream on the underlying topic backing the **PRODUCT_TXN_PER_HOUR** table that we just created
+2. Create a stream on the underlying topic backing the **PRODUCT_TXN_PER_HOUR** table that you just created
     * Determine the name of the backing topic by navigating to the **Topics** tab on the left hand side menu under **Cluster**.  You should see a topic that begins with **pksqlc-**… and ends with **PRODUCT_TXN_PER_HOUR**. Click on this topic and copy down this topic name as it will be required for the following query
     * Create the stream based on the backing topic for PRODUCT_TXN_PER_HOUR table
 
@@ -300,7 +296,7 @@ GROUP BY T.FULLDOCUMENT->PROD_ID,
 CREATE STREAM PRODUCT_TXN_PER_HOUR_STREAM WITH (KAFKA_TOPIC='pksqlc-...PRODUCT_TXN_PER_HOUR', FORMAT='AVRO');
 ```
 
-3. Now we want to perform a query to see which products we should create promotions for based on the following criteria
+3. Now you want to perform a query to see which products you should create promotions for based on the following criteria
     * High inventory level (>80% of capacity)
     * Low transactions (< expected transactions/hour)
 

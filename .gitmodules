@@ -1,0 +1,3 @@
+[submodule "demos/application-modernization"]
+	path = demos/application-modernization
+	url = https://github.com/zacharydhamilton/application-modernization

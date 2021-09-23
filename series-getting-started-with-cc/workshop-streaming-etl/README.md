@@ -340,9 +340,9 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 | `Input message format`           | Avro            |
 | `Kafka API Key`    | From step 6           |
 | `Kafka API Secret` | From step 6              |
-| `GCP credentials file`    | JSON file link            |
+| `GCP credentials file`    | [JSON file link](https://drive.google.com/drive/folders/1EOYZkyWvpnCydBCv2hv8DMH8FlZKuXKV)            |
 | `Project ID`    | Will be provided during workshop          |
-| `Dataset`    | workshop           |
+| `Dataset`    | Will be provided during workshop          |
 | `Auto create tables`    | True          |
 | `Tasks`    | 1             |
 

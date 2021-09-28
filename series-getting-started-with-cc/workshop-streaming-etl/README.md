@@ -253,6 +253,20 @@ CREATE STREAM inventory00 (
     * Make sure to set ‘auto.offset.reset’ = ‘earliest’ first
     * This is a Persistent Query.  A Persistent Query runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
 
+```SQL
+CREATE TABLE INVENTORY AS
+  SELECT
+FULLDOCUMENT->PRODUCT_ID AS PRODUCT_ID,
+LATEST_BY_OFFSET(FULLDOCUMENT->NAME) AS NAME,
+LATEST_BY_OFFSET(FULLDOCUMENT->"list") AS LIST_PRICE,
+LATEST_BY_OFFSET(FULLDOCUMENT->DISCOUNT) AS DISCOUNT,
+LATEST_BY_OFFSET(FULLDOCUMENT->AVAILABLE) AS AVAILABLE,
+LATEST_BY_OFFSET(FULLDOCUMENT->CAPACITY) AS CAPACITY,
+LATEST_BY_OFFSET(FULLDOCUMENT->TXN_HOUR) AS TXN_HOUR
+FROM INVENTORY00
+GROUP BY FULLDOCUMENT->PRODUCT_ID;
+```
+
 6. Next, go to the **Tables** tab at the top and click on **INVENTORY**. This provides information on the table, topic (including replication, partitions, and key and value serialization), and schemas.
 
 7. Click on **Query table** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. An option is to set the ‘auto.offset.reset=earliest’ before clicking **Run query**.

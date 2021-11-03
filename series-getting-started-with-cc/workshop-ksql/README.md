@@ -441,7 +441,7 @@ There are a few different Windowing operations you can use with ksqlDB. You can 
 ```sql
 CREATE TABLE stocks_purchased_today AS
     SELECT symbol,
-           COUNT(*) AS quantity,
+           COUNT(*) AS quantity
     FROM stocks_enriched
     WINDOW TUMBLING (SIZE 5 MINUTES)
     GROUP BY symbol;

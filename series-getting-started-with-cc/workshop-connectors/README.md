@@ -356,7 +356,7 @@ You have seen and worked within the Confluent Cloud Dashboard in the previous st
     Database = postgres
     ```
 
-    If you have networking rules that may not allow for connection to 0.0.0.0, then use *docker.for.mac.host.internal* as the hostname for Mac and use *docker.for.win.localhost* for Windows.
+    If you have networking rules that may not allow for connection to 0.0.0.0, then use *docker.for.mac.host.internal* as the hostname for Mac and use *docker.for.win.localhost* or *postgres*(container name) for Windows.
 
 6. Scroll down to the very bottom of the page, click on **Continue**, review the configuration details, then click on **Launch.**
     <div align="center">
@@ -427,6 +427,8 @@ In this step, you will set up a fully-managed connector to an object storage. Yo
     | Output Message Format                      | AVRO                                               |
     | Time Interval                              | HOURLY                                             |
     | Flush Size                                 | 1000                                               |
+    | Maximum span of record time(in ms) before scheduled rotation(advanced config) | 600000                                              |
+    | Maximum span of record time(in ms) before rotation(advanced config) | 600000                                              |
     | Tasks                                      | 1                                                  |
 
 

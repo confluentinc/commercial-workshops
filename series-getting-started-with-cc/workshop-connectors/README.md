@@ -46,7 +46,7 @@
 
 1. This workshop requires access to a command line interface.
     * **Mac users:** The standard Terminal application or iTerm2 are recommended.
-    * **Windows users:** The built-in Command Prompt or Git BASH are recommended.  
+    * **Windows users:** The Git BASH is recommended. You can use it from Windows start menu after Git installation. Do not use built-in Command Prompt. 
 
 1. Git access, see [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for installation instructions. After installation, verify that the installation was successful with the following command:
     ```bash
@@ -285,7 +285,7 @@ Now that you have completed setting up your Confluent Cloud account, cluster, to
 
     You will be using Docker during this workshop. Alternatively, you can set up these Confluent Platform components and connect them to Confluent Cloud by installing Confluent Platform as a local install.
 
-1. Run the following command to export the required properties to the console. 
+1. Run the following command to export the required properties to the console. The Git BASH is recommended. You can use it from Windows start menu. Do not use built-in Command Prompt. 
     ```bash
     # export the variables to the console
     source setup.properties

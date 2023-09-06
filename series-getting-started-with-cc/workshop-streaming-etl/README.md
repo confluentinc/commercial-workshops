@@ -162,7 +162,7 @@ The next step is to source data from mongoDB using the [fully-managed mongoDB At
 | `Connection user` | dbUser               |
 | `Connection password`    | MONGODB_PW             |
 | `Database name`    | abc           |
-| `Copy existing data`    | True             |
+| `Startup mode`    | copy_existing             |
 | `Output message format`    | JSON           |
 | `Tasks`    | 1             |
 

@@ -1,0 +1,55 @@
+.menu-link:hover {
+    background: #343a40;
+    background-color: #343a40;
+    text-decoration: none;
+    color: white;
+}
+
+.img_border {
+    border: solid thin transparent;
+    border-radius: 4px;
+    padding: 2px 2px 2px 2px;
+    margin: 0;
+    background-color: darkgray;
+}
+
+.img_border:hover,
+.img_border:focus,
+.img_border:target,
+.img_border:active {
+    border-color: rgb(165, 165, 165);
+}
+
+.log_data {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #000;
+    border-radius: 2px;
+    border-color: #999;
+    border-style: solid;
+    padding: 2px;
+    border-width: 1px;
+    background-color: #eee;
+    height: 400px;
+    overflow-y: scroll;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.tab-msvc {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tab-msvc-border {
+    border: 1px solid rgb(104, 104, 104);
+    border-radius: 10px;
+}
+
+.tab-msvc-click {
+    cursor: pointer;
+}
+
+.tab-msvc-click:hover {
+    border: 2px solid rgb(0, 0, 0);
+}

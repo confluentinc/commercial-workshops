@@ -70,11 +70,11 @@ From the system/ laptop/ instance where microservices are planned to run, setup 
    > ```
 7. Clone this repo:
    ```
-   git clone git@github.com:gsvamsikrishna/python-kafka-microservices
+   git clone git@github.com:confluentinc/commercial-workshops.git
    ```
    or
    ```
-   git clone https://github.com/gsvamsikrishna/python-kafka-microservices.git
+   git clone https://github.com/confluentinc/commercial-workshops.git
    ```
 
 ***
@@ -200,21 +200,30 @@ In case, if you navigated away and want to use an existing environment, You can 
 
 2. Enter ```pizza-ordered``` as the Topic name and **1** as the Number of partitions
     > **Note:** Topics have many configurable parameters that dictate how Confluent handles messages. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html).  If you’re interested in viewing the default configurations, you can view them in the *Topic Summary* on the right side.
+   ```
+   pizza-ordered
+   ```
 
 3. Click **Create with defaults**.
 4. If **Define a data contract** pop-up appears, choose **Skip**
 
 5. Repeat the above steps and create the following five topics with ```Number of partitions = 1```
 
-    * ```pizza-pending```
-
-    * ```pizza-assembled```
-
-    * ```pizza-baked```
-
-    * ```pizza-delivered```
-
-    * ```pizza-status```
+   ```
+   pizza-pending
+   ```
+   ```
+   pizza-assembled
+   ```
+   ```
+   pizza-baked
+   ```
+   ```
+   pizza-delivered
+   ```
+   ```
+   pizza-status
+   ```
 
     > Topic creation can be autoamted using API/ CLI/ Terraform and ksqlDB queries. This is not covered in this workshop.
 
@@ -245,7 +254,7 @@ On the system/laptop/instance where the microservices are expected to run
 
 - Go to the folder where the repo was cloned:
   ```
-  cd python-kafka-microservices
+  cd commercial-workshops/series-getting-started-with-cc/workshop-microservices/
   ```
 - Create a virtual environment:
   ```
@@ -409,6 +418,7 @@ Now, navigate to the **Flow** tab. You should see the topology as shown below. <
 -->
 
 1. Start the demo: ```./start_demo.sh {KAFKA_CONFIG_FILE} {SYS_CONFIG_FILE}```
+
 - If file names were not changed, run
   ```
   ./start_demo.sh example.ini default.ini
@@ -416,7 +426,12 @@ Now, navigate to the **Flow** tab. You should see the topology as shown below. <
 You should see an output similar to this
 ![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/edfcd90a-6711-4926-9eea-afe40c6635a2)
 
-
+- You may need to run below if there is "Permission denied" error.
+  ```
+  chmod +755 start_demo.sh stop_demo.sh
+  ```
+  
+  
 2. Open your browser and navigate to http://127.0.0.1:8000
 
 >**Note:** In a real life scenario each microservice (consumer in a consumer group) could be instantiated for as many times as there are partitions to the topic, however that is just for demo/learning purposes, only one instance will be spawn. Also, for the simplicity of the demo, no Schema Registry is being used. That is not an ideal scenario as the "contract" between Producers and Consumers are "implicitly hard coded" other than being declared through the schema registry

@@ -37,7 +37,7 @@ This is an example of a microservice ecosystem using the CQRS (Command and Query
       -->
     * Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”. New signups receive $400 to spend during their first 30 days. No credit card required.
 
-    > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get free credits to use in Confluent Cloud. This will cover the cost of resources created during the workshop. More details on the specifics can be found [here](https://www.confluent.io/confluent-cloud/tryfree/).
+    > **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get free credits to use in Confluent Cloud. This will cover the cost of resources created during the workshop. More details on the specifics can be found [here](https://www.confluent.io/confluent-cloud/tryfree/?utm_campaign=tm.fm-apac_cd.2023.09.14_APAC_ASIA_WS_Building-Event-Driven-Microservices-with-Confluent-Cloud&utm_source=splash&utm_medium=workshop).
 
 From the system/ laptop/ instance where microservices are planned to run, setup the following
 

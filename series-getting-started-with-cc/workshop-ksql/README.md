@@ -462,7 +462,8 @@ SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
 3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
 
 ```sql
-CREATE TABLE accounts_to_monitor AS
+CREATE TABLE accounts_to_monitor
+    WITH (KAFKA_TOPIC='pksqlc-...ACCOUNTS_TO_MONITOR', VALUE_FORMAT='AVRO') AS
     SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
            TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
            ACCOUNT,

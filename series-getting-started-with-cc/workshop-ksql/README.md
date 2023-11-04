@@ -18,8 +18,9 @@
 9. [Aggregate data](#step-9)
 10. [Windowing Operations and Fraud Detection](#step-10)
 11. [Pull Queries](#step-11)
-12. [Clean Up Resources](#step-12)
-13. [Confluent Resources and Further Testing](#step-13)
+12. [Create BiqQuery Connectors for Accounts_to_Monitor](#step-12)
+13. [Clean Up Resources](#step-13)
+14. [Confluent Resources and Further Testing](#step-14)
 
 ***
 
@@ -517,7 +518,7 @@ SELECT * FROM STOCKS_ENRICHED
 
 1.Create the second connector that will send data to BiqQuery. Click on **+ Add Connector** and then the **Google BigQuery Sink** icon again. 
 
-2. Enter the following configuration details. The remaining fields can be left blank. 
+2.Enter the following configuration details. The remaining fields can be left blank. 
 
 <div align="center">
 
@@ -539,7 +540,7 @@ SELECT * FROM STOCKS_ENRICHED
 
 <br> 
 
-3. Review the output and then select **Launch**.
+3.Review the output and then select **Launch**.
 
 ## <a name="step-13"></a>Clean Up Resources
 
@@ -565,7 +566,7 @@ Deleting the resources you created during this workshop will prevent you from in
 
 *** 
 
-## <a name="step-13"></a>Confluent Resources and Further Testing
+## <a name="step-14"></a>Confluent Resources and Further Testing
 
 Here are some links to check out if you are interested in further testing:
 - [ksqlDB Tutorials](https://kafka-tutorials.confluent.io/)

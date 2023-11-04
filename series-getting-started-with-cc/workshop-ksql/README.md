@@ -462,7 +462,8 @@ SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
 3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
 
 ```sql
-CREATE TABLE accounts_to_monitor AS
+CREATE TABLE accounts_to_monitor
+    WITH (KAFKA_TOPIC='pksqlc-...ACCOUNTS_TO_MONITOR', VALUE_FORMAT='AVRO') AS
     SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
            TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
            ACCOUNT,
@@ -512,7 +513,35 @@ SELECT * FROM STOCKS_ENRICHED
 ```
 ***
 
-## <a name="step-12"></a>Clean Up Resources
+## <a name="step-12"></a>Create BiqQuery Connectors for Accounts_to_Monitor
+
+1.Create the second connector that will send data to BiqQuery. Click on **+ Add Connector** and then the **Google BigQuery Sink** icon again. 
+
+2. Enter the following configuration details. The remaining fields can be left blank. 
+
+<div align="center">
+
+| setting                            | value                        	|
+|------------------------------------|----------------------------------|
+| name                               | BigQuery_Connector_0|
+| api key                            | [*from step 5* ](#step-5)    	|
+| api secret                         | [*from step 5* ](#step-5)    	|
+| topic                              | pksqlc-...ACCOUNTS_TO_MONITOR	|                 
+| input message format               | AVRO                         	|
+| gcp credentials file               | Will be provided during workshop |
+| project id	                     | Will be provided during workshop |
+| dataset		             | jlam_ms_workshop1 		|
+| auto create table                  | true			 	|
+| max poll interval (ms) 	     | 60000                         	|
+| max poll records		     | 10                         	|
+| tasks                              | 1                            	|
+</div>
+
+<br> 
+
+3. Review the output and then select **Launch**.
+
+## <a name="step-13"></a>Clean Up Resources
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
 

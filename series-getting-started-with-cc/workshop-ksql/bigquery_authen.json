@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sales-engineering-206314",
+  "private_key_id": "4238f83566c2858371b49484eb89185f574ac8dc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCNJYHkWscayhqX\nQNIcmdaYBwDb/tufMe5rmdpTGbOu/8U+zJibv64t9Jd+Zmsew+31t73wza8jGIkU\ny1pRprK/G+c+o91G+7I5OKUp6WihyvY5L4yHlI8CTuKotiVs3ZjxFvbZ5V731e0y\ntCv54MG1G2y9Q1rMYXjpANO06PcgQzt/zORORAKYAcFCA6hNXCNWVWjGR+j57D2z\nZ6siePYZkGZn3Nu2KXT46Hc7QOgC2m6VzlOpBFPmt47b+7Lt+BNV2yvxvasGHY5o\nsmJKHY3ocxJyBVnBp2LxnqQhj1TvEZfQ1AP3IDvDW1ttntQUCFllsnhGpiJUCr/W\n6G0Q6qjXAgMBAAECggEAPwW80kggN9t+9QNJ7eBY26fg39oTmSjz0pKvU8SZoO1u\nVoSHLZ/wN2/LhvJXKTUF1t3UjyVf6nVFnAXSjbu3ezKL1cHYBx5SbU9YG/cus3NK\n7qzG/DC+jCLJ/NfbrRji9d8xmIhcl5+rGiUtr5SGGYYlzvo4nCJ3mN44KUKOOZZx\nuq5ExJcZ+A7a64SWgwZBFqwBEMQUxf5kOAQ+7XrFgeV4lVQUt9KTq/DkjSETBFbi\nTCoUlxKvTduoMVE+dmrb1C7UU8CYMqR0aOGjXzJV0xkEKVTqe8v/9ldH1hLnPXe4\nvPnDf7VQvnt1Hxwyq4W0M50AZebor6dK0eArkYthpQKBgQDCYmTo9Vw8J/YNxqn6\n0WLe4uAVYGHlmP5w1CovEKn8WYUy4r6yj+n0+0S/hjJzHtE87tcuZFoNLWchG0AX\nblMlJu47KkUZHXUn2zir9H2LA1m8tM3hyqSxclEi0nS2xIIHAiCUWFMnzSdvl21u\nUXEpKjMrIBVyWb6tsaRWg/o8iwKBgQC54wzNVhkoykc5s2xPvoQcusQD+kvZPKgX\nV/SLnQ4VD6rgj4kk/YoHEfzcBqown5bdQ8XUIT6uSF0rmiGPDXdSpkhuY1HrgyB/\nhsB67g9IMQpzncG6247ltGmC9Ze3mVZ1bFe4779MtuAyuo7v8qjlx+BtDXIjIeEk\n0UtoF60SZQKBgCab1oEy4swL/+JCmFZ6KlIs6+czCp7I4ZjVez935tt5iGxP/yKG\nVSjUk5Ya+IBHGbYpllHfmsdNQlOgDv3YaulRLzZPMgRIBpIRB9OXryviUXuayd3U\nGxwnoZfyBz6aD12G/aOZW4LnS7Ltd83WnUxY1mr1Z20cCDSFuSd59UT7AoGBAIk/\nuKMf8CGrAN38uXtDuv4PdE1PkJNMcvwRaDFxfAVW9R8rO+LBBRnlUSMQFLckDls/\nACF5jnNWYNyhyCd8lN7EgfRnhwPyZJtkXlglz8jI1OO61mDmXeMCy2jzdtsL78dx\ngG+/LSsyV+V8068dJ1HJu84pQF3qVPc/RYMNAC/1AoGAeG5T0Jy6/WBCPLC/ZHek\nmMe3gxIq1shQpncN7ncTFrMlPu2CWKYiwKfV7QX6obtPtlDubROU8HO0i1PxFESP\nmb0yT6lwmpdMJlBmycgHdC8LAQi+dNvRa8ZT6G0FHtaIKBQUA5BuFBjfY6LUXU4h\n+RNDnIwEZQMMSO+NCmKzWAQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "jlam-ms-workshop-service-accou@sales-engineering-206314.iam.gserviceaccount.com",
+  "client_id": "109076441694642350236",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/jlam-ms-workshop-service-accou%40sales-engineering-206314.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -529,7 +529,7 @@ SELECT * FROM STOCKS_ENRICHED
 | api secret                         | [*from step 5* ](#step-5)    	|
 | topic                              | pksqlc-...ACCOUNTS_TO_MONITOR	|                 
 | input message format               | AVRO                         	|
-| gcp credentials file               | Will be provided during workshop |
+| gcp credentials file               | [*downlaod from* ](https://github.com/jlamcon/commercial-workshops/edit/master/series-getting-started-with-cc/workshop-ksql/README.md)  |
 | project id	                     | Will be provided during workshop |
 | dataset		             | jlam_ms_workshop1 		|
 | auto create table                  | true			 	|

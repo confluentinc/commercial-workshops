@@ -79,26 +79,38 @@ An environment contains clusters and its deployed components such as Connectors,
     <img src="images/environment.png" width=50% height=50%>
 </div>
 
-2. Now that you have an environment, click **Create Cluster**. 
+2. Select **Essentials** for Stream Governance Packages, click **Begin configuration**.
+
+<div align="center" padding=25px>
+    <img src="images/stream-governance-1.png" width=50% height=50%>
+</div>
+
+3. Select **AWS Sydney Region** for Stream Governance Essentials, click **Continue**.
+
+<div align="center" padding=25px>
+    <img src="images/stream-governance-2.png" width=50% height=50%>
+</div>
+
+4. Now that you have an environment, click **Create Cluster**. 
 
 > **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so you will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
-3. Chose the **Basic** cluster type. 
+5. Chose the **Basic** cluster type. 
 
 <div align="center" padding=25px>
     <img src="images/cluster-type.png" width=50% height=50%>
 </div>
 
-4. Click **Begin Configuration**. 
-5. Choose your preferred Cloud Provider (AWS, GCP, or Azure), region, and availability zone. 
-6. Specify a **Cluster Name**. For the purpose of this lab, any name will work here. 
+6. Click **Begin Configuration**. 
+7. Choose your preferred Cloud Provider (AWS, GCP, or Azure), region, and availability zone. 
+8. Specify a **Cluster Name**. For the purpose of this lab, any name will work here. 
 
 <div align="center" padding=25px>
     <img src="images/create-cluster.png" width=50% height=50%>
 </div>
 
-7. View the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* information before launching. 
-8. Click **Launch Cluster**. 
+9. View the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* information before launching. 
+10. Click **Launch Cluster**. 
 
 ***
 
@@ -129,6 +141,23 @@ An environment contains clusters and its deployed components such as Connectors,
     <img src="images/create-flink-pool-4.png" width=50% height=50%>
 </div>
 
+5. Change your workspace name by clicking **settings button**. Click **Save changes** after you update the workspace name.
+
+<div align="center" padding=25px>
+    <img src="images/flink-workspace-1.png" width=50% height=50%>
+</div>
+
+6. Set the default Catalog as your environment name.
+
+<div align="center" padding=25px>
+    <img src="images/flink-workspace-2.png" width=50% height=50%>
+</div>
+
+7. Set the default Database as your cluster name.
+
+<div align="center" padding=25px>
+    <img src="images/flink-workspace-3.png" width=50% height=50%>
+</div>
 
 ***
 

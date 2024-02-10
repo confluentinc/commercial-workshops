@@ -123,6 +123,12 @@ An environment contains clusters and its deployed components such as Connectors,
 
 > **Note:** The capacity of a compute pool is measured in CFUs. Compute pools expand and shrink automatically based on the resources required by the statements using them. A compute pool without any running statements scale down to zero. The maximum size of a compute pool is configured during creation. 
 
+4. Flink Compute pools will be ready shortly. You can click **Open SQL workspace** when the pool is ready to use.
+
+<div align="center" padding=25px>
+    <img src="images/create-flink-pool-4.png" width=50% height=50%>
+</div>
+
 
 ***
 

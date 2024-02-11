@@ -211,9 +211,9 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ## <a name="step-6"></a>Create Datagen Connectors for Users and Stocks
 
-The next step is to produce sample data using the Datagen Source connector. You will create two Datagen Source connectors. One connector will send sample user data to **users_topic** and the other connector will send sample stock data to **stocks_topic**.
+The next step is to produce sample data using the Datagen Source connector. You will create three Datagen Source connectors. One connector will send sample customer data to **shoe_customers** topic, the other connector will send sample product data to **shoe_products** topic, and final connector will send sample order data to **shoe_orders** topic.
 
-1. First, you will create the connector that will send data to **users_topic**. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Click on the **Datagen Source** icon.
+1. First, you will create the connector that will send data to **shoe_customers**. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Click on the **Datagen Source** icon.
 
 <div align="center" padding=25px>
     <img src="images/connectors.png" width=75% height=75%>
@@ -225,11 +225,11 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 | setting                            | value                        |
 |------------------------------------|------------------------------|
-| name                               | DatagenSourceConnector_Users |
+| name                               | DatagenSourceConnector_shoe_customers |
 | api key                            | [*from step 5* ](#step-5)    |
 | api secret                         | [*from step 5* ](#step-5)    |
-| topic                              | users_topic                  |
-| output message format              | JSON                         |
+| topic                              | shoe_customers               |
+| output message format              | AVRO                         |
 | quickstart                         | USERS                        |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |

@@ -266,7 +266,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 | api key                            | [*from step 5* ](#step-5)    |
 | api secret                         | [*from step 5* ](#step-5)    |
 | topic                              | shoe_products                |
-| output message format              | JSON                         |
+| output message format              | AVRO                         |
 | quickstart                         | Shoes                        |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |

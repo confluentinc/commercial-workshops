@@ -429,8 +429,11 @@ Windows are central to processing infinite streams. Windows split the stream int
 Flink provides several window table-valued functions (TVF) to divide the elements of your table into windows, including:
 
 a. [Tumble Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-tumble)
+<br> 
 b. [Hop Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-hop)
+<br> 
 c. [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-cumulate)
+<br> 
 
 Find the amount of orders for one minute intervals (tumbling window aggregation).
 ```sql
@@ -457,7 +460,7 @@ NOTE: You can find more information about Flink Window aggregations [here.](http
 
 
 
-
+<br> <br> <br> <br> 
 
 
 

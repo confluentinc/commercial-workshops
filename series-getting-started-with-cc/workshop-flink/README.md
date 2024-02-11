@@ -350,7 +350,7 @@ SHOW TABLES;
 ```
 
 <div align="center">
-    <img src="images/show-tables.png.png">
+    <img src="images/show-tables.png">
 </div> 
 
 

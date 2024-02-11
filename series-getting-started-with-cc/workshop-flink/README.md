@@ -393,7 +393,9 @@ SELECT order_id, product_id, customer_id, $rowtime
   LIMIT 10;
 ```
 
-
+<div align="center">
+    <img src="images/flink-data-aggregation.gif" width=75% height=75%>
+</div>
 
 A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 

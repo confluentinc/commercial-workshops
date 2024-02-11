@@ -16,7 +16,7 @@
 7. [Flink Basics](#step-7)
 8. [Flink Aggregations](#step-8)
 9. [Flink Windowing Functions](#step-9)
-10. [Flink Windowing Functions](#step-10)
+10. [Flink Tables - Primary Key](#step-10)
 11. [Pull Queries](#step-11)
 12. [Clean Up Resources](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
@@ -461,265 +461,92 @@ GROUP BY window_start, window_end;
 
 NOTE: You can find more information about Flink Window aggregations [here.](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html)
 
+***
 
+## <a name="step-10"></a>Flink Tables - Primary Key
+A primary key constraint is a hint for Flink SQL to leverage for optimizations which specifies that a column or a set of columns in a table or a view are unique and they do not contain null. No columns in a primary key can be nullable. A primary key uniquely identifies a row in a table.
 
+Create a new table that will store unique customers only
+```sql
+CREATE TABLE shoe_customers_keyed (
+  customer_id STRING,
+  first_name STRING,
+  last_name STRING,
+  email STRING,
+  PRIMARY KEY (customer_id) NOT ENFORCED
+);
+```
 
 <br> <br> <br> <br> 
 
 
-
-A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
-
-A *table* provides mutable data. New events—rows—can be inserted, and existing rows can be updated and deleted. Like streams, tables are persistent, durable, and fault tolerant. A table behaves much like an RDBMS materialized view because it is being changed automatically as soon as any of its input streams or tables change, rather than letting you directly run insert, update, or delete operations against it.
-
-To learn more about *streams* and *tables*, the following resources are recommended:
-- [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
-- [ksqlDB: Data Definition](https://docs.ksqldb.io/en/latest/reference/sql/data-definition/)
-
-<br>
-
-1. Navigate back to the **ksqlDB** tab and click on your application name. This will bring us to the ksqlDB editor. 
-
-> **Note:** You can interact with ksqlDB through the **Editor**. You can create a stream by using the `CREATE STREAM` statement and a table using the `CREATE TABLE` statement. <br><br>To write streaming queries against **users_topic** and **stocks_topic**, you will need to register the topics with ksqlDB as a stream and/or table. 
-
-2. First, create a **Stream** by registering the **stocks_topic** as a stream called **stocks_stream**. 
+Compare the new table `shoe_customers_keyed` with `shoe_customers`, what is the difference?
 
 ```sql
-CREATE STREAM stocks_stream (
-    side varchar, 
-    quantity int, 
-    symbol varchar, 
-    price int, 
-    account varchar, 
-    userid varchar
-) 
-WITH (kafka_topic='stocks_topic', value_format='JSON');
+SHOW CREATE TABLE shoe_customers_keyed;
 ```
 
-3. Next, go to the **Streams** tab at the top and click on **STOCKS_STREAM**. This provides information on the stream, output topic (including replication, partitions, and key and value serialization), and schemas.
+We do have a different [changelog.mode](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#changelog-mode) and a [primary key](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint) constraint. What does this mean?
 
-<div align="center">
-    <img src="images/stream-detail.png" width=50% height=50%>
-</div>
+NOTE: You can find more information about primary key constraints [here.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint)
 
-4. Click on **Query Stream** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. To see data already in the topic, you can set the `auto.offset.reset=earliest` property before clicking **Run query**. <br> <br> Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following.
-
+Create a new Flink job to copy customer data from the original table to the new table.
 ```sql
-SELECT * FROM STOCKS_STREAM EMIT CHANGES;
+INSERT INTO shoe_customers_keyed
+  SELECT id, first_name, last_name, email
+    FROM shoe_customers;
 ```
 
-5. You should see the following data within your **STOCKS_STREAM** stream.
-
-<div align="center">
-    <img src="images/stocks-stream-select-results.png" width=75% height=75%>
-</div>
-
-6. Click **Stop**. 
-7. Next, create a **Table** by registering the **users_topic** as a table named **users**. Copy the following code into the **Editor** and click **Run**. 
-
+Show the amount of cutomers in `shoe_customers_keyed`.
 ```sql
-CREATE TABLE users (
-    userid varchar PRIMARY KEY, 
-    registertime bigint, 
-    gender varchar, 
-    regionid varchar
-) 
-WITH (KAFKA_TOPIC='users_topic', VALUE_FORMAT='JSON');
+SELECT COUNT(*) as AMOUNTROWS FROM shoe_customers_keyed;
 ```
 
-8. Once you have created the **USERS** table, repeat what you did above with **STOCKS_STREAMS** and query the **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 
-
+Look up one specific customer:
 ```sql
-SELECT * FROM USERS EMIT CHANGES;
+SELECT * 
+ FROM shoe_customers_keyed  
+ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
- * You should see the following data in the messages output.
-
-<div align="center">
-    <img src="images/users-table-select-results.png" width=75% height=75%>
-</div>
-
-> **Note:** Note: If the output does not show up immediately, you may have done everything correctly and it just needs a moment. Setting `auto.offset.reset=earliest` also helps output data faster since the messages are already in the topics.
-
-9. Stop the query by clicking **Stop**. 
-
-***
-
-## <a name="step-10"></a>Create a Persistent Query
-
-A *Persistent Query* runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
-
-1. Create a **Persistent Query** named **stocks_enriched** by left joining the stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
-
+Compare it with all customer records for one specific customer:
 ```sql
-CREATE STREAM stocks_enriched AS
-    SELECT users.userid AS userid, 
-           regionid, 
-           gender, 
-           side, 
-           quantity, 
-           symbol, 
-           price, 
-           account
-    FROM stocks_stream
-    LEFT JOIN users
-    ON stocks_stream.userid = users.userid
-EMIT CHANGES;
+SELECT *
+ FROM shoe_customers
+ WHERE id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-2. Using the **Editor**, query the new stream. You can either type in a select statement or you can navigate to the stream and select the query button, similar to how you did it in a previous step. You can also choose to set `auto.offset.reset=earliest`. Your statement should be the following. 
+We also need to create Primary Key table for our product catalog.
 
+Prepare a new table that will store unique products only:
 ```sql
-SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
+CREATE TABLE shoe_products_keyed(
+  product_id STRING,
+  brand STRING,
+  model STRING,
+  sale_price INT,
+  rating DOUBLE,
+  PRIMARY KEY (product_id) NOT ENFORCED
+  );
 ```
-* The output from the select statement should be similar to the following: <br> 
 
-<div align="center">
-    <img src="images/stocks-enriched-select-results.png" width=75% height=75%>
-</div> 
-
-> **Note:** Now that you have a stream of records from the left join of the **USERS** table and **STOCKS_STREAM** stream, you can view the relationship between user and trades in real-time.
-
-4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. 
-
-<div align="center">
-    <img src="images/stocks-enriched-topic.png" width=75% height=75%>
-</div>
-
-5. Navigate to **Consumers** on the left hand menu and find the group that corresponds with your **STOCKS_ENRICHED** stream. See the screenshot below as an example. This view shows how well your persistent query is keeping up with the incoming data. You can monitor the consumer lag, current and end offsets, and which topics it is consuming from.
-
-<div align="center">
-    <img src="images/ksql-consumer.png" width=75% height=75%>
-</div>
-
-***
-
-## <a name="step-9"></a>Aggregate Data
-
-ksqlDB supports several aggregate functions, like `COUNT` and `SUM`, and you can use these to build stateful aggregates on streaming data. In this step, you will walk through some key examples on different ways you can aggregate your data.
-
-1. First, aggregate the data by counting buys and sells of stocks. Navigate back to the Editor and paste the following query to create a new table named **number_of_times_stock_bought**.
-
+Create a new Flink job to copy product data from the original table to the new table. 
 ```sql
-CREATE TABLE number_of_times_stock_bought AS
-    SELECT SYMBOL,
-           COUNT(QUANTITY) AS total_times_bought
-    FROM STOCKS_STREAM
-    WHERE side = 'BUY'
-    GROUP BY SYMBOL
-EMIT CHANGES;
+INSERT INTO shoe_products_keyed
+  SELECT id, brand, `name`, sale_price, rating 
+    FROM shoe_products;
 ```
-2. Next, query this table by going to the **Tables** tab and selecting the query option or typing it directly into the **Editor**. You can also choose to set `auto.offset.reset=earliest`. If you write the statement yourself, make sure it looks like the following.
 
+Check if only a single record is returned for some product.
 ```sql
-SELECT * FROM NUMBER_OF_TIMES_STOCK_BOUGHT EMIT CHANGES; 
+SELECT * 
+ FROM shoe_products_keyed  
+ WHERE product_id = '0fd15be0-8b95-4f19-b90b-53aabf4c49df';
 ```
+<br> <br> <br> <br> 
 
-* The results should look something like the following.
 
-<div align="center">
-    <img src="images/times-bought-select-results.png" width=75% height=75%>
-</div>
 
-3. Next, create a table that calculates the total number of stocks purchased per symbol. You can choose to set `auto.offset.reset=earliest`.
-
-```sql
-CREATE TABLE total_stock_purchased AS
-    SELECT symbol,
-           SUM(QUANTITY) AS TOTAL_QUANTITY
-    FROM STOCKS_ENRICHED
-	WHERE SIDE = 'BUY'
-    GROUP BY SYMBOL;
-```
-* Running this query should return something that looks similar to the following.
-
-<div align="center">
-    <img src="images/total-bought-select-results.png" width=75% height=75%>
-</div>
-
-***
-
-## <a name="step-10"></a> Windowing Operations and Fraud Detection
-
-You will walk through a few examples on how to use ksqlDB for Windowing, including how to use it for anomaly or fraud detection. ksqlDB enables aggregation operations on streams and tables, as you saw in the previous step, and you have the ability to set time boundaries named windows. A window has a start time and an end time, which you access in your queries by using `WINDOWSTART` and `WINDOWEND`. When using Windowing, aggregate functions are applied only to the records that occur within the specified time window. ksqlDB tracks windows per record key.
-
-There are a few different Windowing operations you can use with ksqlDB. You can learn more about them [here](https://docs.ksqldb.io/en/latest/concepts/time-and-windows-in-ksqldb-queries/#window-types).
-
-1. In the ksqlDB **Editor**, paste the following command in order to create a windowed table named **stocks_purchased_today** from the **stocks_topic**. You can set the size of the window to any duration. Set it to 5 minutes in this example.
-
-```sql
-CREATE TABLE stocks_purchased_today AS
-    SELECT symbol,
-           COUNT(*) AS quantity
-    FROM stocks_enriched
-    WINDOW TUMBLING (SIZE 5 MINUTES)
-    GROUP BY symbol;
-```
-
-2. Once you have created the windowed table, use the **Editor** or the **Tables** tab to query the table. If you construct the statement on your own, make sure it looks like the following. 
-
-```sql
-SELECT * FROM STOCKS_PURCHASED_TODAY EMIT CHANGES;
-```
-
-* The output should be similar to the following.
-
-<div align="center">
-    <img src="images/today-bought-select-results.png" width=75% height=75%>
-</div>
-
-3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
-
-```sql
-CREATE TABLE accounts_to_monitor AS
-    SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
-           TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
-           ACCOUNT,
-           COUNT(*) AS quantity
-    FROM STOCKS_ENRICHED
-    WINDOW TUMBLING (SIZE 5 MINUTES)
-    GROUP BY ACCOUNT
-    HAVING COUNT(*) > 10;
-```
-
-4. Once you have created the **ACCOUNTS_TO_MONITOR** table, use either the **Editor** or the **Tables** tab to query the data from the table. If you construct the statement on your own, make sure it looks like the following.
-
-```sql
-SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
-```
-
-* The output from this query should look like the following. 
-
-<div align="center">
-    <img src="images/accounts-to-monitor-select-results.png" width=75% height=75%>
-</div>
-
-***
-
-## <a name="step-11"></a>Pull Queries
-
-Building on our Fraud Detection example from the last step, let’s say our fraud service wants to check on high frequency accounts. The fraud service can send a pull query via the ksql API, today we will just mock it with the UI. Then we can monitor the activity for a suspicious account. 
-
-1. First we need to add a property to our query. Pull queries only filter by the primary key by default. To filter by other fields, we need to enable table scans. You can add a property under the auto.offset.reset one already included. You will need to set ksql.query.pull.table.scan.enabled to true
-
-<div align="center">
-    <img src="images/table-scan-true.png" width=50% height=50%>
-</div>
-
-2. Now let’s run our pull query in the Editor to see how our accounts are behaving.  
-
-```sql
-SELECT * FROM ACCOUNTS_TO_MONITOR
-     WHERE QUANTITY > 100;
-```
-3. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our **STOCKS_ENRICHED** stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
-
-```sql
-SELECT * FROM STOCKS_ENRICHED 
-	WHERE ACCOUNT = 'ABC123'
-	EMIT CHANGES;
-```
-***
 
 ## <a name="step-12"></a>Clean Up Resources
 

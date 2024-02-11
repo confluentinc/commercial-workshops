@@ -251,10 +251,10 @@ The next step is to produce sample data using the Datagen Source connector. You 
 4. Before launching the connector, you should see something similar to the following. If everything looks similar, select **Launch**. 
 
 <div align="center" padding=25px>
-    <img src="images/add-datagen-conn.png" width=50% height=50%>
+    <img src="images/datagen-4.png" width=50% height=50%>
 </div>
 
-5. Next, create the second connector that will send data to **stocks_topic**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
+5. Next, create the second connector that will send data to **shoe_products**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
 
 6. Enter the following configuration details. The remaining fields can be left blank. 
 
@@ -262,10 +262,10 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 | setting                            | value                        |
 |------------------------------------|------------------------------|
-| name                               | DatagenSourceConnector_Stocks|
+| name                               | DatagenSourceConnector_shoe_products |
 | api key                            | [*from step 5* ](#step-5)    |
 | api secret                         | [*from step 5* ](#step-5)    |
-| topic                              | stocks_topic                 |
+| topic                              | shoe_products                |
 | output message format              | JSON                         |
 | quickstart                         | STOCKS                       |
 | max interval between messages (ms) | 1000                         |
@@ -276,6 +276,28 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 7. Review the output again and then select **Launch**.
 
+8. Next, create the second connector that will send data to **shoe_orders**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
+
+9. Enter the following configuration details. The remaining fields can be left blank. 
+
+<div align="center">
+
+| setting                            | value                        |
+|------------------------------------|------------------------------|
+| name                               | DatagenSourceConnector_shoe_orders |
+| api key                            | [*from step 5* ](#step-5)    |
+| api secret                         | [*from step 5* ](#step-5)    |
+| topic                              | shoe_orders                  |
+| output message format              | JSON                         |
+| quickstart                         | STOCKS                       |
+| max interval between messages (ms) | 1000                         |
+| tasks                              | 1                            |
+</div>
+
+<br> 
+
+10. Review the output again and then select **Launch**.
+
 > **Note:** It may take a few moments for the connectors to launch. Check the status and when both are ready, the status should show *running*. <br> <div align="center"><img src="images/running-connectors.png" width=75% height=75%></div>
 
 > **Note:** If the connectors fails, there are a few different ways to troubleshoot the error:
@@ -284,11 +306,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 > * If neither of these steps work, try creating another Datagen connector.
 
 
-9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
-
-<div align="center">
-    <img src="images/users-topic-overview.png" width=75% height=75%>
-</div>
+9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **shoe_customers**. You can view the production and consumption throughput metrics here.
 
 10. Click on **Messages**. In the search bar, select **Jump to Offset** from the drop-down, set the offset to **0**, and then execute the search. 
 

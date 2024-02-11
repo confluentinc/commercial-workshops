@@ -326,9 +326,33 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 ## <a name="step-7"></a>Create a Stream and a Table
 
-Now that you are producing a continuous stream of data to **users_topic** and **stocks_topic**, you will use ksqlDB to understand the data better by performing continuous transformations, masking certain fields, and creating new derived topics with the enriched data.
+Let's start with exploring our Flink tables.
+Kafka topics and schemas are always in sync with our Flink cluster. Any topic created in Kafka is visible directly as a table in Flink, and any table created in Flink is visible as a topic in Kafka. Effectively, Flink provides a SQL interface on top of Confluent Cloud.
 
-You will start by creating a stream and table, which will be the foundation for your transformations in the upcoming steps.
+Following mappings exist:
+| Kafka          | Flink     | 
+| ------------   | --------- |
+| Environment    | Catalog   | 
+| Cluster        | Database  |
+| Topic + Schema | Table     |
+
+
+```sql
+SHOW CATALOGS;
+```
+
+```
+SHOW DATABASES;
+```
+
+```sql
+SHOW TABLES;
+```
+
+<div align="center">
+    <img src="images/show-tables.png.png">
+</div> 
+
 
 A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 

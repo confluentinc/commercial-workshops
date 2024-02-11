@@ -362,7 +362,37 @@ SHOW CREATE TABLE shoe_products;
     <img src="images/show-table-shoe_products.png" width=75% height=75%>
 </div>
 
-You can find more information about all parameters  [here.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html)
+You can find more information about all DDL Statements [here.](https://docs.confluent.io/cloud/current/flink/reference/statements/overview.html)
+
+Let us first check the table schema for our `shoe_products` catalog. This should be the same as the topic schema in Schema Registry.
+```sql
+DESCRIBE shoe_products;
+```
+
+Let's check if any product records exist in the table.
+```sql
+SELECT * FROM shoe_products;
+```
+
+Now check if the `shoe_customers` schema  exists. 
+```sql
+DESCRIBE shoe_customers;
+```
+
+Are there any customers in Texas whose name starts with `B` ?
+```sql
+SELECT * FROM shoe_customers
+  WHERE `state` = 'Texas' AND `last_name` LIKE 'B%';
+```
+
+Check the first ten orders for one customer.
+```
+SELECT order_id, product_id, customer_id, $rowtime
+  FROM shoe_orders
+  WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a'
+  LIMIT 10;
+```
+
 
 
 A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.

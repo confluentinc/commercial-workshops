@@ -237,7 +237,17 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 <br>
 
-3. Click on **Next**.
+<div align="center" padding=25px>
+    <img src="images/datagen-1.png" width=75% height=75%>
+    <img src="images/datagen-2.png" width=75% height=75%>
+</div>
+
+3. Click on **Show advanced configurations** and complete the necessary fields and click **Continue**.
+
+<div align="center" padding=25px>
+    <img src="images/datagen-3.png" width=75% height=75%>
+</div>
+   
 4. Before launching the connector, you should see something similar to the following. If everything looks similar, select **Launch**. 
 
 <div align="center" padding=25px>

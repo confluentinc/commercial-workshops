@@ -12,7 +12,7 @@
 3. [Create Flink Compute Pool](#step-3)
 4. [Create Topics and walk through Confluent Cloud Dashboard](#step-4)
 5. [Create an API Key Pair](#step-5)
-6. [Create Datagen Connectors for Users and Stocks](#step-6)
+6. [Create Datagen Connectors for Customers, Products and Orders](#step-6)
 7. [Create a Stream and a Table](#step-7)
 8. [Create a Persistent Query](#step-8)
 9. [Aggregate data](#step-9)
@@ -209,7 +209,7 @@ An environment contains clusters and its deployed components such as Connectors,
 
 ***
 
-## <a name="step-6"></a>Create Datagen Connectors for Users and Stocks
+## <a name="step-6"></a>Create Datagen Connectors for Customers, Products and Orders
 
 The next step is to produce sample data using the Datagen Source connector. You will create three Datagen Source connectors. One connector will send sample customer data to **shoe_customers** topic, the other connector will send sample product data to **shoe_products** topic, and final connector will send sample order data to **shoe_orders** topic.
 

@@ -348,10 +348,21 @@ SHOW DATABASES;
 ```sql
 SHOW TABLES;
 ```
+<div align="center">
+    <img src="images/show-tables.png" width=75% height=75%>
+</div>
+
+Understand how the table `shoe_products` was created:
+
+```sql
+SHOW CREATE TABLE shoe_products;
+```
 
 <div align="center">
-    <img src="images/show-tables.png">
-</div> 
+    <img src="images/show-table-shoe_products.png" width=75% height=75%>
+</div>
+
+You can find more information about all parameters  [here.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html)
 
 
 A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.

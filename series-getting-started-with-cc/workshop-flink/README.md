@@ -13,8 +13,8 @@
 4. [Create Topics and walk through Confluent Cloud Dashboard](#step-4)
 5. [Create an API Key Pair](#step-5)
 6. [Create Datagen Connectors for Customers, Products and Orders](#step-6)
-7. [Create a Stream and a Table](#step-7)
-8. [Create a Persistent Query](#step-8)
+7. [Flink Basics](#step-7)
+8. [Flink Aggregations](#step-8)
 9. [Aggregate data](#step-9)
 10. [Windowing Operations and Fraud Detection](#step-10)
 11. [Pull Queries](#step-11)
@@ -324,7 +324,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 ***
 
-## <a name="step-7"></a>Create a Stream and a Table
+## <a name="step-7"></a>Flink Basics
 
 Let's start with exploring our Flink tables.
 Kafka topics and schemas are always in sync with our Flink cluster. Any topic created in Kafka is visible directly as a table in Flink, and any table created in Flink is visible as a topic in Kafka. Effectively, Flink provides a SQL interface on top of Confluent Cloud.
@@ -393,9 +393,38 @@ SELECT order_id, product_id, customer_id, $rowtime
   LIMIT 10;
 ```
 
+***
+
+## <a name="step-8"></a>Flink Aggregations
+Let's try the aggregation functions.
+
+First find out the number of customers records and then the number of unique customers.
+
+```sql
+SELECT COUNT(id) AS num_customers FROM shoe_customers;
+```
+
+```sql
+SELECT COUNT(DISTINCT id) AS num_customers FROM shoe_customers;
+```
+
+We can try some basic aggregations with the product catalog records.
+For each shoe brand, find the number of shoe models, average rating and maximum model price. 
+```sql
+SELECT brand as brand_name, 
+    COUNT(DISTINCT name) as models_by_brand, 
+    ROUND(AVG(rating),2) as avg_rating,
+    MAX(sale_price)/100 as max_price
+FROM shoe_products
+GROUP BY brand;
+```
+
 <div align="center">
     <img src="images/flink-data-aggregation.gif" width=75% height=75%>
 </div>
+
+NOTE: You can find more information about Flink aggregations functions [here.](https://docs.confluent.io/cloud/current/flink/reference/functions/aggregate-functions.html)
+
 
 A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
 

@@ -230,7 +230,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 | api secret                         | [*from step 5* ](#step-5)    |
 | topic                              | shoe_customers               |
 | output message format              | AVRO                         |
-| quickstart                         | USERS                        |
+| quickstart                         | Shoe customers               |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |
 </div>
@@ -267,7 +267,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 | api secret                         | [*from step 5* ](#step-5)    |
 | topic                              | shoe_products                |
 | output message format              | JSON                         |
-| quickstart                         | STOCKS                       |
+| quickstart                         | Shoes                        |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |
 </div>
@@ -288,8 +288,8 @@ The next step is to produce sample data using the Datagen Source connector. You 
 | api key                            | [*from step 5* ](#step-5)    |
 | api secret                         | [*from step 5* ](#step-5)    |
 | topic                              | shoe_orders                  |
-| output message format              | JSON                         |
-| quickstart                         | STOCKS                       |
+| output message format              | AVRO                         |
+| quickstart                         | Shoe orders                  |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |
 </div>
@@ -308,18 +308,18 @@ The next step is to produce sample data using the Datagen Source connector. You 
 
 9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **shoe_customers**. You can view the production and consumption throughput metrics here.
 
-10. Click on **Messages**. In the search bar, select **Jump to Offset** from the drop-down, set the offset to **0**, and then execute the search. 
+10. Click on **Messages**.
 
-* You should now be able to see the messages within the UI. You can toggle between the table and payload views of the events by clicking the following buttons. 
+* You should now be able to see the messages within the UI. You can view the specific messages by clicking the icon. 
 
 <div align="center">
-    <img src="images/card-view.png">
+    <img src="images/message-view-1.png">
 </div> 
 
-* The messages should look something like the following. 
+* The message details should look something like the following. 
 
 <div align="center">
-    <img src="images/card-view-values.png" width=75% height=75%>
+    <img src="images/message-view-2.png" width=75% height=75%>
 </div>
 
 <div align="center">

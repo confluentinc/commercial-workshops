@@ -15,8 +15,8 @@
 6. [Create Datagen Connectors for Customers, Products and Orders](#step-6)
 7. [Flink Basics](#step-7)
 8. [Flink Aggregations](#step-8)
-9. [Aggregate data](#step-9)
-10. [Windowing Operations and Fraud Detection](#step-10)
+9. [Flink Windowing Functions](#step-9)
+10. [Flink Windowing Functions](#step-10)
 11. [Pull Queries](#step-11)
 12. [Clean Up Resources](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
@@ -325,8 +325,6 @@ The next step is to produce sample data using the Datagen Source connector. You 
 ***
 
 ## <a name="step-7"></a>Flink Basics
-
-Let's start with exploring our Flink tables.
 Kafka topics and schemas are always in sync with our Flink cluster. Any topic created in Kafka is visible directly as a table in Flink, and any table created in Flink is visible as a topic in Kafka. Effectively, Flink provides a SQL interface on top of Confluent Cloud.
 
 Following mappings exist:
@@ -396,8 +394,6 @@ SELECT order_id, product_id, customer_id, $rowtime
 ***
 
 ## <a name="step-8"></a>Flink Aggregations
-Let's try the aggregation functions.
-
 First find out the number of customers records and then the number of unique customers.
 
 ```sql
@@ -424,6 +420,45 @@ GROUP BY brand;
 </div>
 
 NOTE: You can find more information about Flink aggregations functions [here.](https://docs.confluent.io/cloud/current/flink/reference/functions/aggregate-functions.html)
+
+***
+
+## <a name="step-9"></a>Flink Windowing Functions
+Windows are central to processing infinite streams. Windows split the stream into “buckets” of finite size, over which you can apply computations. This document focuses on how windowing is performed in Confluent Cloud for Apache Flink and how you can benefit from windowed functions.
+
+Flink provides several window table-valued functions (TVF) to divide the elements of your table into windows, including:
+
+a. [Tumble Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-tumble)
+b. [Hop Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-hop)
+c. [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-cumulate)
+
+Find the amount of orders for one minute intervals (tumbling window aggregation).
+```sql
+SELECT
+ window_end,
+ COUNT(DISTINCT order_id) AS num_orders
+FROM TABLE(
+   TUMBLE(TABLE shoe_orders, DESCRIPTOR(`$rowtime`), INTERVAL '1' MINUTES))
+GROUP BY window_end;
+```
+
+Find the amount of orders for ten minute intervals advanced by five minutes (hopping window aggregation).
+```sql
+SELECT
+ window_start, window_end,
+ COUNT(DISTINCT order_id) AS num_orders
+FROM TABLE(
+   HOP(TABLE shoe_orders, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES, INTERVAL '10' MINUTES))
+GROUP BY window_start, window_end;
+```
+
+NOTE: You can find more information about Flink Window aggregations [here.](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html)
+
+
+
+
+
+
 
 
 A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.

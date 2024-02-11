@@ -445,6 +445,10 @@ FROM TABLE(
 GROUP BY window_end;
 ```
 
+<div align="center">
+    <img src="images/flink-window-function.gif" width=75% height=75%>
+</div>
+
 Find the amount of orders for ten minute intervals advanced by five minutes (hopping window aggregation).
 ```sql
 SELECT

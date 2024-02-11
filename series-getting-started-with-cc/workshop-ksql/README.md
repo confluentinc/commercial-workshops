@@ -227,13 +227,13 @@ The next step is to produce sample data using the Datagen Source connector. You 
 > * If neither of these steps work, try creating another Datagen connector.
 
 
-9. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
+8. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
 
 <div align="center">
     <img src="images/users-topic-overview.png" width=75% height=75%>
 </div>
 
-10. Click on **Messages**. In the search bar, select **Jump to Offset** from the drop-down, set the offset to **0**, and then execute the search. 
+9. Click on **Messages**. In the search bar, select **Jump to Offset** from the drop-down, set the offset to **0**, and then execute the search. 
 
 * You should now be able to see the messages within the UI. You can toggle between the table and payload views of the events by clicking the following buttons. 
 

@@ -336,7 +336,7 @@ Following mappings exist:
 | Cluster        | Database  |
 | Topic + Schema | Table     |
 
-
+1. Familiarize with **Flink SQL** Basics
 ```sql
 SHOW CATALOGS;
 ```
@@ -369,24 +369,24 @@ Let us first check the table schema for our `shoe_products` catalog. This should
 DESCRIBE shoe_products;
 ```
 
-Let's check if any product records exist in the table.
+2. Let's check if any product records exist in the table.
 ```sql
 SELECT * FROM shoe_products;
 ```
 
-Now check if the `shoe_customers` schema  exists. 
+3. Now check if the `shoe_customers` schema  exists. 
 ```sql
 DESCRIBE shoe_customers;
 ```
 
-Are there any customers in Texas whose name starts with `B` ?
+4. Are there any customers in Texas whose name starts with `B` ?
 ```sql
 SELECT * FROM shoe_customers
   WHERE `state` = 'Texas' AND `last_name` LIKE 'B%';
 ```
 
-Check the first ten orders for one customer.
-```
+5. Check the first ten orders for one customer.
+```sql
 SELECT order_id, product_id, customer_id, $rowtime
   FROM shoe_orders
   WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a'

@@ -679,7 +679,7 @@ CREATE TABLE shoe_order_customer_product(
   model STRING,
   sale_price INT,
   rating DOUBLE
-)WITH (
+) WITH (
     'changelog.mode' = 'retract'
 );
 ```

@@ -856,7 +856,7 @@ FROM shoe_promotions;
 ```
 
 <div align="center">
-    <img src="images/flink-loyalty-level-table.gif" width=75% height=75%>
+    <img src="images/flink-promotion-notifications.gif" width=75% height=75%>
 </div>
 
 

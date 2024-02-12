@@ -20,7 +20,8 @@
 11. [Flink Joins](#step-11)
 12. [Customer Loyalty Level Calculation](#step-12)
 13. [Create Promotional Campaigns](#step-13)
-14. [Confluent Resources and Further Testing](#step-14)
+14. [Flink Monitoring](#step-14)
+15. [Confluent Resources and Further Testing](#step-15)
 
 ***
 
@@ -859,11 +860,31 @@ FROM shoe_promotions;
     <img src="images/flink-promotion-notifications.gif" width=75% height=75%>
 </div>
 
+***
+
+## <a name="step-14"></a>Flink Monitoring
+1. Status of all the Flink Jobs is available under Flink Statements Tab.
+   
+<div align="center">
+    <img src="images/flink-statements-status.png" width=75% height=75%>
+</div>
+
+2. Compute pool utilization is available by clicking Compute Pool tile.
+
+<div align="center">
+    <img src="images/flink-compute-pool-tile.png" width=75% height=75%>
+</div>
+
+3. Utilization information.
+
+<div align="center">
+    <img src="images/flink-utilization-info.png" width=75% height=75%>
+</div>
 
 <br> <br> <br> <br> 
 
 
-
+***
 
 ## <a name="step-14"></a>Clean Up Resources
 

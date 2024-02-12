@@ -746,6 +746,46 @@ GROUP BY email;
     <img src="images/flink-loyalty-level-calculation.gif" width=75% height=75%>
 </div>
 
+
+2. Create a new table that will store the loyalty levels if the customers.
+```sql
+CREATE TABLE shoe_loyalty_levels(
+  email STRING,
+  total BIGINT,
+  loyalty_level STRING,
+  PRIMARY KEY (email) NOT ENFORCED
+) WITH (
+     'kafka.partitions' = '3'
+);
+```
+
+3. Insert the calculated loyal levels into the new table.
+```sql
+INSERT INTO shoe_loyalty_levels(
+ email,
+ total,
+ loyalty_level)
+SELECT
+  email,
+  SUM(sale_price) AS total,
+  CASE
+    WHEN SUM(sale_price) > 700000 THEN 'GOLD'
+    WHEN SUM(sale_price) > 70000 THEN 'SILVER'
+    WHEN SUM(sale_price) > 7000 THEN 'BRONZE'
+    ELSE 'CLIMBING'
+  END AS loyalty_level
+FROM shoe_orders_enriched_customer_product
+GROUP BY email;
+```
+
+4. Verify the results.
+```sql
+SELECT *
+FROM shoe_loyalty_levels;
+```
+
+
+
 <br> <br> <br> <br> 
 
 

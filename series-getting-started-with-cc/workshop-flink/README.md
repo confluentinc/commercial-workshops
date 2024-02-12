@@ -784,6 +784,9 @@ SELECT *
 FROM shoe_loyalty_levels;
 ```
 
+<div align="center">
+    <img src="images/flink-loyalty-level-table.gif" width=75% height=75%>
+</div>
 
 
 <br> <br> <br> <br> 

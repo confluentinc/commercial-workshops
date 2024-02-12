@@ -391,6 +391,17 @@ SELECT order_id, product_id, customer_id, $rowtime
   LIMIT 10;
 ```
 
+6. Find the message timestamps for all orders of one customer.
+```sql
+SELECT order_id, customer_id, $rowtime AS ingestion_time
+FROM shoe_orders
+WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
+```
+
+<div align="center">
+    <img src="images/flink-basics-ingestion-time.png" width=75% height=75%>
+</div>
+
 ***
 
 ## <a name="step-8"></a>Flink Aggregations

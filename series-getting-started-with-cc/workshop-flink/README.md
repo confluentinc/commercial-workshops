@@ -501,23 +501,23 @@ Show the number of customers in `shoe_customers_keyed`.
 SELECT COUNT(*) as number_of_customers FROM shoe_customers_keyed;
 ```
 
-Look up one specific customer:
+Look up one specific customer in the keyed Table (shoe_customers_keyed):
 ```sql
 SELECT * 
  FROM shoe_customers_keyed  
  WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-Compare it with all customer records for one specific customer:
+Look up the specific customer change history in non-keyed Table (shoe_customers):
 ```sql
 SELECT *
  FROM shoe_customers
  WHERE id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-We also need to create Primary Key table for our product catalog.
-
-Prepare a new table that will store unique products only:
+Product Catalog Table also requires unique rows for each item.
+Create a new table in order to have the latest information of each product. 
+It is useful when you need to know the latest price of the product for analytic purposes or you need to populate latest product information while joining with other tables.
 ```sql
 CREATE TABLE shoe_products_keyed(
   product_id STRING,
@@ -526,7 +526,7 @@ CREATE TABLE shoe_products_keyed(
   sale_price INT,
   rating DOUBLE,
   PRIMARY KEY (product_id) NOT ENFORCED
-  );
+  ) WITH ('kafka.partitions' = '3');
 ```
 
 Create a new Flink job to copy product data from the original table to the new table. 

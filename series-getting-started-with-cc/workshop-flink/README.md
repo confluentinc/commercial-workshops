@@ -18,7 +18,7 @@
 9. [Flink Windowing Functions](#step-9)
 10. [Flink Tables - Primary Key](#step-10)
 11. [Flink Joins](#step-11)
-12. [Clean Up Resources](#step-12)
+12. [Loyalty Levels Calculation](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
 
 ***
@@ -491,7 +491,9 @@ CREATE TABLE shoe_customers_keyed (
   last_name STRING,
   email STRING,
   PRIMARY KEY (customer_id) NOT ENFORCED
-) WITH ('kafka.partitions' = '3');
+) WITH (
+     'kafka.partitions' = '3'
+);
 ```
 
 2. Compare the new table `shoe_customers_keyed` with `shoe_customers`.
@@ -550,7 +552,9 @@ CREATE TABLE shoe_products_keyed(
   sale_price INT,
   rating DOUBLE,
   PRIMARY KEY (product_id) NOT ENFORCED
-  ) WITH ('kafka.partitions' = '3');
+) WITH (
+     'kafka.partitions' = '3'
+);
 ```
 
 8. Create a new Flink job to copy product data from the original table to the new table. 
@@ -655,13 +659,67 @@ ON shoe_orders.customer_id = shoe_customers_keyed.customer_id
 WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
+<div align="center">
+    <img src="images/flink-joins-latest-customer-info-order-time.png" width=75% height=75%>
+</div>
+
 > **Note:** There might be empty result set if keyed customers tables was created after the order records were ingested in the shoe_orders topic.
 
 > **Note:** For more details of temporal joins please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/queries/joins.html#temporal-joins)
 
-<div align="center">
-    <img src="images/flink-joins-latest-customer-info-order-time.png" width=75% height=75%>
-</div>
+5. Enrich Order information with Customer and Product Table.
+   Create a new table for enriched order information.
+```sql
+CREATE TABLE shoe_order_customer_product(
+  order_id INT,
+  first_name STRING,
+  last_name STRING,
+  email STRING,
+  brand STRING,
+  model STRING,
+  sale_price INT,
+  rating DOUBLE
+)WITH (
+    'changelog.mode' = 'retract'
+);
+```
+
+Insert joined data from 3 tables into the new table.
+```sql
+INSERT INTO shoe_order_customer_product(
+  order_id,
+  first_name,
+  last_name,
+  email,
+  brand,
+  model,
+  sale_price,
+  rating)
+SELECT
+  so.order_id,
+  sc.first_name,
+  sc.last_name,
+  sc.email,
+  sp.brand,
+  sp.model,
+  sp.sale_price,
+  sp.rating
+FROM 
+  shoe_orders so
+  INNER JOIN shoe_customers_keyed sc 
+    ON so.customer_id = sc.customer_id
+  INNER JOIN shoe_products_keyed sp
+    ON so.product_id = sp.product_id;
+```
+
+Verify that the data was joined successfully.
+```sql
+SELECT * FROM shoe_order_customer_product;
+```
+
+***
+
+## <a name="step-12"></a>Loyalty Levels Calculation
 
 
 
@@ -670,7 +728,7 @@ WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 
 
 
-## <a name="step-12"></a>Clean Up Resources
+## <a name="step-14"></a>Clean Up Resources
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
 
@@ -694,7 +752,7 @@ Deleting the resources you created during this workshop will prevent you from in
 
 *** 
 
-## <a name="step-13"></a>Confluent Resources and Further Testing
+## <a name="step-15"></a>Confluent Resources and Further Testing
 
 Here are some links to check out if you are interested in further testing:
 - [ksqlDB Tutorials](https://kafka-tutorials.confluent.io/)

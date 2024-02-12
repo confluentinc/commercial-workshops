@@ -737,7 +737,7 @@ SELECT
     WHEN SUM(sale_price) > 70000 THEN 'SILVER'
     WHEN SUM(sale_price) > 7000 THEN 'BRONZE'
     ELSE 'CLIMBING'
-  END AS rewards_level
+  END AS loyalty_level
 FROM shoe_orders_enriched_customer_product
 GROUP BY email;
 ```

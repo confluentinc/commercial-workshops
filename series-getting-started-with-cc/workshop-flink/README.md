@@ -873,7 +873,7 @@ FROM shoe_promotions;
 2. Compute pool utilization is available by clicking **Compute Pool tile**.
 
 <div align="center">
-    <img src="images/flink-compute-pool-tile.png" width=50% height=50%>
+    <img src="images/flink-compute-pool-tile.png" width=40% height=40%>
 </div>
 
 3. Utilization information.
@@ -894,7 +894,7 @@ Deleting the resources you created during this workshop will prevent you from in
 1. The first item to delete is the ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
 
 <div align="center">
-    <img src="images/flink-delete-compute-pool.png" width=75% height=75%>
+    <img src="images/flink-delete-compute-pool.png" width=50% height=50%>
 </div>
 
 2. Next, delete the Datagen Source connectors for **shoe_orders**, **shoe_products** and **shoe_customers**. Navigate to the **Connectors** tab and select each connector. In the settings tab, you will see a **trash** icon on the bottom of the page. Click the icon and enter the **Connector Name**.

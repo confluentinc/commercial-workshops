@@ -641,6 +641,26 @@ WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 
 > **Note:** As expected the number of rows is lesser than the non-keyed table join. The duplicate entries are eliminated.
 
+4. Join orders with keyed customer records at the time when order was created  (Temporal Join with Keyed Table).
+   Find orders of a specific customer with the latest customer information at the point of order creation.
+```sql
+SELECT order_id,
+       shoe_orders.`$rowtime` as order_time,
+       shoe_customers_keyed.`$rowtime` as customer_info_update_time,
+       first_name,
+       last_name
+FROM shoe_orders
+INNER JOIN shoe_customers_keyed FOR SYSTEM_TIME AS OF shoe_orders.`$rowtime`
+ON shoe_orders.customer_id = shoe_customers_keyed.customer_id
+WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
+```
+
+> **Note:** There might be empty result set if keyed customers tables was created after the order records were ingested in the shoe_orders topic.
+> **Note:** For more details of temporal joins please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/queries/joins.html#temporal-joins)
+
+
+
+
 
 <br> <br> <br> <br> 
 

@@ -334,7 +334,7 @@ Following mappings exist:
 | Cluster        | Database  |
 | Topic + Schema | Table     |
 
-1. Familiarize with **Flink SQL** Basics
+1. Familiarize with **Flink SQL** Basics.
 ```sql
 SHOW CATALOGS;
 ```
@@ -372,12 +372,12 @@ DESCRIBE shoe_products;
 SELECT * FROM shoe_products;
 ```
 
-3. Now check if the `shoe_customers` schema  exists. 
+3. Check if the `shoe_customers` schema  exists. 
 ```sql
 DESCRIBE shoe_customers;
 ```
 
-4. Are there any customers in Texas whose name starts with `B` ?
+4. Check the customers in Texas whose name start with `B`.
 ```sql
 SELECT * FROM shoe_customers
   WHERE `state` = 'Texas' AND `last_name` LIKE 'B%';
@@ -477,7 +477,7 @@ GROUP BY window_start, window_end;
 A primary key constraint is a hint for Flink SQL to leverage for optimizations which specifies that a column or a set of columns in a table or a view are unique and they do not contain null. No columns in a primary key can be nullable. A primary key uniquely identifies a row in a table.
 For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint)
 
-1. Create a new table that will store unique customers only
+1. Create a new table that will store unique customers only.
 ```sql
 CREATE TABLE shoe_customers_keyed (
   customer_id STRING,
@@ -488,7 +488,7 @@ CREATE TABLE shoe_customers_keyed (
 ) WITH ('kafka.partitions' = '3');
 ```
 
-2. Compare the new table `shoe_customers_keyed` with `shoe_customers`
+2. Compare the new table `shoe_customers_keyed` with `shoe_customers`.
 ```sql
 SHOW CREATE TABLE shoe_customers;
 ```
@@ -515,14 +515,14 @@ INSERT INTO shoe_customers_keyed
 SELECT COUNT(*) as number_of_customers FROM shoe_customers_keyed;
 ```
 
-5. Look up one specific customer in the keyed Table (shoe_customers_keyed):
+5. Look up one specific customer in the keyed Table (shoe_customers_keyed).
 ```sql
 SELECT * 
  FROM shoe_customers_keyed  
  WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-6.Look up the specific customer change history in non-keyed Table (shoe_customers):
+6.Look up the specific customer change history in non-keyed Table (shoe_customers).
 ```sql
 SELECT *
  FROM shoe_customers

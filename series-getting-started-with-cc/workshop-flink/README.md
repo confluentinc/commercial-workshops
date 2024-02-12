@@ -670,7 +670,7 @@ WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 5. Enrich Order information with Customer and Product Table.
    Create a new table for enriched order information.
 ```sql
-CREATE TABLE shoe_order_customer_product(
+CREATE TABLE shoe_orders_enriched_customer_product(
   order_id INT,
   first_name STRING,
   last_name STRING,
@@ -687,7 +687,7 @@ CREATE TABLE shoe_order_customer_product(
 
 Insert joined data from 3 tables into the new table.
 ```sql
-INSERT INTO shoe_order_customer_product(
+INSERT INTO shoe_orders_enriched_customer_product(
   order_id,
   first_name,
   last_name,
@@ -715,8 +715,14 @@ FROM
 
 Verify that the data was joined successfully.
 ```sql
-SELECT * FROM shoe_order_customer_product;
+SELECT * FROM shoe_orders_enriched_customer_product;
 ```
+
+<div align="center">
+    <img src="images/flink-join-orders-enrichment.gif" width=75% height=75%>
+</div>
+
+
 
 ***
 

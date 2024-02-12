@@ -593,7 +593,11 @@ ON shoe_orders.customer_id = shoe_customers.id
 WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
+<div align="center">
+    <img src="images/Flink-regular-join-duplicated.png" width=75% height=75%>
+</div>
 
+> **Note:** As expected the result has duplicated entries because on the non-keyed records.
 
 
 

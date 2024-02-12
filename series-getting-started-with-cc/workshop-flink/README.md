@@ -19,7 +19,8 @@
 10. [Flink Tables - Primary Key](#step-10)
 11. [Flink Joins](#step-11)
 12. [Customer Loyalty Level Calculation](#step-12)
-13. [Confluent Resources and Further Testing](#step-13)
+13. [Create Promotional Campaigns](#step-13)
+14. [Confluent Resources and Further Testing](#step-14)
 
 ***
 
@@ -790,7 +791,7 @@ FROM shoe_loyalty_levels;
 
 ***
 
-## <a name="step-13"></a>Create Promotion Campaigns
+## <a name="step-13"></a>Create Promotional Campaigns
 
 
 

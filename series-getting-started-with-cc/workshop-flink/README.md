@@ -569,7 +569,10 @@ For more details please check this [link.](https://docs.confluent.io/cloud/curre
 
 1. Join orders with non-keyed customer records (Regular Join).
 ```sql
-SELECT order_id, shoe_orders.`$rowtime`, first_name, last_name
+SELECT order_id,
+       shoe_orders.`$rowtime` as ingestion_time,
+       first_name,
+       last_name
 FROM shoe_orders
 INNER JOIN shoe_customers 
 ON shoe_orders.customer_id = shoe_customers.id

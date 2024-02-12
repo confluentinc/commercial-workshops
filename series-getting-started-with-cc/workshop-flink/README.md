@@ -680,6 +680,7 @@ CREATE TABLE shoe_order_customer_product(
   sale_price INT,
   rating DOUBLE
 ) WITH (
+    'kafka.partitions' = '3',
     'changelog.mode' = 'retract'
 );
 ```

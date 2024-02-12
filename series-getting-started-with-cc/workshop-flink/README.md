@@ -594,15 +594,17 @@ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
 <div align="center">
-    <img src="images/Flink-regular-join-duplicated.png" width=75% height=75%>
+    <img src="images/flink-regular-join-duplicated.png" width=75% height=75%>
 </div>
 
 > **Note:** As expected the result has duplicated entries because on the non-keyed records.
 
 2. Join orders with non-keyed customer records in some time windows (Interval Join).
+   Find orders of a specific customer in 1 hour interval after the last update of customer information. 
 ```sql
 SELECT order_id,
-       shoe_orders.`$rowtime` as ingestion_time,
+       shoe_orders.`$rowtime` as order_time,
+       shoe_customers.`$rowtime` as customer_info_update_time,
        first_name,
        last_name
 FROM shoe_orders
@@ -612,11 +614,14 @@ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a'
       AND
       shoe_orders.`$rowtime`
         BETWEEN
-         shoe_customers.`$rowtime` - INTERVAL '1' HOUR
+         shoe_customers.`$rowtime`
          AND
-         shoe_customers.`$rowtime`;
+         shoe_customers.`$rowtime` + INTERVAL '1' HOUR;
 ```
 
+<div align="center">
+    <img src="images/flink-joins-customer-activity-order-time.png" width=75% height=75%>
+</div>
 
 <br> <br> <br> <br> 
 

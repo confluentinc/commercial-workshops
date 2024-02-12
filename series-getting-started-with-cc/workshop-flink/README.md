@@ -385,7 +385,10 @@ SELECT * FROM shoe_customers
 
 5. Check the first ten orders for one customer.
 ```sql
-SELECT order_id, product_id, customer_id, $rowtime
+SELECT order_id,
+       product_id,
+       customer_id,
+       $rowtime AS ingestion_time
   FROM shoe_orders
   WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a'
   LIMIT 10;
@@ -393,7 +396,9 @@ SELECT order_id, product_id, customer_id, $rowtime
 
 6. Find the message timestamps for all orders of one customer.
 ```sql
-SELECT order_id, customer_id, $rowtime AS ingestion_time
+SELECT order_id,
+       customer_id,
+       $rowtime AS ingestion_time
 FROM shoe_orders
 WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
@@ -407,20 +412,22 @@ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ## <a name="step-8"></a>Flink Aggregations
 1. Find the number of customers records.
 ```sql
-SELECT COUNT(id) AS num_records FROM shoe_customers;
+SELECT COUNT(id) AS num_records
+FROM shoe_customers;
 ```
 
 2. Find the number of unique customers records.
 ```sql
-SELECT COUNT(DISTINCT id) AS num_customers FROM shoe_customers;
+SELECT COUNT(DISTINCT id) AS num_customers
+FROM shoe_customers;
 ```
 
 3. For each shoe brand, find the number of shoe models, average rating and maximum model price. 
 ```sql
 SELECT brand as brand_name, 
-    COUNT(DISTINCT name) as models_by_brand, 
-    ROUND(AVG(rating),2) as avg_rating,
-    MAX(sale_price) as max_price
+       COUNT(DISTINCT name) as models_by_brand,
+       ROUND(AVG(rating),2) as avg_rating,
+       MAX(sale_price) as max_price
 FROM shoe_products
 GROUP BY brand;
 ```
@@ -447,11 +454,10 @@ c. [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/qu
 
 1. Find the amount of orders for one minute intervals (tumbling window aggregation).
 ```sql
-SELECT
- window_end,
- COUNT(DISTINCT order_id) AS num_orders
+SELECT window_end,
+       COUNT(DISTINCT order_id) AS num_orders
 FROM TABLE(
-   TUMBLE(TABLE shoe_orders, DESCRIPTOR(`$rowtime`), INTERVAL '1' MINUTES))
+  TUMBLE(TABLE shoe_orders, DESCRIPTOR(`$rowtime`), INTERVAL '1' MINUTES))
 GROUP BY window_end;
 ```
 
@@ -461,11 +467,11 @@ GROUP BY window_end;
 
 2. Find the amount of orders for ten minute intervals advanced by five minutes (hopping window aggregation).
 ```sql
-SELECT
- window_start, window_end,
- COUNT(DISTINCT order_id) AS num_orders
+SELECT window_start,
+       window_end,
+       COUNT(DISTINCT order_id) AS num_orders
 FROM TABLE(
-   HOP(TABLE shoe_orders, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES, INTERVAL '10' MINUTES))
+  HOP(TABLE shoe_orders, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES, INTERVAL '10' MINUTES))
 GROUP BY window_start, window_end;
 ```
 
@@ -506,27 +512,31 @@ For more details please check this [link.](https://docs.confluent.io/cloud/curre
 3. Create a new Flink job to copy customer data from the original table to the new table.
 ```sql
 INSERT INTO shoe_customers_keyed
-  SELECT id, first_name, last_name, email
+  SELECT id,
+         first_name,
+         last_name,
+         email
     FROM shoe_customers;
 ```
 
 4. Show the number of customers in `shoe_customers_keyed`.
 ```sql
-SELECT COUNT(*) as number_of_customers FROM shoe_customers_keyed;
+SELECT COUNT(*) as number_of_customers
+FROM shoe_customers_keyed;
 ```
 
 5. Look up one specific customer in the keyed Table (shoe_customers_keyed).
 ```sql
 SELECT * 
- FROM shoe_customers_keyed  
- WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
+FROM shoe_customers_keyed  
+WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
 6. Look up the specific customer change history in non-keyed Table (shoe_customers).
 ```sql
 SELECT *
- FROM shoe_customers
- WHERE id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
+FROM shoe_customers
+WHERE id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
 7. Product Catalog Table also requires unique rows for each item.
@@ -546,15 +556,19 @@ CREATE TABLE shoe_products_keyed(
 8. Create a new Flink job to copy product data from the original table to the new table. 
 ```sql
 INSERT INTO shoe_products_keyed
-  SELECT id, brand, `name`, sale_price, rating 
+  SELECT id,
+         brand,
+         `name`,
+         sale_price,
+         rating 
     FROM shoe_products;
 ```
 
 9. Check if only a single record is returned for some product.
 ```sql
 SELECT * 
- FROM shoe_products_keyed  
- WHERE product_id = '0fd15be0-8b95-4f19-b90b-53aabf4c49df';
+FROM shoe_products_keyed  
+WHERE product_id = '0fd15be0-8b95-4f19-b90b-53aabf4c49df';
 ```
 
 ***

@@ -405,23 +405,22 @@ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ***
 
 ## <a name="step-8"></a>Flink Aggregations
-First find out the number of customers records and then the number of unique customers.
-
+1. Find the number of customers records.
 ```sql
-SELECT COUNT(id) AS num_customers FROM shoe_customers;
+SELECT COUNT(id) AS num_records FROM shoe_customers;
 ```
 
+2. Find the number of unique customers records.
 ```sql
 SELECT COUNT(DISTINCT id) AS num_customers FROM shoe_customers;
 ```
 
-We can try some basic aggregations with the product catalog records.
-For each shoe brand, find the number of shoe models, average rating and maximum model price. 
+3. For each shoe brand, find the number of shoe models, average rating and maximum model price. 
 ```sql
 SELECT brand as brand_name, 
     COUNT(DISTINCT name) as models_by_brand, 
     ROUND(AVG(rating),2) as avg_rating,
-    MAX(sale_price)/100 as max_price
+    MAX(sale_price) as max_price
 FROM shoe_products
 GROUP BY brand;
 ```
@@ -446,7 +445,7 @@ b. [Hop Windows](https://docs.confluent.io/cloud/current/flink/reference/queries
 c. [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-cumulate)
 <br> 
 
-Find the amount of orders for one minute intervals (tumbling window aggregation).
+1. Find the amount of orders for one minute intervals (tumbling window aggregation).
 ```sql
 SELECT
  window_end,
@@ -460,7 +459,7 @@ GROUP BY window_end;
     <img src="images/flink-window-function.gif" width=75% height=75%>
 </div>
 
-Find the amount of orders for ten minute intervals advanced by five minutes (hopping window aggregation).
+2. Find the amount of orders for ten minute intervals advanced by five minutes (hopping window aggregation).
 ```sql
 SELECT
  window_start, window_end,
@@ -478,7 +477,7 @@ NOTE: You can find more information about Flink Window aggregations [here.](http
 A primary key constraint is a hint for Flink SQL to leverage for optimizations which specifies that a column or a set of columns in a table or a view are unique and they do not contain null. No columns in a primary key can be nullable. A primary key uniquely identifies a row in a table.
 For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint)
 
-Create a new table that will store unique customers only
+1. Create a new table that will store unique customers only
 ```sql
 CREATE TABLE shoe_customers_keyed (
   customer_id STRING,
@@ -489,7 +488,7 @@ CREATE TABLE shoe_customers_keyed (
 ) WITH ('kafka.partitions' = '3');
 ```
 
-Compare the new table `shoe_customers_keyed` with `shoe_customers`
+2. Compare the new table `shoe_customers_keyed` with `shoe_customers`
 ```sql
 SHOW CREATE TABLE shoe_customers;
 ```
@@ -504,33 +503,33 @@ SHOW CREATE TABLE shoe_customers_keyed;
 By creating a table with Primary Key option, you changed the changelog-mode to upsert which means that all rows with same primary key are related and must be partitioned together.
 For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#changelog-mode)
 
-Create a new Flink job to copy customer data from the original table to the new table.
+3. Create a new Flink job to copy customer data from the original table to the new table.
 ```sql
 INSERT INTO shoe_customers_keyed
   SELECT id, first_name, last_name, email
     FROM shoe_customers;
 ```
 
-Show the number of customers in `shoe_customers_keyed`.
+4. Show the number of customers in `shoe_customers_keyed`.
 ```sql
 SELECT COUNT(*) as number_of_customers FROM shoe_customers_keyed;
 ```
 
-Look up one specific customer in the keyed Table (shoe_customers_keyed):
+5. Look up one specific customer in the keyed Table (shoe_customers_keyed):
 ```sql
 SELECT * 
  FROM shoe_customers_keyed  
  WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-Look up the specific customer change history in non-keyed Table (shoe_customers):
+6.Look up the specific customer change history in non-keyed Table (shoe_customers):
 ```sql
 SELECT *
  FROM shoe_customers
  WHERE id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-Product Catalog Table also requires unique rows for each item.
+7. Product Catalog Table also requires unique rows for each item.
 Create a new table in order to have the latest information of each product. 
 It is useful when you need to know the latest price of the product for analytic purposes or you need to populate latest product information while joining with other tables.
 ```sql
@@ -544,14 +543,14 @@ CREATE TABLE shoe_products_keyed(
   ) WITH ('kafka.partitions' = '3');
 ```
 
-Create a new Flink job to copy product data from the original table to the new table. 
+8. Create a new Flink job to copy product data from the original table to the new table. 
 ```sql
 INSERT INTO shoe_products_keyed
   SELECT id, brand, `name`, sale_price, rating 
     FROM shoe_products;
 ```
 
-Check if only a single record is returned for some product.
+9. Check if only a single record is returned for some product.
 ```sql
 SELECT * 
  FROM shoe_products_keyed  

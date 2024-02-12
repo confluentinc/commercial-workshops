@@ -597,7 +597,7 @@ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
     <img src="images/flink-regular-join-duplicated.png" width=75% height=75%>
 </div>
 
-> **Note:** As expected the result has duplicated entries because on the non-keyed records.
+> **Note:** As expected the result has duplicated entries because of the non-keyed records.
 
 2. Join orders with non-keyed customer records in some time windows (Interval Join).
    Find orders of a specific customer in 1 hour interval after the last update of customer information. 
@@ -622,6 +622,25 @@ WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a'
 <div align="center">
     <img src="images/flink-joins-customer-activity-order-time.png" width=75% height=75%>
 </div>
+
+3. Join orders with keyed customer records (Regular Join with Keyed Table).
+```sql
+SELECT order_id,
+       shoe_orders.`$rowtime` as ingestion_time,
+       first_name,
+       last_name
+FROM shoe_orders
+INNER JOIN shoe_customers_keyed 
+ON shoe_orders.customer_id = shoe_customers_keyed.customer_id
+WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
+```
+
+<div align="center">
+    <img src="images/flink-regular-join-keyed-table-unique.png" width=75% height=75%>
+</div>
+
+> **Note:** As expected the number of rows is lesser than the non-keyed table join. The duplicate entries are eliminated.
+
 
 <br> <br> <br> <br> 
 

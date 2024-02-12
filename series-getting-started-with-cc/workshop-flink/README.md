@@ -522,7 +522,7 @@ SELECT *
  WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
-6.Look up the specific customer change history in non-keyed Table (shoe_customers).
+6. Look up the specific customer change history in non-keyed Table (shoe_customers).
 ```sql
 SELECT *
  FROM shoe_customers

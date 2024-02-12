@@ -465,6 +465,7 @@ NOTE: You can find more information about Flink Window aggregations [here.](http
 
 ## <a name="step-10"></a>Flink Tables - Primary Key
 A primary key constraint is a hint for Flink SQL to leverage for optimizations which specifies that a column or a set of columns in a table or a view are unique and they do not contain null. No columns in a primary key can be nullable. A primary key uniquely identifies a row in a table.
+For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint)
 
 Create a new table that will store unique customers only
 ```sql
@@ -474,21 +475,19 @@ CREATE TABLE shoe_customers_keyed (
   last_name STRING,
   email STRING,
   PRIMARY KEY (customer_id) NOT ENFORCED
-);
+) WITH ('kafka.partitions' = '3');
 ```
 
-<br> <br> <br> <br> 
-
-
-Compare the new table `shoe_customers_keyed` with `shoe_customers`, what is the difference?
-
+Compare the new table `shoe_customers_keyed` with `shoe_customers`
+```sql
+SHOW CREATE TABLE shoe_customers;
+```
 ```sql
 SHOW CREATE TABLE shoe_customers_keyed;
 ```
 
-We do have a different [changelog.mode](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#changelog-mode) and a [primary key](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint) constraint. What does this mean?
-
-NOTE: You can find more information about primary key constraints [here.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#primary-key-constraint)
+By creating a table with Primary Key option, you changed the changelog-mode to upsert which means that all rows with same primary key are related and must be partitioned together.
+For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#changelog-mode)
 
 Create a new Flink job to copy customer data from the original table to the new table.
 ```sql
@@ -497,9 +496,9 @@ INSERT INTO shoe_customers_keyed
     FROM shoe_customers;
 ```
 
-Show the amount of cutomers in `shoe_customers_keyed`.
+Show the number of customers in `shoe_customers_keyed`.
 ```sql
-SELECT COUNT(*) as AMOUNTROWS FROM shoe_customers_keyed;
+SELECT COUNT(*) as number_of_customers FROM shoe_customers_keyed;
 ```
 
 Look up one specific customer:

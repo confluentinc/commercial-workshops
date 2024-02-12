@@ -21,7 +21,8 @@
 12. [Customer Loyalty Level Calculation](#step-12)
 13. [Create Promotional Campaigns](#step-13)
 14. [Flink Monitoring](#step-14)
-15. [Confluent Resources and Further Testing](#step-15)
+15. [Clean Up Resources](#step-15)
+16. [Confluent Resources and Further Testing](#step-16)
 
 ***
 
@@ -794,7 +795,7 @@ FROM shoe_loyalty_levels;
 
 ## <a name="step-13"></a>Create Promotional Campaigns
 Create special promotions based on the enriched orders table.
-1. Find eligible customers who order 'Jones-Stokes' shoes 10th time.
+1. Find eligible customers who order **'Jones-Stokes'** shoes **10th time**.
 ```sql
 SELECT
    email,
@@ -806,7 +807,7 @@ WHERE brand = 'Jones-Stokes'
 GROUP BY email;
 ```
 
-2. Find eligible customers who ordered 'Braun-Bruen' and 'Will Inc' in total more than 10.
+2. Find eligible customers who ordered **'Braun-Bruen'** and **'Will Inc'** in total more than **10**.
 ```sql
 SELECT
    email,
@@ -863,16 +864,16 @@ FROM shoe_promotions;
 ***
 
 ## <a name="step-14"></a>Flink Monitoring
-1. Status of all the Flink Jobs is available under Flink Statements Tab.
+1. Status of all the Flink Jobs is available under **Flink Statements** Tab.
    
 <div align="center">
     <img src="images/flink-statements-status.png" width=75% height=75%>
 </div>
 
-2. Compute pool utilization is available by clicking Compute Pool tile.
+2. Compute pool utilization is available by clicking **Compute Pool tile**.
 
 <div align="center">
-    <img src="images/flink-compute-pool-tile.png" width=75% height=75%>
+    <img src="images/flink-compute-pool-tile.png" width=50% height=50%>
 </div>
 
 3. Utilization information.
@@ -881,25 +882,25 @@ FROM shoe_promotions;
     <img src="images/flink-utilization-info.png" width=75% height=75%>
 </div>
 
-<br> <br> <br> <br> 
+<br> 
 
 
 ***
 
-## <a name="step-14"></a>Clean Up Resources
+## <a name="step-15"></a>Clean Up Resources
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
 
 1. The first item to delete is the ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
 
 <div align="center">
-    <img src="images/delete-ksqldb.png" width=75% height=75%>
+    <img src="images/flink-delete-compute-pool.png" width=75% height=75%>
 </div>
 
-2. Next, delete the Datagen Source connectors for **users** and **stocks**. Navigate to the **Connectors** tab and select each connector. In the top right corner, you will see a **trash** icon. Click the icon and enter the **Connector Name**. Delete both the **users** and **stocks** connectors. 
+2. Next, delete the Datagen Source connectors for **shoe_orders**, **shoe_products** and **shoe_customers**. Navigate to the **Connectors** tab and select each connector. In the settings tab, you will see a **trash** icon on the bottom of the page. Click the icon and enter the **Connector Name**.
 
 <div align="center">
-    <img src="images/delete-connectors.png" width=75% height=75%>
+    <img src="images/delete-connector.png" width=75% height=75%>
 </div>
 
 3. Finally, under **Cluster Settings**, select the **Delete Cluster** button at the bottom. Enter the **Cluster Name** and select **Confirm**. 
@@ -910,13 +911,13 @@ Deleting the resources you created during this workshop will prevent you from in
 
 *** 
 
-## <a name="step-15"></a>Confluent Resources and Further Testing
+## <a name="step-16"></a>Confluent Resources and Further Testing
 
 Here are some links to check out if you are interested in further testing:
-- [ksqlDB Tutorials](https://kafka-tutorials.confluent.io/)
-- [ksqlDB: The Event Streaming Database, Purpose-Build for Stream Processing](https://ksqldb.io/)
-- [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
 - [Confluent Cloud Documentation](https://docs.confluent.io/cloud/current/overview.html)
-- [Best Practices for Developing Apache Kafka Applications on Confluent Cloud](https://assets.confluent.io/m/14397e757459a58d/original/20200205-WP-Best_Practices_for_Developing_Apache_Kafka_Applications_on_Confluent_Cloud.pdf)
+- [Apache Flink 101](https://developer.confluent.io/courses/apache-flink/intro/)
+- [Stream Processing with Confluent Cloud for Apache Flink](https://docs.confluent.io/cloud/current/flink/index.html)
+- [Flink SQL Reference](https://docs.confluent.io/cloud/current/flink/reference/overview.html)
+- [Flink SQL Functions](https://docs.confluent.io/cloud/current/flink/reference/functions/overview.html)
 
 ***

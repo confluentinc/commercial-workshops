@@ -656,9 +656,12 @@ WHERE shoe_customers_keyed.customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
 ```
 
 > **Note:** There might be empty result set if keyed customers tables was created after the order records were ingested in the shoe_orders topic.
+
 > **Note:** For more details of temporal joins please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/queries/joins.html#temporal-joins)
 
-
+<div align="center">
+    <img src="images/flink-joins-latest-customer-info-order-time.png" width=75% height=75%>
+</div>
 
 
 

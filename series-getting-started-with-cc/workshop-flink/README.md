@@ -479,10 +479,10 @@ CREATE TABLE shoe_customers_keyed (
 ```
 
 Compare the new table `shoe_customers_keyed` with `shoe_customers`
-```bash
+```sql
 SHOW CREATE TABLE shoe_customers;
 ```
-```bash
+```sql
 SHOW CREATE TABLE shoe_customers_keyed;
 ```
 

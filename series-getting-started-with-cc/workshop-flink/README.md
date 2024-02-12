@@ -18,7 +18,7 @@
 9. [Flink Windowing Functions](#step-9)
 10. [Flink Tables - Primary Key](#step-10)
 11. [Flink Joins](#step-11)
-12. [Loyalty Levels Calculation](#step-12)
+12. [Customer Loyalty Level Calculation](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
 
 ***
@@ -726,9 +726,25 @@ SELECT * FROM shoe_orders_enriched_customer_product;
 
 ***
 
-## <a name="step-12"></a>Loyalty Levels Calculation
+## <a name="step-12"></a>Customer Loyalty Level Calculation
+1. Calculate loyalty levels of each customer
+```sql
+SELECT
+  email,
+  SUM(sale_price) AS total,
+  CASE
+    WHEN SUM(sale_price) > 700000 THEN 'GOLD'
+    WHEN SUM(sale_price) > 70000 THEN 'SILVER'
+    WHEN SUM(sale_price) > 7000 THEN 'BRONZE'
+    ELSE 'CLIMBING'
+  END AS rewards_level
+FROM shoe_orders_enriched_customer_product
+GROUP BY email;
+```
 
-
+<div align="center">
+    <img src="images/flink-loyalty-level-calculation.gif" width=75% height=75%>
+</div>
 
 <br> <br> <br> <br> 
 

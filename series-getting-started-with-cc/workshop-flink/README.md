@@ -788,6 +788,12 @@ FROM shoe_loyalty_levels;
     <img src="images/flink-loyalty-level-table.gif" width=75% height=75%>
 </div>
 
+***
+
+## <a name="step-13"></a>Create Promotion Campaigns
+
+
+
 
 <br> <br> <br> <br> 
 

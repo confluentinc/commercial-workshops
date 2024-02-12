@@ -792,8 +792,72 @@ FROM shoe_loyalty_levels;
 ***
 
 ## <a name="step-13"></a>Create Promotional Campaigns
+Create special promotions based on the enriched orders table.
+1. Find eligible customers who order 'Jones-Stokes' shoes 10th time.
+```sql
+SELECT
+   email,
+   COUNT(*) AS total,
+   (COUNT(*) % 10) AS sequence,
+   (COUNT(*) % 10) = 0 AS next_one_free
+FROM shoe_orders_enriched_customer_product
+WHERE brand = 'Jones-Stokes'
+GROUP BY email;
+```
 
+2. Find eligible customers who ordered 'Braun-Bruen' and 'Will Inc' in total more than 10.
+```sql
+SELECT
+   email,
+   COLLECT(brand) AS products,
+   'bundle_offer' AS promotion_name
+FROM shoe_orders_enriched_customer_product
+WHERE brand IN ('Braun-Bruen', 'Will Inc')
+GROUP BY email
+HAVING COUNT(DISTINCT brand) = 2 AND COUNT(brand) > 10;
+```
 
+3. Create a table for promotion notifications.
+```sql
+CREATE TABLE shoe_promotions(
+  email STRING,
+  promotion_name STRING,
+  PRIMARY KEY (email) NOT ENFORCED
+)WITH (
+     'kafka.partitions' = '3'
+);
+```
+
+4. Insert all the promotional information to the shoe_promotions table.  
+```sql
+INSERT INTO shoe_promotions
+SELECT
+   email,
+   'next_free' AS promotion_name
+FROM shoe_orders_enriched_customer_product
+WHERE brand = 'Jones-Stokes'
+GROUP BY email
+HAVING COUNT(*) % 10 = 0;
+
+INSERT INTO shoe_promotions
+SELECT
+   email,
+   'bundle_offer' AS promotion_name
+FROM shoe_orders_enriched_customer_product
+WHERE brand IN ('Braun-Bruen', 'Will Inc')
+GROUP BY email
+HAVING COUNT(DISTINCT brand) = 2 AND COUNT(brand) > 10;
+```
+
+5. Verify the results.
+```sql
+SELECT *
+FROM shoe_promotions;
+```
+
+<div align="center">
+    <img src="images/flink-loyalty-level-table.gif" width=75% height=75%>
+</div>
 
 
 <br> <br> <br> <br> 

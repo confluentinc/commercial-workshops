@@ -486,6 +486,10 @@ SHOW CREATE TABLE shoe_customers;
 SHOW CREATE TABLE shoe_customers_keyed;
 ```
 
+<div align="center">
+    <img src="images/flink-tables-primary-key.png" width=75% height=75%>
+</div>
+
 By creating a table with Primary Key option, you changed the changelog-mode to upsert which means that all rows with same primary key are related and must be partitioned together.
 For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/statements/create-table.html#changelog-mode)
 

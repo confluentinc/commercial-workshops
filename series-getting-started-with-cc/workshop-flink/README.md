@@ -17,7 +17,7 @@
 8. [Flink Aggregations](#step-8)
 9. [Flink Windowing Functions](#step-9)
 10. [Flink Tables - Primary Key](#step-10)
-11. [Pull Queries](#step-11)
+11. [Flink Joins](#step-11)
 12. [Clean Up Resources](#step-12)
 13. [Confluent Resources and Further Testing](#step-13)
 
@@ -429,7 +429,7 @@ GROUP BY brand;
     <img src="images/flink-data-aggregation.gif" width=75% height=75%>
 </div>
 
-NOTE: You can find more information about Flink aggregations functions [here.](https://docs.confluent.io/cloud/current/flink/reference/functions/aggregate-functions.html)
+> **Note:** Check this [link](https://docs.confluent.io/cloud/current/flink/reference/functions/aggregate-functions.html) for more information about Flink aggregation functions.
 
 ***
 
@@ -469,7 +469,7 @@ FROM TABLE(
 GROUP BY window_start, window_end;
 ```
 
-NOTE: You can find more information about Flink Window aggregations [here.](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html)
+> **Note:** Check this [link](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html) for the detailed information about Flink Window aggregations.
 
 ***
 
@@ -556,6 +556,30 @@ SELECT *
  FROM shoe_products_keyed  
  WHERE product_id = '0fd15be0-8b95-4f19-b90b-53aabf4c49df';
 ```
+
+***
+
+## <a name="step-11"></a>Flink Joins
+Flink supports complex and flexible join operations over dynamic tables. There are a number of different types of joins to account for the wide variety of semantics that queries may require.
+
+By default, the order of joins is not optimized. Tables are joined in the order in which they are specified in the FROM clause.
+
+You can tweak the performance of your join queries, by listing the tables with the lowest update frequency first and the tables with the highest update frequency last. Make sure to specify tables in an order that doesn’t yield a cross join (Cartesian product), which aren’t supported and would cause a query to fail.
+For more details please check this [link.](https://docs.confluent.io/cloud/current/flink/reference/queries/joins.html)
+
+1. Join orders with non-keyed customer records (Regular Join).
+```sql
+SELECT order_id, shoe_orders.`$rowtime`, first_name, last_name
+FROM shoe_orders
+INNER JOIN shoe_customers 
+ON shoe_orders.customer_id = shoe_customers.id
+WHERE customer_id = 'b523f7f3-0338-4f1f-a951-a387beeb8b6a';
+```
+
+
+
+
+
 <br> <br> <br> <br> 
 
 

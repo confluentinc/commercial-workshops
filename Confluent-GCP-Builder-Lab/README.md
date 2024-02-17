@@ -262,7 +262,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 * You should now be able to see the messages within the UI. You can view the specific messages by clicking the icon. 
 
 <div align="center">
-    <img src="images/message-view-1.png">
+    <img src="images/message-view-1.png" width=75% height=75%>
 </div> 
 
 * The message details should look something like the following. 

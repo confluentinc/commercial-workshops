@@ -201,7 +201,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 | api secret                         | [*from step 5* ](#step-5)    |
 | topic                              | users_topic                  |
 | output message format              | AVRO                         |
-| quickstart                         | USERS                        |
+| quickstart                         | Users                        |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |
 </div>
@@ -238,7 +238,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 | api secret                         | [*from step 5* ](#step-5)    |
 | topic                              | stocks_topic                 |
 | output message format              | AVRO                         |
-| quickstart                         | STOCKS                       |
+| quickstart                         | Stocks trade                 |
 | max interval between messages (ms) | 1000                         |
 | tasks                              | 1                            |
 </div>

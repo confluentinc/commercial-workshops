@@ -491,10 +491,11 @@ SELECT * FROM stocks_purchased_5min_window_tumbling EMIT CHANGES;
 
 ```sql
 CREATE TABLE accounts_to_monitor WITH (KAFKA_TOPIC='accounts_to_monitor') AS
-    SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
-           TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
-           ACCOUNT,
-           COUNT(*) AS quantity
+    SELECT ACCOUNT,
+           AS_VALUE(ACCOUNT) AS ACCOUNT_NAME,
+           COUNT(*) AS quantity,
+           TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
+           TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END
     FROM STOCKS_ENRICHED
     WINDOW TUMBLING (SIZE 5 MINUTES)
     GROUP BY ACCOUNT

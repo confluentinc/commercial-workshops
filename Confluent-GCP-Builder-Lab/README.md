@@ -2,7 +2,7 @@
     <img src="images/confluent.png" width=50% height=50%>
 </div>
 
-# <div align="center">Confluent x Google Cloud Data Streaming BUILDER Live Lab</div>
+# <div align="center">Confluent x Google Cloud Data Streaming BUILDER Lab</div>
 
 <br>
 

@@ -365,6 +365,56 @@ SELECT * FROM USERS EMIT CHANGES;
 
 ***
 
+## <a name="step-8"></a>Create a Persistent Query
+
+A *Persistent Query* runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
+
+1. Create a **Persistent Query** named **stocks_enriched** by left joining the stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
+
+```sql
+CREATE STREAM stocks_enriched AS
+    SELECT users.userid AS userid, 
+           regionid, 
+           gender, 
+           side, 
+           quantity, 
+           symbol, 
+           price, 
+           account
+    FROM stocks_stream
+    LEFT JOIN users
+    ON stocks_stream.userid = users.userid
+EMIT CHANGES;
+```
+
+<div align="center">
+    <img src="images/stocks-enriched-query.png" width=75% height=75%>
+</div> 
+
+2. Using the **Editor**, query the new stream. You can either type in a select statement or you can navigate to the stream and select the query button, similar to how you did it in a previous step. You can also choose to set `auto.offset.reset=earliest`. Your statement should be the following. 
+
+```sql
+SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
+```
+* The output from the select statement should be similar to the following: <br> 
+
+<div align="center">
+    <img src="images/stocks-enriched-select-results.png" width=75% height=75%>
+</div> 
+
+> **Note:** Now that you have a stream of records from the left join of the **USERS** table and **STOCKS_STREAM** stream, you can view the relationship between user and trades in real-time.
+
+4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. 
+
+<div align="center">
+    <img src="images/stocks-enriched-topic.png" width=75% height=75%>
+</div>
+
+5. Navigate to **Consumers** on the left hand menu and find the group that corresponds with your **STOCKS_ENRICHED** stream. See the screenshot below as an example. This view shows how well your persistent query is keeping up with the incoming data. You can monitor the consumer lag, current and end offsets, and which topics it is consuming from.
+
+<div align="center">
+    <img src="images/ksql-consumer.png" width=75% height=75%>
+</div>
 
 
 

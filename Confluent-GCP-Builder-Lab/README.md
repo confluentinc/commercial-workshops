@@ -484,7 +484,7 @@ SELECT * FROM stocks_purchased_5min_window_tumbling EMIT CHANGES;
 * The output should be similar to the following.
 
 <div align="center">
-    <img src="images/today-bought-select-results.png" width=75% height=75%>
+    <img src="images/stocks_purchased_5min_window_tumbling_select.png" width=75% height=75%>
 </div>
 
 3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.

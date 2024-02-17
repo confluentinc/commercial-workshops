@@ -165,6 +165,19 @@ An environment contains clusters and its deployed components such as Apache Flin
 ***
 
 
+## <a name="step-5"></a>Create an API Key
+
+1. Click **API Keys** on the navigation menu. 
+2. Click **Create Key** in order to create your first API Key. If you have an existing API Key select **+ Add Key** to create another API Key.
+
+<div align="center" padding=25px>
+    <img src="images/create-apikey.png" width=75% height=75%>
+</div>
+
+3. Select **Global Access** and then click **Next**. 
+4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab, you will not be able to view the secret again once you close this dialogue. 
+5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Keys** section. If you don’t see the API key populate right away, refresh the browser.
+
 
 
 

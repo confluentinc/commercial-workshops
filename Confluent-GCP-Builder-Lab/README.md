@@ -271,7 +271,90 @@ The next step is to produce sample data using the Datagen Source connector. You 
     <img src="images/message-view-2.png" width=75% height=75%>
 </div>
 
+***
 
+## <a name="step-7"></a>Create a Stream and a Table
+
+Now that you are producing a continuous stream of data to **users_topic** and **stocks_topic**, you will use ksqlDB to understand the data better by performing continuous transformations, masking certain fields, and creating new derived topics with the enriched data.
+
+You will start by creating a stream and table, which will be the foundation for your transformations in the upcoming steps.
+
+A *stream* provides immutable data. It is append only for new events; existing events cannot be changed. Streams are persistent, durable, and fault tolerant. Events in a stream can be keyed.
+
+A *table* provides mutable data. New events—rows—can be inserted, and existing rows can be updated and deleted. Like streams, tables are persistent, durable, and fault tolerant. A table behaves much like an RDBMS materialized view because it is being changed automatically as soon as any of its input streams or tables change, rather than letting you directly run insert, update, or delete operations against it.
+
+To learn more about *streams* and *tables*, the following resources are recommended:
+- [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
+- [ksqlDB: Data Definition](https://docs.ksqldb.io/en/latest/reference/sql/data-definition/)
+
+<br>
+
+1. Navigate back to the **ksqlDB** tab and click on your application name. This will bring us to the ksqlDB editor. 
+
+> **Note:** You can interact with ksqlDB through the **Editor**. You can create a stream by using the `CREATE STREAM` statement and a table using the `CREATE TABLE` statement. <br><br>To write streaming queries against **users_topic** and **stocks_topic**, you will need to register the topics with ksqlDB as a stream and/or table. 
+
+2. First, create a **Stream** by registering the **stocks_topic** as a stream called **stocks_stream**. 
+
+```sql
+CREATE STREAM stocks_stream (
+    side varchar, 
+    quantity int, 
+    symbol varchar, 
+    price int, 
+    account varchar, 
+    userid varchar
+) 
+WITH (kafka_topic='stocks_topic', value_format='JSON');
+```
+
+3. Next, go to the **Streams** tab at the top and click on **STOCKS_STREAM**. This provides information on the stream, output topic (including replication, partitions, and key and value serialization), and schemas.
+
+<div align="center">
+    <img src="images/stream-detail.png" width=50% height=50%>
+</div>
+
+4. Click on **Query Stream** which will take you back to the **Editor**. You will see the following query auto-populated in the editor which may be already running by default. If not, click on **Run query**. To see data already in the topic, you can set the `auto.offset.reset=earliest` property before clicking **Run query**. <br> <br> Optionally, you can navigate to the editor and construct the select statement on your own, which should look like the following.
+
+```sql
+SELECT * FROM STOCKS_STREAM EMIT CHANGES;
+```
+
+5. You should see the following data within your **STOCKS_STREAM** stream.
+
+<div align="center">
+    <img src="images/stocks-stream-select-results.png" width=75% height=75%>
+</div>
+
+6. Click **Stop**. 
+7. Next, create a **Table** by registering the **users_topic** as a table named **users**. Copy the following code into the **Editor** and click **Run**. 
+
+```sql
+CREATE TABLE users (
+    userid varchar PRIMARY KEY, 
+    registertime bigint, 
+    gender varchar, 
+    regionid varchar
+) 
+WITH (KAFKA_TOPIC='users_topic', VALUE_FORMAT='JSON');
+```
+
+8. Once you have created the **USERS** table, repeat what you did above with **STOCKS_STREAMS** and query the **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 
+
+```sql
+SELECT * FROM USERS EMIT CHANGES;
+```
+
+ * You should see the following data in the messages output.
+
+<div align="center">
+    <img src="images/users-table-select-results.png" width=75% height=75%>
+</div>
+
+> **Note:** Note: If the output does not show up immediately, you may have done everything correctly and it just needs a moment. Setting `auto.offset.reset=earliest` also helps output data faster since the messages are already in the topics.
+
+9. Stop the query by clicking **Stop**. 
+
+***
 
 
 

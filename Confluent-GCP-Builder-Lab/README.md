@@ -581,6 +581,7 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 </div>
 
 <br>
+
 - Authentication
 <div align="center">
     <img src="images/bigquery-3.png" width=75% height=75%>

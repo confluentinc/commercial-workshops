@@ -24,6 +24,14 @@
 
 ***
 
+## **Architecture**
+
+<div align="center" padding=25px>
+    <img src="images/GCP-builder-arch.png" width=75% height=75%>
+</div>
+
+***
+
 ## **Prerequisites**
 
 1. Create a Confluent Cloud Account.

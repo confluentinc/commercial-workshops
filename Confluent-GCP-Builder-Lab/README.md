@@ -25,7 +25,6 @@
 ***
 
 ## **Prerequisites**
-<br>
 
 1. Create a Confluent Cloud Account.
     - Sign up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).

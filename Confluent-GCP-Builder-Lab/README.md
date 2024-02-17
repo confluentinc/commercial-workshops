@@ -344,7 +344,7 @@ CREATE TABLE users (
     gender varchar, 
     regionid varchar
 ) 
-WITH (KAFKA_TOPIC='users_topic', VALUE_FORMAT='JSON');
+WITH (KAFKA_TOPIC='users_topic', VALUE_FORMAT='AVRO');
 ```
 
 8. Once you have created the **USERS** table, repeat what you did above with **STOCKS_STREAMS** and query the **USERS** table. This time, select the **Tables** tab and then select the **USERS** table. You can also set the `auto.offset.reset=earliest`. Like above, if you prefer to construct the statement on your own, make sure it looks like the following. 

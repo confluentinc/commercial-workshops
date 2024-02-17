@@ -404,17 +404,12 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
 
 > **Note:** Now that you have a stream of records from the left join of the **USERS** table and **STOCKS_STREAM** stream, you can view the relationship between user and trades in real-time.
 
-4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic prefixed with a unique ID followed by **STOCKS_ENRICHED**. It should resemble **pksqlc-xxxxxSTOCKS_ENRICHED**. 
+4. Next, view the topic created when you created the persistent query with the left join. Navigate to the **Topics** tab on the left hand menu and then select the topic **stocks_enriched**.
 
 <div align="center">
     <img src="images/stocks-enriched-topic.png" width=75% height=75%>
 </div>
 
-5. Navigate to **Consumers** on the left hand menu and find the group that corresponds with your **STOCKS_ENRICHED** stream. See the screenshot below as an example. This view shows how well your persistent query is keeping up with the incoming data. You can monitor the consumer lag, current and end offsets, and which topics it is consuming from.
-
-<div align="center">
-    <img src="images/ksql-consumer.png" width=75% height=75%>
-</div>
 
 
 

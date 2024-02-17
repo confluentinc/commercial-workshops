@@ -131,7 +131,38 @@ An environment contains clusters and its deployed components such as Apache Flin
     <img src="images/create-ksqldb-application.png" width=50% height=50%>
 </div>
 
+***
 
+## <a name="step-4"></a>Creates Topic and Walk Through Cloud Dashboard
+
+1. On the navigation menu, you will see **Cluster Overview**. 
+
+> **Note:** This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud. 
+
+<div align="center" padding=25px>
+    <img src="images/cluster-metrics.png" width=75% height=75%>
+</div>
+
+2. Click on **Cluster Settings**. This is where you can find your *Cluster ID, Bootstrap Server, Cloud Details, Cluster Type,* and *Capacity Limits*.
+3. On the same navigation menu, select **Topics** and click **Create Topic**. 
+4. Enter **users_topic** as the topic name, **1** as the number of partitions, and then click **Create with defaults**. 
+
+<div align="center" padding=25px>
+    <img src="images/create-topic.png" width=50% height=50%>
+</div>
+
+5. Repeat the previous step and create a second topic name **stocks_topic** and **1** as the number of partitions.
+
+> **Note:** Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
+
+7. After topic creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas.
+8. Below is a look at the topic, **users_topic**, but you need to send data to this topic before you see any metrics.
+
+<div align="center" padding=25px>
+    <img src="images/users-topic.png" width=75% height=75%>
+</div>
+
+***
 
 
 

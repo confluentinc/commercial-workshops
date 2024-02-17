@@ -66,7 +66,7 @@ In this workshop, you will have learned how to leverage Apache Flink to perform 
 
 ## <a name="step-2"></a>Create an Environment and Cluster
 
-An environment contains clusters and its deployed components such as Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. For example, you can use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains clusters and its deployed components such as Apache Flink, Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. For example, you can use environments to separate Development/Testing, Pre-Production, and Production clusters. 
 
 1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
 
@@ -885,7 +885,7 @@ FROM shoe_promotions;
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
 
-1. The first item to delete is the ksqlDB application. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
+1. The first item to delete is the Apache Flink Compute Pool. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
 
 <div align="center">
     <img src="images/flink-delete-compute-pool.png" width=50% height=50%>

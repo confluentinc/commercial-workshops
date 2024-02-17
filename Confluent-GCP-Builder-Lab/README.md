@@ -178,6 +178,98 @@ An environment contains clusters and its deployed components such as Apache Flin
 4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab, you will not be able to view the secret again once you close this dialogue. 
 5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Keys** section. If you don’t see the API key populate right away, refresh the browser.
 
+***
+
+## <a name="step-6"></a>Create Datagen Connectors for Users and Stocks
+
+The next step is to produce sample data using the Datagen Source connector. You will create three Datagen Source connectors. One connector will send sample customer data to **users_topic** topic, the other connector will send sample product data to **stocks_topic** topic.
+
+1. First, you will create the connector that will send data to **users_topic**. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Click on the **Datagen Source** icon.
+
+<div align="center" padding=25px>
+    <img src="images/connectors.png" width=75% height=75%>
+</div>
+
+2. Enter the following configuration details. The remaining fields can be left blank.
+
+<div align="center">
+
+| setting                            | value                        |
+|------------------------------------|------------------------------|
+| name                               | DatagenSourceConnector_users |
+| api key                            | [*from step 5* ](#step-5)    |
+| api secret                         | [*from step 5* ](#step-5)    |
+| topic                              | users_topic                  |
+| output message format              | AVRO                         |
+| quickstart                         | USERS                        |
+| max interval between messages (ms) | 1000                         |
+| tasks                              | 1                            |
+</div>
+
+<br>
+
+<div align="center" padding=25px>
+    <img src="images/datagen-1.png" width=75% height=75%>
+    <img src="images/datagen-2.png" width=75% height=75%>
+</div>
+
+3. Click on **Show advanced configurations** and complete the necessary fields and click **Continue**.
+
+<div align="center" padding=25px>
+    <img src="images/datagen-3.png" width=75% height=75%>
+</div>
+   
+4. Before launching the connector, you should see something similar to the following. If everything looks similar, select **Launch**. 
+
+<div align="center" padding=25px>
+    <img src="images/datagen-4.png" width=50% height=50%>
+</div>
+
+5. Next, create the second connector that will send data to **stocks_topic**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
+
+6. Enter the following configuration details. The remaining fields can be left blank. 
+
+<div align="center">
+
+| setting                            | value                        |
+|------------------------------------|------------------------------|
+| name                               | DatagenSourceConnector_stocks|
+| api key                            | [*from step 5* ](#step-5)    |
+| api secret                         | [*from step 5* ](#step-5)    |
+| topic                              | stocks_topic                 |
+| output message format              | AVRO                         |
+| quickstart                         | STOCKS                       |
+| max interval between messages (ms) | 1000                         |
+| tasks                              | 1                            |
+</div>
+
+<br> 
+
+7. Review the output again and then select **Launch**.
+
+> **Note:** It may take a few moments for the connectors to launch. Check the status and when both are ready, the status should show *running*. <br> <div align="center"><img src="images/running-connectors.png" width=75% height=75%></div>
+
+> **Note:** If the connectors fails, there are a few different ways to troubleshoot the error:
+> * Click on the *Connector Name*. You will see a play and pause button on this page. Click on the play button.
+> * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
+> * If neither of these steps work, try creating another Datagen connector.
+
+
+8. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
+
+9. Click on **Messages**.
+
+* You should now be able to see the messages within the UI. You can view the specific messages by clicking the icon. 
+
+<div align="center">
+    <img src="images/message-view-1.png">
+</div> 
+
+* The message details should look something like the following. 
+
+<div align="center">
+    <img src="images/message-view-2.png" width=75% height=75%>
+</div>
 
 
 

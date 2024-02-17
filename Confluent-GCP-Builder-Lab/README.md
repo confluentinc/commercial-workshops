@@ -116,3 +116,29 @@ An environment contains clusters and its deployed components such as Apache Flin
 
 9. View the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* information before launching. 
 10. Click **Launch Cluster**. 
+
+***
+
+## <a name="step-3"></a>Create a ksqlDB Application
+
+1. On the navigation menu, select **ksqlDB** and click **Create Application Myself**. 
+2. Select **Global Access** and then **Continue**.
+3. Name you ksqlDB application and set the streaming units to **1**. Click **Launch Application!**
+
+> **Note:** A Confluent Streaming Unit is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the size of your kSQL cluster and scales linearly. 
+
+<div align="center" padding=25px>
+    <img src="images/create-ksqldb-application.png" width=50% height=50%>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

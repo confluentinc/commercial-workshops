@@ -331,7 +331,7 @@ SELECT * FROM STOCKS_STREAM EMIT CHANGES;
 5. You should see the following data within your **STOCKS_STREAM** stream.
 
 <div align="center">
-    <img src="images/stocks-stream-select-results.png" width=75% height=75%>
+    <img src="images/stock-stream-select-query.gif" width=75% height=75%>
 </div>
 
 6. Click **Stop**. 

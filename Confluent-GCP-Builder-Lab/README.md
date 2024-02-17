@@ -637,7 +637,7 @@ Deleting the resources you created during this workshop will prevent you from in
 2. Delete the BigQuery sink connector by navigating to **Connectors** in the navigation panel, clicking your connector name, then clicking the trash can icon in the upper right and entering the connector name to confirm the deletion.
 
 <div align="center">
-    <img src="images/delete-connector.png" width=75% height=75%>
+    <img src="images/delete-connector.png" width=60% height=60%>
 </div>
 
 3. Next, delete the Datagen Source connectors for **users** and **stocks**. 
@@ -645,7 +645,7 @@ Deleting the resources you created during this workshop will prevent you from in
 4. Delete the Cluster by going to the **Settings** tab and then selecting **Delete cluster**.
 
 <div align="center">
-    <img src="images/delete-cluster.png" width=75% height=75%>
+    <img src="images/delete-cluster.png" width=40% height=40%>
 </div>
 
 5. Delete the Environment by expanding right hand menu and going to **Environments** tab and then clicking on **Delete** for the associated Environment you would like to delete

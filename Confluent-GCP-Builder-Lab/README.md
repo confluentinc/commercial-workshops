@@ -372,7 +372,7 @@ A *Persistent Query* runs indefinitely as it processes rows of events and writes
 1. Create a **Persistent Query** named **stocks_enriched** by left joining the stream (**STOCKS_STREAM**) and table (**USERS**). Navigate to the **Editor** and paste the following command.
 
 ```sql
-CREATE STREAM stocks_enriched AS
+CREATE STREAM stocks_enriched WITH (KAFKA_TOPIC='stocks_enriched') AS
     SELECT users.userid AS userid, 
            regionid, 
            gender, 
@@ -420,7 +420,7 @@ ksqlDB supports several aggregate functions, like `COUNT` and `SUM`, and you can
 1. First, aggregate the data by counting buys and sells of stocks. Navigate back to the Editor and paste the following query to create a new table named **number_of_times_stock_bought**.
 
 ```sql
-CREATE TABLE number_of_times_stock_bought AS
+CREATE TABLE number_of_times_stock_bought WITH (KAFKA_TOPIC='number_of_times_stock_bought') AS
     SELECT SYMBOL,
            COUNT(QUANTITY) AS total_times_bought
     FROM STOCKS_STREAM
@@ -443,7 +443,7 @@ SELECT * FROM NUMBER_OF_TIMES_STOCK_BOUGHT EMIT CHANGES;
 3. Next, create a table that calculates the total number of stocks purchased per symbol. You can choose to set `auto.offset.reset=earliest`.
 
 ```sql
-CREATE TABLE total_stock_purchased AS
+CREATE TABLE total_stock_purchased WITH (KAFKA_TOPIC='total_stock_purchased') AS
     SELECT symbol,
            SUM(QUANTITY) AS TOTAL_QUANTITY
     FROM STOCKS_ENRICHED
@@ -455,6 +455,65 @@ CREATE TABLE total_stock_purchased AS
 <div align="center">
     <img src="images/total-bought-select-results.png" width=75% height=75%>
 </div>
+
+***
+
+## <a name="step-10"></a> Windowing Operations and Fraud Detection
+
+You will walk through a few examples on how to use ksqlDB for Windowing, including how to use it for anomaly or fraud detection. ksqlDB enables aggregation operations on streams and tables, as you saw in the previous step, and you have the ability to set time boundaries named windows. A window has a start time and an end time, which you access in your queries by using `WINDOWSTART` and `WINDOWEND`. When using Windowing, aggregate functions are applied only to the records that occur within the specified time window. ksqlDB tracks windows per record key.
+
+There are a few different Windowing operations you can use with ksqlDB. You can learn more about them [here](https://docs.ksqldb.io/en/latest/concepts/time-and-windows-in-ksqldb-queries/#window-types).
+
+1. In the ksqlDB **Editor**, paste the following command in order to create a windowed table named **stocks_purchased_5min_window_tumbling** from the **stocks_topic**. You can set the size of the window to any duration. Set it to 5 minutes in this example.
+
+```sql
+CREATE TABLE stocks_purchased_5min_window_tumbling WITH (KAFKA_TOPIC='stocks_purchased_5min_window_tumbling') AS
+    SELECT symbol,
+           COUNT(*) AS quantity
+    FROM stocks_enriched
+    WINDOW TUMBLING (SIZE 5 MINUTES)
+    GROUP BY symbol;
+```
+
+2. Once you have created the windowed table, use the **Editor** or the **Tables** tab to query the table. If you construct the statement on your own, make sure it looks like the following. 
+
+```sql
+SELECT * FROM stocks_purchased_5min_window_tumbling EMIT CHANGES;
+```
+
+* The output should be similar to the following.
+
+<div align="center">
+    <img src="images/today-bought-select-results.png" width=75% height=75%>
+</div>
+
+3. Going along with the theme of fraud detection, create a table named **accounts_to_monitor** with accounts to monitor based on their activity during a given time frame. In the ksqlDB **Editor**, paste the following statement and run the query.
+
+```sql
+CREATE TABLE accounts_to_monitor WITH (KAFKA_TOPIC='accounts_to_monitor') AS
+    SELECT TIMESTAMPTOSTRING(WINDOWSTART, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_START,
+           TIMESTAMPTOSTRING(WINDOWEND, 'yyyy-MM-dd HH:mm:ss Z') AS WINDOW_END,
+           ACCOUNT,
+           COUNT(*) AS quantity
+    FROM STOCKS_ENRICHED
+    WINDOW TUMBLING (SIZE 5 MINUTES)
+    GROUP BY ACCOUNT
+    HAVING COUNT(*) > 10;
+```
+
+4. Once you have created the **ACCOUNTS_TO_MONITOR** table, use either the **Editor** or the **Tables** tab to query the data from the table. If you construct the statement on your own, make sure it looks like the following.
+
+```sql
+SELECT * FROM ACCOUNTS_TO_MONITOR EMIT CHANGES;
+```
+
+* The output from this query should look like the following. 
+
+<div align="center">
+    <img src="images/accounts-to-monitor-select-results.png" width=75% height=75%>
+</div>
+
+***
 
 
 

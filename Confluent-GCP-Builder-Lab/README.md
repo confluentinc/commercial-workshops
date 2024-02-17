@@ -411,6 +411,52 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
 </div>
 
 
+***
+
+## <a name="step-9"></a>Aggregate Data
+
+ksqlDB supports several aggregate functions, like `COUNT` and `SUM`, and you can use these to build stateful aggregates on streaming data. In this step, you will walk through some key examples on different ways you can aggregate your data.
+
+1. First, aggregate the data by counting buys and sells of stocks. Navigate back to the Editor and paste the following query to create a new table named **number_of_times_stock_bought**.
+
+```sql
+CREATE TABLE number_of_times_stock_bought AS
+    SELECT SYMBOL,
+           COUNT(QUANTITY) AS total_times_bought
+    FROM STOCKS_STREAM
+    WHERE side = 'BUY'
+    GROUP BY SYMBOL
+EMIT CHANGES;
+```
+2. Next, query this table by going to the **Tables** tab and selecting the query option or typing it directly into the **Editor**. You can also choose to set `auto.offset.reset=earliest`. If you write the statement yourself, make sure it looks like the following.
+
+```sql
+SELECT * FROM NUMBER_OF_TIMES_STOCK_BOUGHT EMIT CHANGES; 
+```
+
+* The results should look something like the following.
+
+<div align="center">
+    <img src="images/times-bought-select-results.png" width=75% height=75%>
+</div>
+
+3. Next, create a table that calculates the total number of stocks purchased per symbol. You can choose to set `auto.offset.reset=earliest`.
+
+```sql
+CREATE TABLE total_stock_purchased AS
+    SELECT symbol,
+           SUM(QUANTITY) AS TOTAL_QUANTITY
+    FROM STOCKS_ENRICHED
+	WHERE SIDE = 'BUY'
+    GROUP BY SYMBOL;
+```
+* Running this query should return something that looks similar to the following.
+
+<div align="center">
+    <img src="images/total-bought-select-results.png" width=75% height=75%>
+</div>
+
+
 
 
 

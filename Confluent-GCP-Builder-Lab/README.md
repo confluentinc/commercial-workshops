@@ -622,8 +622,44 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
     <img src="images/bigquery-8.png" width=75% height=75%>
 </div>
 
+***
 
+## <a name="step-13"></a>Clean Up Resources
 
+Deleting the resources you created during this workshop will prevent you from incurring additional charges.
+
+1. The first item to delete is the ksqlDB application. Select the Delete button under Actions and enter the Application Name to confirm the deletion.
+
+<div align="center">
+    <img src="images/delete-ksqldb.png" width=75% height=75%>
+</div>
+
+2. Delete the BigQuery sink connector by navigating to **Connectors** in the navigation panel, clicking your connector name, then clicking the trash can icon in the upper right and entering the connector name to confirm the deletion.
+
+<div align="center">
+    <img src="images/delete-connector.png" width=75% height=75%>
+</div>
+
+3. Next, delete the Datagen Source connectors for **users** and **stocks**. 
+
+4. Delete the Cluster by going to the **Settings** tab and then selecting **Delete cluster**.
+
+<div align="center">
+    <img src="images/delete-cluster.png" width=75% height=75%>
+</div>
+
+5. Delete the Environment by expanding right hand menu and going to **Environments** tab and then clicking on **Delete** for the associated Environment you would like to delete
+
+*** 
+
+## <a name="step-14"></a>Confluent Resources and Further Testing
+
+Here are some links to check out if you are interested in further testing:
+- [ksqlDB Tutorials](https://kafka-tutorials.confluent.io/)
+- [ksqlDB: The Event Streaming Database, Purpose-Build for Stream Processing](https://ksqldb.io/)
+- [Streams and Tables in Apache Kafka: A Primer](https://www.confluent.io/blog/kafka-streams-tables-part-1-event-streaming/)
+- [Confluent Cloud Documentation](https://docs.confluent.io/cloud/current/overview.html)
+- [Best Practices for Developing Apache Kafka Applications on Confluent Cloud](https://assets.confluent.io/m/14397e757459a58d/original/20200205-WP-Best_Practices_for_Developing_Apache_Kafka_Applications_on_Confluent_Cloud.pdf)
 
 
 

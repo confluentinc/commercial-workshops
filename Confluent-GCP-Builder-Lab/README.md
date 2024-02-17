@@ -539,6 +539,62 @@ SELECT * FROM STOCKS_ENRICHED
 	EMIT CHANGES;
 ```
 
+***
+
+## <a name="step-12"></a>Connect BigQuery sink to Confluent Cloud
+
+The next step is to sink data from Confluent Cloud into BigQuery using the [fully-managed BigQuery Sink connector](https://docs.confluent.io/cloud/current/connectors/cc-gcp-bigquery-storage-sink.html). The connector will send real time data on **accounts_to_monitor** into BigQuery.
+
+1. First, you will create the connector that will automatically create a BigQuery table and populate that table with the data from the promotions topic within Confluent Cloud. From the Confluent Cloud UI, click on the Connectors tab on the navigation menu and select **+Add connector**. Search and click on the BigQuery Sink icon.
+
+<div align="center">
+    <img src="images/bigquery-1.png" width=100% height=100%>
+</div>
+
+2. Enter the following configuration details. The remaining fields can be left blank.
+
+<div align="center">
+
+| Setting                | Value                              |
+|------------------------|------------------------------------|
+| `Topics`               | accounts_to_monitor                |
+| `Name`                 | BigQueryStorageSinkConnector_accounts_to_monitor    |
+| `Input message format` | Avro                               |
+| `Kafka API Key`        | From step 5                        |
+| `Kafka API Secret`     | From step 5                        |
+| `GCP credentials file` | Upload_your_GCP_Credentials_file   |
+| `Project ID`           | your_GCP_project_ID                |
+| `Dataset`              | your_GCP_dataset_name              |
+| `Sanitize topics`      | true                               |
+| `Sanitize field names` | true                               |
+| `Auto create tables`   | PARTITION by INGESTION TIME        |
+| `Partitioning type`    | DAY                                |
+| `Tasks`                | 1                                  |
+
+</div>
+
+<div align="center">
+    <img src="images/bigquery-2.png" width=100% height=100%>
+</div>
+
+<br>
+
+<div align="center">
+    <img src="images/bigquery-3.png" width=100% height=100%>
+</div>
+
+3. Click on **Next**.
+
+4. Before launching the connector, you will be brought to the summary page.  Once you have reviewed the configs and everything looks good, select **Launch**.
+
+<div align="center">
+    <img src="images/bigquery-4.png" width=100% height=100%>
+</div>
+
+5. This should return you to the main Connectors landing page. Wait for your newly created connector to change status from **Provisioning** to **Running**.
+
+7. Shortly after, please switch over to the BigQuery page within Google Console to show that a table matching the topic name you used when creating the BigQuery connector in Confluent Cloud has been created within the dataset that you have provided.  Clicking the table name should open a BigQuery editor for it:
+
 
 
 

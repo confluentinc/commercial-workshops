@@ -304,8 +304,17 @@ CREATE STREAM stocks_stream (
     account varchar, 
     userid varchar
 ) 
-WITH (kafka_topic='stocks_topic', value_format='JSON');
+WITH (kafka_topic='stocks_topic', value_format='AVRO');
 ```
+
+<div align="center">
+    <img src="images/ksqldb-1.png" width=75% height=75%>
+</div>
+
+<div align="center">
+    <img src="images/ksqldb-2.png" width=75% height=75%>
+</div>
+
 
 3. Next, go to the **Streams** tab at the top and click on **STOCKS_STREAM**. This provides information on the stream, output topic (including replication, partitions, and key and value serialization), and schemas.
 

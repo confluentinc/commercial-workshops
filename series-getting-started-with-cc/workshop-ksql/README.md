@@ -336,7 +336,7 @@ SELECT * FROM USERS EMIT CHANGES;
 
 ***
 
-## <a name="step-10"></a>Create a Persistent Query
+## <a name="step-8"></a>Create a Persistent Query
 
 A *Persistent Query* runs indefinitely as it processes rows of events and writes to a new topic. You can create persistent queries by deriving new streams and new tables from existing streams or tables.
 
@@ -377,13 +377,6 @@ SELECT * FROM STOCKS_ENRICHED EMIT CHANGES;
     <img src="images/stocks-enriched-topic.png" width=75% height=75%>
 </div>
 
-5. Navigate to **Consumers** on the left hand menu and find the group that corresponds with your **STOCKS_ENRICHED** stream. See the screenshot below as an example. This view shows how well your persistent query is keeping up with the incoming data. You can monitor the consumer lag, current and end offsets, and which topics it is consuming from.
-
-<div align="center">
-    <img src="images/ksql-consumer.png" width=75% height=75%>
-</div>
-
-***
 
 ## <a name="step-9"></a>Aggregate Data
 

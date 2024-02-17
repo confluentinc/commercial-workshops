@@ -550,7 +550,7 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 1. First, you will create the connector that will automatically create a BigQuery table and populate that table with the data from the promotions topic within Confluent Cloud. From the Confluent Cloud UI, click on the Connectors tab on the navigation menu and select **+Add connector**. Search and click on the BigQuery Sink icon.
 
 <div align="center">
-    <img src="images/bigquery-1.png" width=50% height=50%>
+    <img src="images/bigquery-1.png" width=30% height=30%>
 </div>
 
 2. Enter the following configuration details. The remaining fields can be left blank.

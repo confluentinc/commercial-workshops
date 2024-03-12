@@ -347,18 +347,18 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 <div align="center">
 
-| Setting            | Value                        |
+| Setting                | Value                                   |
 |------------------------|-----------------------------------------|
-| `Topics`      | pksqlc-...ABC_PROMOTIONS |
-| `Name`              | BigQuerySinkConnector                 |
-| `Input message format`           | Avro            |
-| `Kafka API Key`    | From step 6           |
-| `Kafka API Secret` | From step 6              |
-| `GCP credentials file`    | Upload_your_GCP_Credentials_file            |
-| `Project ID`    | Will be provided during workshop          |
-| `Dataset`    | Will be provided during workshop          |
-| `Auto create tables`    | True          |
-| `Tasks`    | 1             |
+| `Topics`               | pksqlc-...ABC_PROMOTIONS                |
+| `Name`                 | BigQuerySinkConnector                   |
+| `Input message format` | Avro                                    |
+| `Kafka API Key`        | From step 6                             |
+| `Kafka API Secret`     | From step 6                             |
+| `GCP credentials file` | Upload_your_GCP_Credentials_file        |
+| `Project ID`           | your GCP Project ID                     |
+| `Dataset`              | your GCP Dataset Name                   |
+| `Auto create tables`   | True                                    |
+| `Tasks`                | 1                                       |
 
 </div>
 

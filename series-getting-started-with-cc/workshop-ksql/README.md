@@ -106,7 +106,8 @@ An environment contains clusters and its deployed components such as Connectors,
 
 1. On the navigation menu, select **ksqlDB** and click **Create Application Myself**. 
 2. Select **Global Access** and then **Continue**.
-3. Name you ksqlDB application and set the streaming units to **4**. Click **Launch Application!**
+3. Name you ksqlDB application and set the streaming units to **4**.
+4. Click **Launch Application!**
 
 > **Note:** A Confluent Streaming Unit is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the size of your kSQL cluster and scales linearly. 
 

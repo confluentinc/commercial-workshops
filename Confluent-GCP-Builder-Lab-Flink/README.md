@@ -484,7 +484,7 @@ FROM stocks_topic
 WHERE side = 'BUY'
 GROUP BY symbol
 ```
-7. Running query to the number_of_times_stock_bought table. 
+7. Add Flink Statement windows by click (+). Running query to the number_of_times_stock_bought table. 
 ```sql
 select * from number_of_times_stock_bought;
 ```
@@ -516,7 +516,7 @@ FROM stocks_topic
 WHERE side = 'BUY'
 GROUP BY symbol
 ```
-11. Check the result by running query to the total_stock_purchased table. 
+11. Add Flink Statement windows by click (+). Check the result by running query to the total_stock_purchased table. 
 ```sql
 select * from total_stock_purchased;
 ```
@@ -587,14 +587,14 @@ FROM TABLE(
 GROUP BY symbol,window_end,window_start;
 ```
 
-3. Once you have created the windowed table, and you have inserted the data , use the Flink Workspace to query the table. If you construct the statement on your own, make sure it looks like the following..
+3. Add Flink Statement windows by click (+). Once you have created the windowed table, and you have inserted the data , use the Flink Workspace to query the table. If you construct the statement on your own, make sure it looks like the following..
 ```sql
 select * from stocks_purchased_today
 ```
 
-4. Going along with the theme of fraud detection, create a table named accounts_to_monitor with accounts to monitor based on their activity during a given time frame. In the Flink Workspace , paste the following statement and run the query.
+4. Going along with the theme of fraud detection, create a table named accounts_to_monitor with accounts to monitor based on their activity during a given time frame. In the Flink Workspace , paste the following statement and run the query. Change XXX with your random number.
 ```sql
-CREATE TABLE accounts_to_monitor(
+CREATE TABLE accounts_to_monitor_XXX(
   window_start TIMESTAMP,
   window_end TIMESTAMP,
   account STRING,
@@ -606,7 +606,7 @@ CREATE TABLE accounts_to_monitor(
 ```
 5. Insert data into the new table created above.
 ```sql
-INSERT INTO accounts_to_monitor
+INSERT INTO accounts_to_monitor_XXX
 SELECT window_start,
   window_end,
   account,     
@@ -616,9 +616,9 @@ FROM TABLE(
 GROUP BY window_end,window_start,account
 HAVING COUNT(*)>10;
 ```
-6. Verify the result.
+6. Add Flink Statement windows by click (+). Verify the result.
   ```sql
-Select * from  accounts_to_monitor;
+Select * from  accounts_to_monitor_XXX;
 ``` 
 ***
 
@@ -630,14 +630,14 @@ Building on our Fraud Detection example from the last step, let’s say our frau
 1. In the Flink Statement Editor. We run this query in the Editor to see how our accounts are behaving.  
 
 ```sql
-SELECT * FROM accounts_to_monitor
-     WHERE QUANTITY > 100;
+SELECT * FROM accounts_to_monitor_XXX
+     WHERE quantity > 100;
 ```
 2. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our **STOCKS_ENRICHED** stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
 
 ```sql
 SELECT * FROM stocks_trades_enriched_user_detail 
-	WHERE ACCOUNT = 'ABC123';
+	WHERE account = 'ABC123';
 ```
 
 ***
@@ -658,19 +658,23 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 | Setting                | Value                              |
 |------------------------|------------------------------------|
-| `Topics`               | accounts_to_monitor                |
-| `Name`                 | BigQueryStorageSinkConnector_accounts_to_monitor    |
-| `Input message format` | Avro                               |
+| `Topics `              | accounts_to_monitor_XXX            |
 | `Kafka API Key`        | From step 5                        |
 | `Kafka API Secret`     | From step 5                        |
-| `GCP credentials file` | Upload_your_GCP_Credentials_file   |
-| `Project ID`           | your_GCP_project_ID                |
-| `Dataset`              | your_GCP_dataset_name              |
-| `Sanitize topics`      | true                               |
-| `Sanitize field names` | true                               |
-| `Auto create tables`   | PARTITION by INGESTION TIME        |
+| `Authentication method`| Google cloud service account       |
+| `GCP Credential file`  | Upload your_gcp_credential_json_file |
+| `Project ID `          | your_project_ID                    |
+| `Dataset`		 | accounts_to_monitor                |
+| `Ingestion Mode`       | streaming                          |
+| `Input Kafka format`   | AVRO                               |
+| `Sanitze topics `      | true                               |
+| `Sanitize field name`  | true                               |
+| `Auto create table`    | PARTITION by INGESTION TIME        |
 | `Partitioning type`    | DAY                                |
+| `Max poll interval (ms)`| 60000                              |
 | `Tasks`                | 1                                  |
+| `Name`                 | BigQueryStorageSinkConnector_accounts_to_monitor    |
+
 
 </div>
 

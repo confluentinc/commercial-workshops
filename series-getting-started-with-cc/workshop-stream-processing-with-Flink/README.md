@@ -2,7 +2,7 @@
     <img src="images/confluent.png" width=50% height=50%>
 </div>
 
-# <div align="center">Enable Real-Time Data Transformations and Stream Processing with Flink</div>
+# <div align="center">Enable Real-Time Data Transformations and Stream Processing with Apache Flink</div>
 
 <br>
 

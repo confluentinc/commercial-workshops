@@ -488,9 +488,7 @@ CREATE TABLE shoe_customers_keyed (
   last_name STRING,
   email STRING,
   PRIMARY KEY (customer_id) NOT ENFORCED
-) WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED BY (customer_id) INTO 3 BUCKETS;
 ```
 
 2. Compare the new table `shoe_customers_keyed` with `shoe_customers`.
@@ -549,9 +547,7 @@ CREATE TABLE shoe_products_keyed(
   sale_price INT,
   rating DOUBLE,
   PRIMARY KEY (product_id) NOT ENFORCED
-) WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED BY (product_id) INTO 3 BUCKETS;
 ```
 
 8. Create a new Flink job to copy product data from the original table to the new table. 
@@ -676,8 +672,8 @@ CREATE TABLE shoe_orders_enriched_customer_product(
   `model` STRING,
   sale_price INT,
   rating DOUBLE
-) WITH (
-    'kafka.partitions' = '3',
+) DISTRIBUTED BY (order_id) INTO 3 BUCKETS
+WITH (
     'changelog.mode' = 'retract'
 );
 ```
@@ -751,9 +747,7 @@ CREATE TABLE shoe_loyalty_levels(
   total BIGINT,
   loyalty_level STRING,
   PRIMARY KEY (email) NOT ENFORCED
-) WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED BY (email) INTO 3 BUCKETS ;
 ```
 
 3. Insert the calculated loyal levels into the new table.
@@ -819,9 +813,7 @@ CREATE TABLE shoe_promotions(
   email STRING,
   promotion_name STRING,
   PRIMARY KEY (email) NOT ENFORCED
-)WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED BY (email) INTO 3 BUCKETS;
 ```
 
 4. Insert all the promotional information to the shoe_promotions table.  

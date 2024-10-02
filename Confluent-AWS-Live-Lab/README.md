@@ -673,7 +673,7 @@ AS SELECT
   sc.last_name,
   sc.email,
   sp.brand,
-  sp.`model`,
+  sp.`name`,
   sp.sale_price,
   sp.rating
 FROM 

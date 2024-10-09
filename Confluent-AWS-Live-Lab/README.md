@@ -841,6 +841,27 @@ confluent login
 confluent flink connection create my-connection --cloud aws --region ap-southeast-2 --type bedrock --endpoint https://bedrock-runtime.us-west-2.amazonaws.com/model/anthropic.claude-3-sonnet-20240229-v1:0/invoke --aws-access-key <API Key> --aws-secret-key <API Secret>
 ```
 
+> **Note:** If you doesn't have any user you could check the step below to create user with full access to Bedrock and creating API key and secret. You could skip this step if you already have user and api key with full access to bedrock.
+
+>Go to **AWS IAM>User** and create User
+<div align="center">
+    <img src="images/bedrock0-1.png" width=100% height=100%>
+</div>
+
+>Create User with attach policies for Bedrock Full Access
+<div align="center">
+    <img src="images/bedrock0-2.png" width=100% height=100%>
+</div>
+
+<div align="center">
+    <img src="images/bedrock0-3.png" width=100% height=100%>
+</div>
+
+>Create API Key by search your user that has been created and click on the "Create Access Key"
+<div align="center">
+    <img src="images/bedrock0-4.png" width=100% height=100%>
+</div>
+
 <div align="center">
     <img src="images/bedrock-1.png" width=100% height=100%>
 </div>

@@ -81,38 +81,26 @@ An environment contains clusters and its deployed components such as Apache Flin
     <img src="images/environment.png" width=50% height=50%>
 </div>
 
-2. Select **Essentials** for Stream Governance Packages, click **Begin configuration**.
-
-<div align="center" padding=25px>
-    <img src="images/stream-governance-1.png" width=50% height=50%>
-</div>
-
-3. Select **AWS Sydney Region** for Stream Governance Essentials, click **Continue**.
-
-<div align="center" padding=25px>
-    <img src="images/stream-governance-2.png" width=50% height=50%>
-</div>
-
-4. Now that you have an environment, click **Create Cluster**. 
+2. Now that you have an environment, click **Create Cluster**. 
 
 > **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so you will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
-5. Chose the **Basic** cluster type. 
+3. Chose the **Basic** cluster type. 
 
 <div align="center" padding=25px>
     <img src="images/cluster-type.png" width=50% height=50%>
 </div>
 
-6. Click **Begin Configuration**. 
-7. Choose your preferred Cloud Provider (AWS, GCP, or Azure), region, and availability zone. 
-8. Specify a **Cluster Name**. For the purpose of this lab, any name will work here. 
+4. Click **Begin Configuration**. 
+5. Choose your preferred Cloud Provider (AWS, GCP, or Azure), region, and availability zone. 
+6. Specify a **Cluster Name**. For the purpose of this lab, any name will work here. 
 
 <div align="center" padding=25px>
     <img src="images/create-cluster.png" width=50% height=50%>
 </div>
 
-9. View the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* information before launching. 
-10. Click **Launch Cluster**. 
+7. View the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* information before launching. 
+8. Click **Launch Cluster**. 
 
 ***
 

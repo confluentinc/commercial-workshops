@@ -8,15 +8,14 @@
 ## **Agenda**
 1. [Log Into Confluent Cloud](#step-1)
 1. [Create an Environment and Cluster](#step-2)
-1. [Create a Schema Registry Instance](#step-3)
-1. [Setup ksqlDB](#step-4)
-1. [Create a Topic using the Cloud UI](#step-5)
-1. [Create an API Key Pair](#step-6)
-1. [Connect mongoDB Atlas source to Confluent Cloud](#step-7)
-1. [Cloud Dashboard Walkthrough](#step-8)
-1. [Create Streams and Tables using ksqlDB](#step-9)
-1. [Stream Processing with ksqlDB](#step-10)
-1. [Connect BigQuery sink to Confluent Cloud](#step-11)
+1. [Setup ksqlDB](#step-3)
+1. [Create a Topic using the Cloud UI](#step-4)
+1. [Create an API Key Pair](#step-5)
+1. [Connect mongoDB Atlas source to Confluent Cloud](#step-6)
+1. [Cloud Dashboard Walkthrough](#step-7)
+1. [Create Streams and Tables using ksqlDB](#step-8)
+1. [Stream Processing with ksqlDB](#step-9)
+1. [Connect BigQuery sink to Confluent Cloud](#step-10)
 1. [Clean Up Resources](#step-11)
 1. [Confluent Resources and Further Testing](#confluent-resources-and-further-testing)
 
@@ -87,21 +86,8 @@ An environment contains Confluent clusters and its deployed components such as C
 
 ***
 
-## <a name="step-3"></a>Step 3: Create a Schema Registry Instance
 
-A topic contains messages, and each message is a key-value pair. The message key or the message value (or both) can be serialized as JSON, Avro, or Protobuf. A schema defines the structure of the data format.
-
-Confluent Cloud Schema Registry is used to manage schemas and it defines a scope in which schemas can evolve. It stores a versioned history of all schemas, provides multiple compatibility settings, and allows schemas to evolve according to these compatibility settings. It is also fully-managed.
-
-You will be exploring Confluent Cloud Schema Registry in more detail towards the end of the workshop. First, you will need to enable Schema Registry within your environment.
-
-1. Return to your environment by clicking on the Confluent icon at the top left corner and then clicking your environment tile.
-
-1. Click on **Schema Registry**. Select your cloud provider and region, and then click on **Enable Schema Registry**.
-
-***
-
-## <a name="step-4"></a>Step 4: Setup ksqlDB
+## <a name="step-3"></a>Step 3: Setup ksqlDB
 
 1. On the navigation menu, select **ksqlDB** and click **Create application myself**.
 
@@ -114,7 +100,7 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 
 ***
 
-## <a name="step-5"></a>Step 5: Create a Topic using the Cloud UI
+## <a name="step-4"></a>Step 4: Create a Topic using the Cloud UI
 
 1. On the navigation menu, select **Topics** and click **Create Topic**.
     > **Note:** Refresh the page if your cluster is still spinning up.
@@ -129,7 +115,7 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 ***
 
 
-## <a name="step-6"></a>Step 6: Create an API Key Pair
+## <a name="step-5"></a>Step 5: Create an API Key Pair
 
 1. Select **API keys** on the navigation menu.
 
@@ -143,7 +129,7 @@ You will be exploring Confluent Cloud Schema Registry in more detail towards the
 
 ***
 
-## <a name="step-7"></a>Step 7: Connect mongoDB Atlas to Confluent Cloud
+## <a name="step-6"></a>Step 6: Connect mongoDB Atlas to Confluent Cloud
 
 The next step is to source data from mongoDB using the [fully-managed mongoDB Atlas Source connector] (https://docs.confluent.io/cloud/current/connectors/cc-mongo-db-source.html). The connector will send real time data on clicks, inventory, and transactions to Confluent Cloud.
 
@@ -178,13 +164,13 @@ The next step is to source data from mongoDB using the [fully-managed mongoDB At
 
 ***
 
-## <a name="step-8"></a>Step 8: Cloud Dashboard Walkthrough
+## <a name="step-7"></a>Step 7: Cloud Dashboard Walkthrough
 
 This section will be conducted by the workshop instructor.  You can find additional information on the Cloud Dashboard [here](https://docs.confluent.io/cloud/current/overview.html) and [here](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html).
 
 ***
 
-## <a name="step-9"></a>Step 9: Create Streams and Tables using ksqlDB
+## <a name="step-8"></a>Step 8: Create Streams and Tables using ksqlDB
 
 Now that you have data flowing through Confluent, you can now easily build stream processing applications using ksqlDB. You are able to continuously transform, enrich, join, and aggregate your data using simple SQL syntax. You can gain value from your data directly from Confluent in real-time. Also, ksqlDB is a fully managed service within Confluent Cloud with a 99.9% uptime SLA. You can now focus on developing services and building your data pipeline while letting Confluent manage your resources for you.
 
@@ -284,7 +270,7 @@ SELECT * FROM INVENTORY EMIT CHANGES;
 
 ***
 
-## <a name="step-10"></a>Step 10: Stream Processing with ksqlDB
+## <a name="step-9"></a>Step 9: Stream Processing with ksqlDB
 
 1. Create a **PRODUCT_TXN_PER_HOUR** table based on the **INVENTORY** table and **TRANSACTIONS** stream.  Make sure to first set 'auto.offset.reset' = 'earliest' before running the query.
 
@@ -337,7 +323,7 @@ SELECT * FROM ABC_PROMOTIONS EMIT CHANGES;
 
 ***
 
-## <a name="step-11"></a>Step 11: Connect BigQuery sink to Confluent Cloud
+## <a name="step-10"></a>Step 10: Connect BigQuery sink to Confluent Cloud
 
 The next step is to sink data from Confluent Cloud into BigQuery using the [fully-managed BigQuery Sink connector](https://docs.confluent.io/cloud/current/connectors/cc-gcp-bigquery-sink.html). The connector will send real time data on promotions into BigQuery.
 
@@ -374,7 +360,7 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 ***
 
-## <a name="step-12"></a>Step 12: Clean Up Resources
+## <a name="step-11"></a>Step 11: Clean Up Resources
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges.
 

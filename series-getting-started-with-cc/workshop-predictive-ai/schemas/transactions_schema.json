@@ -1,0 +1,29 @@
+{
+    "properties": {
+      "amount": {
+        "connect.index": 3,
+        "connect.type": "int32",
+        "type": "integer"
+      },
+      "credit_card_number": {
+        "connect.index": 2,
+        "connect.type": "int64",
+        "type": "integer"
+      },
+      "location": {
+        "connect.index": 4,
+        "type": "string"
+      },
+      "transaction_id": {
+        "connect.index": 0,
+        "connect.type": "int32",
+        "type": "integer"
+      },
+      "transaction_timestamp": {
+        "connect.index": 1,
+        "type": "string"
+      }
+    },
+    "title": "TransactionRecord",
+    "type": "object"
+}

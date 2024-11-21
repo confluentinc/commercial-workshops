@@ -1,0 +1,10 @@
+{
+    "title": "FraudulentTransactionsRecord",
+    "type": "object",
+    "properties": {
+      "details": {
+        "connect.index": 0,
+        "type": "string"
+      }
+    }
+}

@@ -1,0 +1,48 @@
+{
+  "type": "record",
+  "name": "CustomerRecord",
+  "namespace": "workshop_5",
+  "fields": [
+    {
+      "name": "customer_id",
+      "type": {
+        "type": "int",
+        "arg.properties": {
+          "iteration": {
+            "start": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "customer_email",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "alex.jose@gmail.com",
+            "james.joe@gmail.com",
+            "john.doe@gmail.com",
+            "lisa.kudrow@gmail.com",
+            "jeniffer.aniston@gmail.com",
+            "ross.geller@gmail.com",
+            "joey.tribbiani@gmail.com",
+            "courtney.cox@gmail.com"
+          ]
+        }
+      }
+    },
+    {
+      "name": "average_spending_amount",
+      "type": {
+        "type": "int",
+        "arg.properties": {
+          "range": {
+            "min": 1000,
+            "max": 1500
+          }
+        }
+      }
+    }
+  ]
+}

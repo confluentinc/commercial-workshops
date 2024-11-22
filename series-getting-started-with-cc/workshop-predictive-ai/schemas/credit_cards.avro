@@ -1,0 +1,42 @@
+{
+  "type": "record",
+  "name": "CreditCards",
+  "namespace": "workshop_5",
+  "fields": [
+    {
+      "name": "credit_card_number",
+      "type": {
+        "type": "long",
+        "arg.properties": {
+          "iteration": {
+            "start": 4738273984732749,
+            "step": 749384739937
+          }
+        }
+      }
+    },
+    {
+      "name": "customer_id",
+      "type": {
+        "type": "int",
+        "arg.properties": {
+          "iteration": {
+            "start": 100
+          }
+        }
+      }
+    },
+    {
+      "name": "maximum_limit",
+      "type": {
+        "type": "int",
+        "arg.properties": {
+          "range": {
+            "min": 10000,
+            "max": 50000
+          }
+        }
+      }
+    }
+  ]
+}

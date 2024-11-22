@@ -99,7 +99,7 @@ services:
         sleep infinity
 
   db:
-    image: debezium/example-postgres
+    image: debezium/example-postgres:2.7.3.Final
     hostname: postgres
     container_name: postgres
     ports:

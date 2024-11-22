@@ -1,0 +1,81 @@
+{
+    "properties": {
+      "average_spending_amount": {
+        "connect.index": 3,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "connect.type": "int32",
+            "type": "number"
+          }
+        ]
+      },
+      "customer_email": {
+        "connect.index": 0,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "total_amount": {
+        "connect.index": 1,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "connect.type": "int32",
+            "type": "number"
+          }
+        ]
+      },
+      "transaction_count": {
+        "connect.index": 2,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "connect.type": "int64",
+            "type": "number"
+          }
+        ]
+      },
+      "window_end": {
+        "connect.index": 5,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "connect.type": "int64",
+            "flink.type": "timestamp",
+            "flink.version": "1",
+            "type": "number"
+          }
+        ]
+      },
+      "window_start": {
+        "connect.index": 4,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "connect.type": "int64",
+            "flink.type": "timestamp",
+            "flink.version": "1",
+            "type": "number"
+          }
+        ]
+      }
+    },
+    "title": "Record",
+    "type": "object"
+  }

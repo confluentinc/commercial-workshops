@@ -344,7 +344,7 @@ The next step is to produce sample data using the Datagen Source connector. You 
 ***
 
 ## <a name="step-7"></a>Configure the clients.
-The next step is to run the producer to produce 100 transactions to the **transactions** topic.
+The next step is to run the producer to produce transaction records to the **transactions** topic.
 
 1. Open VS Code or any editor of your choice and open the github repository folder and run the following command
 ```bash
@@ -529,7 +529,7 @@ The next step is to create a consumer for feature set topic and predict the frau
 
 1. Update ```client.properties``` file with an additional configuration at the end of the file like following.
 ```bash
-auto.offset.reset=latest
+auto.offset.reset=earliest
 enable.auto.commit=false
 group.id=FraudDetectorApplication
 ```

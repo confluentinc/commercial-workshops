@@ -14,12 +14,12 @@ This is an example of a microservice ecosystem using the CQRS (Command and Query
 1. [Log Into Confluent Cloud](#step-1)
 1. [Create an Environment and Enable Stream Governance Essentials](#step-2)
 1. [Create a Cluster](#step-3)
-1. [Setup ksqlDB](#step-4)
+1. [Setup Flink](#step-4)
 2. [Create Topics using the Cloud UI](#step-5)
 1. [Create an API Key Pair](#step-6)
 1. [Prepare the config files and pre-requisites](#step-7)
 1. [Cloud Dashboard Walkthrough](#step-8)
-1. [Create Streams and Stream Processing ksqlDB](#step-9)
+1. [Create Streams and Stream Processing Flink](#step-9)
 2. [Run the Microservices](#step-10)
 1. [Using the webapp and chronology of events](#step-11)
 2. [View Stream Lineage](#step-12)
@@ -87,7 +87,7 @@ While event sourcing can be used to implement CQRS, it does not necessarily impl
 
 ### <div align="center">High level view</div>
 This pizza takeaway shop ecosystem was designed using Python and made simple for demo/learning purposes, basically the following are the app/microservices created:
-- Web application using the Flask lib (```webapp.py```) so users can login to, customise their pizza, order and follow up the status of their order. This webapp will be the Command portion of the CQRS pattern. To make it simpler a SQLite3 state store* is being used as the materialised view between Command and Query, however in a real life scenario that could be an in-memory data store or ksqlDB
+- Web application using the Flask lib (```webapp.py```) so users can login to, customise their pizza, order and follow up the status of their order. This webapp will be the Command portion of the CQRS pattern. To make it simpler a SQLite3 state store* is being used as the materialised view between Command and Query, however in a real life scenario that could be an in-memory data store or Flink
 - Once the pizza is ordered it will go through four microservices (following the same flow of a real pizza shop):
   - Assemble the pizza as per order (```msvc_assemble.py```)
   - Bake the pizza (```msvc_bake.py```)
@@ -111,15 +111,15 @@ Webapp and four microservices in action:
 
 ### <div align="center">Low level view</div>
 Detailed view of all microservices and to what Kafka topics their produce and are subscribed to:
-![image](static/images/docs/gen_architecture.png)
+![image](static/images/docs/microservices_2024_architecture.png)
 
 
-This workshop will be utilizing kafka cluster and ksqlDB running on Confluent Cloud. Microservices (python) and HTTP server will be running on your local machines. 
+This workshop will be utilizing kafka cluster and Flink running on Confluent Cloud. Microservices (python) and HTTP server will be running on your local machines. 
 ***
 
 ## **Objective**
 
-In this workshop you will learn how Confluent Cloud can enable you to design an Event Driven Microservices Application. During this workshop you’ll get hands-on experience with building out Confluent Cloud components; using a pre-built Python Microservices application to produce and consume data; transforming the data in real-time with ksqlDB. The use case will be centered around accepting Pizza order events and passing it on to the food preparation system and delivery system, updating the various levels of food preparation status to the customer and the delivery agent, update the orderstatus upon successful delivery.
+In this workshop you will learn how Confluent Cloud can enable you to design an Event Driven Microservices Application. During this workshop you’ll get hands-on experience with building out Confluent Cloud components; using a pre-built Python Microservices application to produce and consume data; transforming the data in real-time with Flink. The use case will be centered around accepting Pizza order events and passing it on to the food preparation system and delivery system, updating the various levels of food preparation status to the customer and the delivery agent, update the orderstatus upon successful delivery.
 
 By the end of this workshop, you will have a solid understanding of building microservices architectures with Kafka, enabling you to create scalable, robust, and event-driven systems.
 You will also learn how to get started with Confluent Cloud, and the resources available to assist with development.
@@ -139,7 +139,7 @@ This workshop is perfect for those looking to build Event Driven Architecture us
 
 ## <a name="step-2"></a>Step 2: Create an Environment and Enable Stream Governance Essentials
 
-An environment contains Confluent clusters and its deployed components such as Connect, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. Confluent has seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters.
+An environment contains Confluent clusters and its deployed components such as Connect, Flink, and Schema Registry. You have the ability to create different environments based on your company's requirements. Confluent has seen companies use environments to separate Development/Testing, Pre-Production, and Production clusters.
 
 1. Select **Environments** from the left side Navigation pane.
 2. Click **+ Add cloud environment**.
@@ -176,20 +176,21 @@ In case, if you navigated away and want to use an existing environment, You can 
 
 ***
 
-## <a name="step-4"></a>Step 4: Setup ksqlDB
+## <a name="step-4"></a>Step 4: Setup Flink
 
-1. On the left-side navigation menu, select **ksqlDB** and click **Create cluster myself**.
+1. Return to the Environments page. On the Environemts menu, select **Flink** and click **+ Add Compute Pool**.
 
-1. Select **Global Access** and then **Continue**.
+1. Select **Cloud Provider and Region** and then **Continue**.
 
-1. Name your ksqlDB application and set the cluster size to 1 CSU
+1. Name your Flink compute pool and set the cluster size to 10 CFU
 
-    > **Note:** A streaming unit, also known as a Confluent Streaming Unit (CSU), is the unit of pricing for Confluent Cloud ksqlDB. A CSU is an abstract unit that represents the linearity of performance.
+    > **Note:** A Confluent Flink Unit (CFU) is a logical unit of processing power that is used to measure the resources consumed by Confluent Cloud for Apache Flink. Each Flink statement consumes a minimum of 1 CFU-minute but may consume more depending on the needs of the workload. To learn more about how pricing works with CFU, check out this billing doc https://docs.confluent.io/cloud/current/flink/operate-and-deploy/flink-billing.html?ajs_aid=f69cba05-aef7-4966-811a-0a6108ca6205&ajs_uid=1518638. 
 
-1. Click **Launch cluster**!
+1. Click **Create**!
 
-    > **Note:** It may take few minutes for the cluster to be ready. Meanwhile, you can continue with the next steps.
-   ![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/25047846-299c-45a5-ba2a-0171b618b7c5)
+    > **Note:** It may take few minutes for the compute pool to be ready. Meanwhile, you can continue with the next steps.
+
+   ![image](static/images/flink_compute_pool_provisioning.png)
 
 ***
 
@@ -207,7 +208,7 @@ In case, if you navigated away and want to use an existing environment, You can 
 3. Click **Create with defaults**.
 4. If **Define a data contract** pop-up appears, choose **Skip**
 
-5. Repeat the above steps and create the following five topics with ```Number of partitions = 1```
+5. Repeat the above steps and create the following four topics with ```Number of partitions = 1```
 
    ```
    pizza-pending
@@ -222,12 +223,11 @@ In case, if you navigated away and want to use an existing environment, You can 
    pizza-delivered
    ```
    ```
-   pizza-status
-   ```
 
-    > Topic creation can be autoamted using API/ CLI/ Terraform and ksqlDB queries. This is not covered in this workshop.
+    > Topic creation can be autoamted using API/ CLI/ Terraform and Flink queries. This is not covered in this workshop.
 
 Your Topics page should like this now
+
 ![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/562a8658-5e18-4406-94c4-80b65dabc2d7)
 
 
@@ -287,133 +287,10 @@ On the system/laptop/instance where the microservices are expected to run
 This section will be conducted by the workshop instructor.  You can find additional information on the Cloud Dashboard [here](https://docs.confluent.io/cloud/current/overview.html) and [here](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html).
 
 ***
-
-## <a name="step-9"></a>Step 9: Create Streams and Stream Processing ksqlDB
-
-You can now easily build stream processing applications using ksqlDB. You are able to continuously transform, enrich, join, and aggregate your data using simple SQL syntax. You can gain value from your data directly from Confluent in real-time. Also, ksqlDB is a fully managed service within Confluent Cloud with a 99.9% uptime SLA. You can now focus on developing services and building your data pipeline while letting Confluent manage your resources for you.
-
-With ksqlDB, you have the ability to leverage streams and tables from your topics in Confluent. A stream in ksqlDB is a topic with a schema and it records the history of what has happened in the world as a sequence of events. Tables are similar to traditional RDBMS tables. If you’re interested in learning more about ksqlDB and the differences between streams and tables, I recommend reading these two blogs [here](https://www.confluent.io/blog/kafka-streams-tables-part-3-event-processing-fundamentals/) and [here](https://www.confluent.io/blog/how-real-time-stream-processing-works-with-ksqldb/).
-
-1. Navigate back to the ksqlDB tab and click on your ksqlDB Cluster name. This will bring us to the ksqlDB editor.
-
->**Note:** You can interact with ksqlDB through the Editor. You can create a stream by using the CREATE STREAM statement and a table using the CREATE TABLE statement.
-
-To write streaming queries against topics, you will need to register the topics with ksqlDB as a stream and/or table.
-
-2. Streams and tables are the two primary abstractions, they are referred to as collections. There are two ways of creating collections in ksqlDB:
-- directly from Kafka topics (source collections)
-- derived from other streams and tables (derived collections)
-
-  *Insert the following queries into the ksqlDB editor and click ‘**Run query**’ to execute
-**Source Collections**: The topics produced/consumed by the microservices need to be ingested by ksqlDB so they can be stream processed:
-```SQL
-CREATE STREAM IF NOT EXISTS PIZZA_ORDERED (
-    order_id VARCHAR KEY,
-    status INT,
-    timestamp BIGINT,
-    order STRUCT<
-        extra_toppings ARRAY<STRING>,
-        username STRING,
-        customer_id STRING,
-        sauce STRING,
-        cheese STRING,
-        main_topping STRING
-    >
-) WITH (
-    KAFKA_TOPIC = 'pizza-ordered',
-    VALUE_FORMAT = 'JSON',
-    TIMESTAMP = 'timestamp'
-);
-```
-The result should look like below with status = SUCCESS
-![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/7dbec68a-4171-49d0-8b1f-1f1bc64bcaed)
-
-Now, clear the Editor contents and repeat the above steps with the below queries.
-
-```SQL
-CREATE STREAM IF NOT EXISTS PIZZA_ASSEMBLED (
-    order_id VARCHAR KEY,
-    status INT,
-    baking_time INT,
-    timestamp BIGINT
-) WITH (
-    KAFKA_TOPIC = 'pizza-assembled',
-    VALUE_FORMAT = 'JSON',
-    TIMESTAMP = 'timestamp'
-);
-```
-
-```SQL
-CREATE STREAM IF NOT EXISTS PIZZA_BAKED (
-    order_id VARCHAR KEY,
-    status INT,
-    timestamp BIGINT
-) WITH (
-    KAFKA_TOPIC = 'pizza-baked',
-    VALUE_FORMAT = 'JSON',
-    TIMESTAMP = 'timestamp'
-);
-```
-
-```SQL
-CREATE STREAM IF NOT EXISTS PIZZA_DELIVERED (
-    order_id VARCHAR KEY,
-    status INT,
-    timestamp BIGINT
-) WITH (
-    KAFKA_TOPIC = 'pizza-delivered',
-    VALUE_FORMAT = 'JSON',
-    TIMESTAMP = 'timestamp'
-);
-```
-
-```SQL
-CREATE STREAM IF NOT EXISTS PIZZA_PENDING (
-    order_id VARCHAR KEY,
-    status INT,
-    timestamp BIGINT
-) WITH (
-    KAFKA_TOPIC = 'pizza-pending',
-    VALUE_FORMAT = 'JSON',
-    TIMESTAMP = 'timestamp'
-);
-```
-
-```SQL
-CREATE STREAM IF NOT EXISTS PIZZA_STATUS (
-    order_id VARCHAR KEY,
-    status INT,
-    timestamp BIGINT
-) WITH (
-    KAFKA_TOPIC='pizza-status',
-    VALUE_FORMAT='JSON',
-    TIMESTAMP='timestamp'
-);
-```
-
-If all the above six queries were executed correctly, you should see all the streams on the right-side of the page as shown below.
-![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/67cf9a90-cc51-4298-90f1-c5b0b1fe4cb7)
-
-
-**Derived Collections**: With the source collections created (streams) we can now extract the status field of each event and have them merged into a single topic/stream by creating persistent queries:
-```
-INSERT INTO PIZZA_STATUS SELECT order_id, status, timestamp FROM PIZZA_ORDERED EMIT CHANGES;
-INSERT INTO PIZZA_STATUS SELECT order_id, status, timestamp FROM PIZZA_ASSEMBLED EMIT CHANGES;
-INSERT INTO PIZZA_STATUS SELECT order_id, status, timestamp FROM PIZZA_BAKED EMIT CHANGES;
-INSERT INTO PIZZA_STATUS SELECT order_id, status, timestamp FROM PIZZA_DELIVERED EMIT CHANGES;
-INSERT INTO PIZZA_STATUS SELECT order_id, status, timestamp FROM PIZZA_PENDING EMIT CHANGES;
-```
-You should see 5 SUCCESS messages after executing the above query.
-Now, navigate to the **Flow** tab. You should see the topology as shown below. <br>
-
-![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/a92a4398-2f1a-4252-b947-ad2be9eee273)
-
-
-***
-## <a name="step-10"></a>Step 10: Run the Microservices
+## <a name="step-10"></a>Step 9: Run the Microservices
 
 <!--
-1. Run script to create topics*/ksqlDB streams: ```python3 run_me_first.py {KAFKA_CONFIG_FILE} {SYS_CONFIG_FILE}```
+1. Run script to create topics*/Flink streams: ```python3 run_me_first.py {KAFKA_CONFIG_FILE} {SYS_CONFIG_FILE}```
 - If files names were not changes run ```python3 run_me_first.py example.ini default.ini```
 -->
 
@@ -437,11 +314,72 @@ You should see an output similar to this
 >**Note:** In a real life scenario each microservice (consumer in a consumer group) could be instantiated for as many times as there are partitions to the topic, however that is just for demo/learning purposes, only one instance will be spawn. Also, for the simplicity of the demo, no Schema Registry is being used. That is not an ideal scenario as the "contract" between Producers and Consumers are "implicitly hard coded" other than being declared through the schema registry
 
 ***
+## <a name="step-10"></a>Step 10: Create Streams and Stream Processing Flink
 
+You can now easily build stream processing applications using Flink. Flink is a fully managed service within Confluent Cloud with a 99.9% uptime SLA. With Flink, you can perform complex event processing, develop event-driven applications, and implement accurate real-time analytics with its support for event time processing and stateful computations. Flink ensures fault tolerance and offers scalability to handle large datasets across distributed environments. Additionally, Flink facilitates complex data analytics with its Table API and SQL interface, making it a robust tool for a variety of data processing tasks, from monitoring and fraud detection to aggregating large volumes of data for insights, all in a timely and consistent manner. You can now focus on developing services and building your data pipeline while letting Confluent manage your resources for you. If you’re interested in learning more about Flink, I recommend reading this blog on building streaming apps with FlinkSQL Workspaces [here](https://www.confluent.io/blog/flink-sql-workspaces/).
+
+1. Navigate back to the Flink tab, hover over your Flink Compute Pool name and click **+ Add Compute Pool**. This will bring us to the Flink editor.
+
+>**Note:** You can interact with Flink through the Editor. You can create a Table by using the CREATE Table statement and an Insert using the INSERT statement.
+
+Before building any Flink jobs, you will need to assign both the Kafka environment with **USE CATALOG [catalog]** and the Kafka cluster with **USE [database]**.
+
+> **Note:** In Confluent Cloud, an environment is mapped to a Flink catalog, and a Kafka cluster is mapped to a Flink database.
+
+2. Developing streaming applications with Flink revolves around creating Tables and Inserting data into them. Every table in Flink is equivalent to a stream of events describing the changes that are being made to that table. Essentially, a stream is the changelog of a table, and every table is backed by a stream. In this example, we want to derive a unified view of our pizza operation status including: orders, assembly, baking, delivery, and pending. To achieve that, we will create a Flink statement with a UNION ALL joining all 5 Kafka topics (```pizza-ordered```, ```pizza-assembly```, ```pizza-baked```, ```pizza-delivered```, and ```pizza-pending```), resulting in a newly joined table (```pizza-status```). 
+
+  *Insert the following queries into the Flink editor and click ‘**Run**’ to execute. First we will create a table called `pizza-status` that we will insert and populate with the pizza data. 
+```SQL
+CREATE TABLE `pizza-status` (
+  orderid STRING, 
+  status INT, 
+  `timestamp` BIGINT,
+  PRIMARY KEY (orderid) NOT ENFORCED
+)
+```
+Now, add and create a new statement to insert the five Kafka topics into `pizza-status`. 
+
+```SQL
+INSERT INTO `pizza-status`
+SELECT 
+  CAST(`key` AS STRING) AS order_id, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.status') AS INT) AS status, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.timestamp') AS BIGINT) AS `timestamp`
+FROM `pizza-ordered`
+UNION ALL
+SELECT 
+  CAST(`key` AS STRING) AS order_id, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.status') AS INT) AS status, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.timestamp') AS BIGINT) AS `timestamp`
+FROM `pizza-assembled`
+UNION ALL
+SELECT 
+  CAST(`key` AS STRING) AS order_id, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.status') AS INT) AS status, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.timestamp') AS BIGINT) AS `timestamp`
+FROM `pizza-baked`
+UNION ALL
+SELECT 
+  CAST(`key` AS STRING) AS order_id, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.status') AS INT) AS status, 
+  CAST(JSON_VALUE(CAST(val AS STRING), '$.timestamp') AS BIGINT) AS `timestamp`
+FROM `pizza-delivered`;
+```
+And finally run a SELECT * statement.
+```SQL
+SELECT *
+FROM `pizza-status`;
+```
+Your result should look like this:
+
+![image](static/images/flink_pizza-status.png)
+> **Note:** `pizza-status` should be populated with data like this image AFTER you submit your pizza orders from the microservice pizza app in the following step.  
+
+***
 ## <a name="step-11"></a>Step 11: Using the webapp and chronology of events
 
 
-1. After starting all scripts and access the landing page (http://127.0.0.1:8000), customise your pizza and submit your order:
+1. After starting all scripts and access the landing page (http://127.0.0.1:8000), customize your pizza and submit your order:
 ![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/730c5346-bcc3-4dfc-83c4-194cfaf61421)
 
 <!--![image](static/images/docs/webapp_menu.png)-->
@@ -459,7 +397,7 @@ You should see an output similar to this
 
 <!--![image](static/images/docs/webapp_order_confirmation.png)-->
 
-4. The microservice **Deliver Pizza** (step 1/2) receives early warning about a new order by subscribing to topic ```pizza-ordered```. In a real life scenario it would get the ```customer_id``` data and query its data store (e.g., ksqlDB) and fetch the delivery address:
+4. The microservice **Deliver Pizza** (step 1/2) receives early warning about a new order by subscribing to topic ```pizza-ordered```. In a real life scenario it would get the ```customer_id``` data and query its data store (e.g., Flink) and fetch the delivery address:
 ```
 (msvc_delivery) INFO 21:00:18.516 - Subscribed to topic(s): pizza-ordered, pizza-baked
 (msvc_delivery) INFO 21:00:39.609 - Early warning to deliver order 'b32ad' to customer_id 'd94a6c43d9f487c1bef659f05c002213'
@@ -528,8 +466,6 @@ You should see an output similar to this
 <!--![image](static/images/docs/webapp_order_delivered.png)-->
 ![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/e5f2e39e-b8da-4f28-840f-b0800cd10187)
 
-
-
 ***
 ## <a name="step-12"></a>Step 12: View Stream Lineage
 
@@ -583,7 +519,7 @@ One very important element of any Kafka consumer is by handling OS signals to be
 
 Deleting the resources you created during this workshop will prevent you from incurring additional charges.
 
-1. The first item to delete is the ksqlDB application. Select the Delete button under Actions and enter the Application Name to confirm the deletion.
+1. The first item to delete is the Flink application. Select the Delete button under Actions and enter the Application Name to confirm the deletion.
 
 2. Delete the Cluster by going to the **Settings** tab and then selecting **Delete cluster**
 
@@ -600,11 +536,11 @@ Here are some links to check out if you are interested in further testing:
 
 * [Quickstart](https://docs.confluent.io/cloud/current/get-started/index.html) with Confluent Cloud
 
-* Confluent Cloud ksqlDB [Quickstart](https://docs.confluent.io/cloud/current/get-started/ksql.html)
+* Confluent Cloud Flink [Quickstart](https://docs.confluent.io/cloud/current/get-started/flink.html)
 
 * Confluent Cloud [Demos/Examples](https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html)
 
-*  ksqlDB [Tutorials](https://kafka-tutorials.confluent.io/)
+*  Flink [Tutorials](https://kafka-tutorials.confluent.io/)
 
 * Full repository of Connectors within [Confluent Hub](https://www.confluent.io/hub/)
 

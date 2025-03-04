@@ -108,10 +108,11 @@ AWS / Azure / GCP account - You will be creating a fully-managed sink connector 
      - AWS: [Access Keys](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
      - Azure: [Manage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal)
      - GCP:  [Creating and managing service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
+ **Note:** For AWS Key Pair ensure they are associated with Admin permissions for Buckets.
 
 
  - Bucket/Container Name - Create the object storage before the workshop and have the name of the bucket/container ready. Ensure that permissions on the Bucket are accessible by your Access Keys. 
-
+   **Note:** For the AWS Bucket deselect **Block all public access**
 
  - Region - Note which region you are deploying your object storage resource in. You will need to know during the workshop.
 

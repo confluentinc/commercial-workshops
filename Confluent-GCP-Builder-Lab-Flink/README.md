@@ -401,8 +401,7 @@ CREATE TABLE stocks_trades_enriched_user_detail(
   symbol STRING, 
   price INT, 
   account STRING
-) WITH (
-    'kafka.partitions' = '3',
+)  DISTRIBUTED INTO 3 BUCKETS WITH (
     'changelog.mode' = 'retract'
 );
 ```

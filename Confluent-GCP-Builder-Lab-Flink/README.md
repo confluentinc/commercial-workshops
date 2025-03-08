@@ -588,21 +588,21 @@ select * from stocks_purchased_today
 4. Going along with the theme of fraud detection, create a table named accounts_to_monitor with accounts to monitor based on their activity during a given time frame. In the Flink Workspace , paste the following statement and run the query. Change XXX with your random number.
 ```sql
 CREATE TABLE accounts_to_monitor_XXX(
-  w_start TIMESTAMP,
-  w_end TIMESTAMP,
+  window_start_key TIMESTAMP,
+  window_end_key TIMESTAMP,
   accountid STRING,
   window_start TIMESTAMP ,
   window_end TIMESTAMP,
   account STRING,
   quantity BIGINT,
-  PRIMARY KEY (w_start,w_end,accountid) NOT ENFORCED
+  PRIMARY KEY (window_start_key,window_end_key,accountid) NOT ENFORCED
 ) DISTRIBUTED INTO 3 BUCKETS;
 ```
 5. Insert data into the new table created above.
 ```sql
 INSERT INTO accounts_to_monitor_XXX
-SELECT window_start as w_start,
-  window_end as w_end,
+SELECT window_start as window_start_key,
+  window_end as window_end_key,
   account as accountid,
   window_start,
   window_end,

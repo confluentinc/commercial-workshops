@@ -401,8 +401,7 @@ CREATE TABLE stocks_trades_enriched_user_detail(
   symbol STRING, 
   price INT, 
   account STRING
-) WITH (
-    'kafka.partitions' = '3',
+)  DISTRIBUTED INTO 3 BUCKETS WITH (
     'changelog.mode' = 'retract'
 );
 ```
@@ -470,9 +469,7 @@ CREATE TABLE number_of_times_stock_bought(
   symbol STRING,
   total_times_bought BIGINT,
   PRIMARY KEY (symbol) NOT ENFORCED
-)WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
 6. Insert all the aggregate the data by counting buys of stocks to the number_of_times_stock_bought table. 
@@ -502,9 +499,7 @@ CREATE TABLE total_stock_purchased(
   symbol STRING,
   total_quantity BIGINT,
   PRIMARY KEY (symbol) NOT ENFORCED
-)WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
 10. Insert all the aggregate the data by counting buys of stocks to the number_of_times_stock_bought table. 
@@ -571,9 +566,7 @@ CREATE TABLE stocks_purchased_today(
   window_end TIMESTAMP,
   quantity BIGINT,
   PRIMARY KEY (symbol, window_start,window_end) NOT ENFORCED
-)WITH (
-     'kafka.partitions' = '3'
-);
+) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
 2. Insert data into the new table created above.
@@ -595,21 +588,25 @@ select * from stocks_purchased_today
 4. Going along with the theme of fraud detection, create a table named accounts_to_monitor with accounts to monitor based on their activity during a given time frame. In the Flink Workspace , paste the following statement and run the query. Change XXX with your random number.
 ```sql
 CREATE TABLE accounts_to_monitor_XXX(
-  window_start TIMESTAMP,
+  window_start_key TIMESTAMP,
+  window_end_key TIMESTAMP,
+  accountid STRING,
+  window_start TIMESTAMP ,
   window_end TIMESTAMP,
   account STRING,
   quantity BIGINT,
-  PRIMARY KEY (window_start,window_end,account) NOT ENFORCED
-)WITH (
-     'kafka.partitions' = '3'
-);
+  PRIMARY KEY (window_start_key,window_end_key,accountid) NOT ENFORCED
+) DISTRIBUTED INTO 3 BUCKETS;
 ```
 5. Insert data into the new table created above.
 ```sql
 INSERT INTO accounts_to_monitor_XXX
-SELECT window_start,
+SELECT window_start as window_start_key,
+  window_end as window_end_key,
+  account as accountid,
+  window_start,
   window_end,
-  account,     
+  account, 
   COUNT(*) AS quantity
 FROM TABLE(
   TUMBLE(TABLE stocks_topic, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))

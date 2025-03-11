@@ -37,7 +37,7 @@
 
 1. Create a Confluent Cloud Account.
     - Sign up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).
-    - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”, then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
+    - Once you have signed up and logged in, click on the menu icon at the upper right-hand corner, click on "Billing & payment", then enter payment details under "Payment details & contacts". A screenshot of the billing UI is included below.
 
 > [!Note]
 > You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get free credits to use in Confluent Cloud. This will cover the cost of resources created during the workshop. More details on the specifics can be found [here](https://www.confluent.io/confluent-cloud/tryfree/).
@@ -161,7 +161,7 @@ An environment contains clusters and its deployed components such as Apache Flin
 > [!Note]
 > **Cluster Overview**
 >
-> This section shows Cluster Metrics, such as *Throughput* and *Storage*. This page also shows the number of *Topics*, *Partitions*, *Connectors*, and *ksqlDB Clusters*.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud.
+> This section shows Cluster Metrics, such as *Throughput* and *Storage*. This page also shows the number of *Topics*, *Partitions*, *Connectors*, and *ksqlDB Clusters*. Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud.
 
 <div align="center" padding=25px>
     <img src="images/cluster-metrics.png" width=75% height=75%>
@@ -215,13 +215,13 @@ An environment contains clusters and its deployed components such as Apache Flin
 8. Click **Create API Key**.
 9. Click **Download API key** to save both the *Key* and *Secret* to your computer.
 10. Click **Complete**.
-11. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the *API Keys* table. If you don’t see the API key populate right away, try refreshing your browser.
+11. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the *API Keys* table. If you don't see the API key populate right away, try refreshing your browser.
 
 ## <a name="step-6"></a>Create Datagen Connectors for Users and Stocks
 
-The next step is to produce sample data using the Datagen Source connector. You will create three Datagen Source connectors.
+The next step is to produce sample data using the Datagen Source connector. You will create two Datagen Source connectors.
 
-The first connector will send sample customer data to the **users-topic** topic, while the next connector will send sample product data to the **stocks-topic** topic.
+The first connector will send sample customer data to the **users-topic** topic, while the second connector will send sample product data to the **stocks-topic** topic.
 
 1. First, navigate to your workshop cluster.
 2. Next, click on the **Connectors** link on the navigation menu.
@@ -266,10 +266,10 @@ The first connector will send sample customer data to the **users-topic** topic,
 
 <div align="center">
 
-| setting                            | value                        |
+| Setting                            | Value                        |
 |------------------------------------|------------------------------|
-| API key                            | [*from step 5* ](#step-5)    |
-| API secret                         | [*from step 5* ](#step-5)    |
+| API Key                            | [*from step 5* ](#step-5)    |
+| API Secret                         | [*from step 5* ](#step-5)    |
 | Topic                              | stocks-topic                 |
 | Output message format              | AVRO                         |
 | Quickstart                         | Stocks trade                 |
@@ -284,7 +284,7 @@ The first connector will send sample customer data to the **users-topic** topic,
 
 > **Note:** It may take a few moments for the connectors to launch. Check the status and when both are ready, the status should show *running*. <br> <div align="center"><img src="images/running-connectors.png" width=75% height=75%></div>
 
-> **Note:** If the connectors fails, there are a few different ways to troubleshoot the error:
+> **Note:** If the connector fails, there are a few different ways to troubleshoot the error:
 > * Click on the *Connector Name*. You will see a play and pause button on this page. Click on the play button.
 > * Click on the *Connector Name*, go to *Settings*, and re-enter your API key and secret. Double check there are no extra spaces at the beginning or end of the key and secret that you may have accidentally copied and pasted.
 > * If neither of these steps work, try creating another Datagen connector.
@@ -352,7 +352,7 @@ DESCRIBE `stocks-topic`;
 SELECT * FROM `stocks-topic`;
 ```
 
-5. Evaluate if the `users-topic` schema  exists.
+5. Evaluate if the `users-topic` schema exists.
 
 ```sql
 DESCRIBE `users-topic`;
@@ -444,10 +444,10 @@ FROM `users-topic`;
 3. For each userid, find the number of stock symbol, average quantity and maximum model price.
 
 ```sql
-SELECT userid as user_id,
-       COUNT(DISTINCT symbol) as stock_by_symbol,
-       ROUND(AVG(quantity),2) as avg_quantity,
-       MAX(price) as max_price
+SELECT userid AS user_id,
+       COUNT(DISTINCT symbol) AS stock_by_symbol,
+       ROUND(AVG(quantity),2) AS avg_quantity,
+       MAX(price) AS max_price
 FROM `stocks-topic`
 GROUP BY userid;
 ```
@@ -483,7 +483,7 @@ WHERE side = 'BUY'
 GROUP BY symbol;
 ```
 
-1. Run this query against the `number_of_times_stock_bought` table.
+7. Run this query against the `number_of_times_stock_bought` table.
 
 ```sql
 SELECT *
@@ -510,7 +510,7 @@ CREATE TABLE total_stock_purchased(
 ) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
-10.  Insert aggregate data by inserting the sum of *BUY*s of stocks to the `total_stock_purchased` table.
+10. Insert aggregate data by inserting the sum of *BUY*s of stocks to the `total_stock_purchased` table.
 
 ```sql
 INSERT INTO `total_stock_purchased`
@@ -537,7 +537,7 @@ FROM `total_stock_purchased`;
 
 *Windows* are central to processing infinite streams. Windows split the stream into “buckets” of finite size, over which you can apply computations.
 
-The goal of this section is describe how windowing is performed in Confluent Cloud for Apache Flink, and how you can benefit from windowed functions.
+The goal of this section is to describe how windowing is performed in Confluent Cloud for Apache Flink, and how you can benefit from windowed functions.
 
 Flink provides several window *table-valued functions* (TVF) to divide the elements of your table into windows, including:
 
@@ -607,14 +607,14 @@ SELECT *
 FROM `stocks_purchased_today`;
 ```
 
-4. Going along with the theme of fraud detection, create a table named `accounts_to_monitor` based on user activity during a given time frame. In your Flink workspace , paste the following statement and run the query.
+4. Going along with the theme of fraud detection, create a table named `accounts_to_monitor` based on user activity during a given time frame. In your Flink workspace, paste the following statement and run the query.
 
 ```sql
 CREATE TABLE accounts_to_monitor(
   window_start_key TIMESTAMP,
   window_end_key TIMESTAMP,
   accountid STRING,
-  window_start TIMESTAMP ,
+  window_start TIMESTAMP,
   window_end TIMESTAMP,
   account STRING,
   quantity BIGINT,
@@ -626,9 +626,9 @@ CREATE TABLE accounts_to_monitor(
 
 ```sql
 INSERT INTO `accounts_to_monitor`
-SELECT window_start as window_start_key,
-  window_end as window_end_key,
-  account as accountid,
+SELECT window_start AS window_start_key,
+  window_end AS window_end_key,
+  account AS accountid,
   window_start,
   window_end,
   account,
@@ -689,14 +689,14 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 | `Authentication method`| Google cloud service account       |
 | `GCP Credential file`  | Upload your_gcp_credential_json_file |
 | `Project ID `          | your_project_ID                    |
-| `Dataset`		 | accounts_to_monitor                |
+| `Dataset`              | accounts_to_monitor                |
 | `Ingestion Mode`       | streaming                          |
 | `Input Kafka format`   | AVRO                               |
-| `Sanitze topics `      | true                               |
+| `Sanitize topics `     | true                               |
 | `Sanitize field name`  | true                               |
 | `Auto create table`    | PARTITION by INGESTION TIME        |
 | `Partitioning type`    | DAY                                |
-| `Max poll interval (ms)`| 60000                              |
+| `Max poll interval (ms)`| 60000                             |
 | `Tasks`                | 1                                  |
 | `Name`                 | BigQueryStorageSinkConnector_accounts_to_monitor    |
 
@@ -717,7 +717,7 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 3. Click on **Next**.
 
-4. Before launching the connector, you will be brought to the summary page.  Once you have reviewed the configs and everything looks good, select **Launch**.
+4. Before launching the connector, you will be brought to the summary page. Once you have reviewed the configs and everything looks good, select **Launch**.
 
 <div align="center">
     <img src="images/bigquery-4.png" width=75% height=75%>
@@ -725,13 +725,13 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 5. This should return you to the main Connectors landing page. Wait for your newly created connector to change status from **Provisioning** to **Running**.
 
-6. Shortly after, please switch over to the BigQuery page within Google Console to show that a table matching the topic name you used when creating the BigQuery connector in Confluent Cloud has been created within the dataset that you have provided.  Clicking the table name should open a BigQuery editor for it.
+6. Shortly after, please switch over to the BigQuery page within Google Console to show that a table matching the topic name you used when creating the BigQuery connector in Confluent Cloud has been created within the dataset that you have provided. Clicking the table name should open a BigQuery editor for it.
 
 <div align="center">
     <img src="images/bigquery-5.png" width=75% height=75%>
 </div>
 
-7. Query results in Bigquery.
+7. Query results in BigQuery.
 
 <div align="center">
     <img src="images/bigquery-6.png" width=75% height=75%>

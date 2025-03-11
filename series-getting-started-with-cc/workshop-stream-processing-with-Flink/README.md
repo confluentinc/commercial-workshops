@@ -6,7 +6,8 @@
 
 <br>
 
-## **Agenda**
+## Agenda
+
 1. [Log into Confluent Cloud](#step-1)
 2. [Create an Environment and Cluster](#step-2)
 3. [Create Flink Compute Pool](#step-3)
@@ -38,19 +39,19 @@
     - Sign up for a Confluent Cloud account [here](https://www.confluent.io/confluent-cloud/tryfree/).
     - Once you have signed up and logged in, click on the menu icon at the upper right hand corner, click on “Billing & payment”, then enter payment details under “Payment details & contacts”. A screenshot of the billing UI is included below.
 
-> **Note:** You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get free credits to use in Confluent Cloud. This will cover the cost of resources created during the workshop. More details on the specifics can be found [here](https://www.confluent.io/confluent-cloud/tryfree/).
+> [!Note]
+> You will create resources during this workshop that will incur costs. When you sign up for a Confluent Cloud account, you will get free credits to use in Confluent Cloud. This will cover the cost of resources created during the workshop. More details on the specifics can be found [here](https://www.confluent.io/confluent-cloud/tryfree/).
 
 <div align="center" padding=25px>
     <img src="images/billing.png" width=75% height=75%>
 </div>
 
-***
-
 ## **Objective**
 
-In this hands-on lab, participants will learn and explore how to leverage Confluent Cloud, powered by Kora Engine, to build a real-time streaming analytics use case and activate the power of data with Google Cloud services such as BigQuery, AutoML, Looker Studio etc.
+In this hands-on lab, participants will learn and explore how to leverage Confluent Cloud, powered by the Kora Engine, to build a real-time streaming analytics use case and activate the power of data with Google Cloud services such as BigQuery, AutoML, Looker Studio etc.
 
 During the session, we will explore:
+
 - The common challenges of Apache Kafka Deployments
 - How you can easily activate Confluent Cloud on Google Cloud Marketplace
 - How to connect Google Cloud Services with Confluent Cloud
@@ -58,233 +59,228 @@ During the session, we will explore:
 
 ***
 
-
 ## <a name="step-1"></a>Log into Confluent Cloud
 
 1. Log into [Confluent Cloud](https://confluent.cloud) and enter your email and password.
 
 <div align="center" padding=25px>
-    <img src="images/login.png" width=50% height=50%>
+    <img src="images/updated-login.png" width=50% height=50%>
 </div>
 
-2. If you are logging in for the first time, you will see a self-guided wizard that walks you through spinning up a cluster. Please minimize this as you will walk through those steps in this workshop. 
+2. If you are logging in for the first time, you will see a self-guided wizard that walks you through spinning up a cluster. Please minimize this as you will walk through those steps in this workshop.
 
 ***
 
 ## <a name="step-2"></a>Create an Environment and Cluster
 
-An environment contains clusters and its deployed components such as Apache Flink, Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. For example, you can use environments to separate Development/Testing, Pre-Production, and Production clusters. 
+An environment contains clusters and its deployed components such as Apache Flink, Connectors, ksqlDB, and Schema Registry. You have the ability to create different environments based on your company's requirements. For example, you can use environments to separate Development/Testing, Pre-Production, and Production clusters.
 
-1. Click **+ Add Environment**. Specify an **Environment Name** and Click **Create**. 
+1. Click the **+ Add cloud environment** button and a modal will appear.
+2. Enter an **Environment Name**, like `stream-processing-workshop`.
+3. Select **Essentials** under *Stream Governance package* and click **Create**.
 
->**Note:** There is a *default* environment ready in your account upon account creation. You can use this *default* environment for the purpose of this workshop if you do not wish to create an additional environment.
-
-<div align="center" padding=25px>
-    <img src="images/environment.png" width=50% height=50%>
-</div>
-
-2. Select **Essentials** for Stream Governance Packages, click **Begin configuration**.
+> [!Note]
+> There is a *default* environment ready in your account upon account creation. You can use this *default* environment for the purpose of this workshop if you do not wish to create an additional environment.
 
 <div align="center" padding=25px>
-    <img src="images/stream-governance-1.png" width=50% height=50%>
+    <img src="images/create-environment.png" width=50% height=50%>
 </div>
 
-3. Select **GCP Sydney Region** for Stream Governance Essentials, click **Continue**.
+4. Next, you can start creating a cluster by entering in a name (e.g. `flink-cluster`)
+5. Select the `Basic` cluster type
+6. Choose `Google Cloud` as your provider
+7. Select `Las Vegas (us-west4`) as the region **Create Cluster**.
+8. Keep the default selections for *Uptime SLA*, *Networking*, and *Encryption*
 
 <div align="center" padding=25px>
-    <img src="images/stream-governance-2.png" width=50% height=50%>
+    <img src="images/create-cluster-updated.png" width=50% height=50%>
 </div>
 
-4. Now that you have an environment, click **Create Cluster**. 
+9. Click **Launch Cluster**.
 
-> **Note:** Confluent Cloud clusters are available in 3 types: Basic, Standard, and Dedicated. Basic is intended for development use cases so you will use that for the workshop. Basic clusters only support single zone availability. Standard and Dedicated clusters are intended for production use and support Multi-zone deployments. If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
-
-5. Chose the **Basic** cluster type. 
-
-<div align="center" padding=25px>
-    <img src="images/cluster-type.png" width=50% height=50%>
-</div>
-
-6. Click **Begin Configuration**. 
-7. Choose GCP as Cloud Provider and your preferred, region (Singapore/ asia-southeast1) , and Uptime SLA is default. 
-
-<div align="center" padding=25px>
-    <img src="images/cluster-region.png" width=50% height=50%>
-</div>
-
-8. Specify a **Cluster Name**. For the purpose of this lab, any name will work here. 
-
-<div align="center" padding=25px>
-    <img src="images/create-cluster.png" width=50% height=50%>
-</div>
-
-9. View the associated *Configuration & Cost*, *Usage Limits*, and *Uptime SLA* information before launching. 
-10. Click **Launch Cluster**. 
-
-***
+> [!Note]
+> **Confluent Cluster Types**
+>
+> Confluent Cloud clusters are available in 5 types: *Basic*, *Standard*, *Enterprise*, *Dedicated*, and *Freight*. `Basic` is intended for development use cases so you will use that for this workshop.
+>
+> If you are interested in learning more about the different types of clusters and their associated features and limits, refer to this [documentation](https://docs.confluent.io/current/cloud/clusters/cluster-types.html).
 
 ## <a name="step-3"></a>Create a Flink Compute Pool
 
-1. On the navigation menu, select **Flink** and click **Create Compute Pool**.
+1. Click on the link with your environment name in the navigation bookmark links at the top of your screen.
+2. Select the **Flink** tab and click **Create Compute Pool**.
 
 <div align="center" padding=25px>
-    <img src="images/create-flink-pool-1.png" width=50% height=50%>
+    <img src="images/create-flink-pool-updated-1.png" width=50% height=50%>
 </div>
 
-2. Select **Region** and then **Continue**.
-<div align="center" padding=25px>
-    <img src="images/create-flink-pool-2.png" width=50% height=50%>
-</div>
-
-3. Name you **Pool Name**. Click **Create**.
+3. Select `Las Vegas (us-west4)` as the **Region** and then click **Continue**.
 
 <div align="center" padding=25px>
-    <img src="images/create-flink-pool-3.png" width=50% height=50%>
+    <img src="images/create-flink-pool-updated-2.png" width=50% height=50%>
 </div>
 
-> **Note:** The capacity of a compute pool is measured in CFUs. Compute pools expand and shrink automatically based on the resources required by the statements using them. A compute pool without any running statements scale down to zero. The maximum size of a compute pool is configured during creation. 
-
-4. Flink Compute pools will be ready shortly. You can click **Open SQL workspace** when the pool is ready to use.
+4. Enter a name for your pool (e.g. `flink-workshop-pool`) and click **Create**.
 
 <div align="center" padding=25px>
-    <img src="images/create-flink-pool-4.png" width=50% height=50%>
+    <img src="images/create-flink-pool-updated-3.png" width=50% height=50%>
 </div>
 
-5. Change your workspace name by clicking **settings button**. Click **Save changes** after you update the workspace name.
+> [!Note]
+> **Compute Pool Capacity**
+>
+> The capacity of a compute pool is measured in CFUs. Compute pools expand and shrink automatically based on the resources required by the statements using them.
+>
+> A compute pool without any running statements scale down to zero. The maximum size of a compute pool is configured during creation.
+
+5. Flink Compute pools will be ready shortly. You can click **Open SQL workspace** button when the pool is ready to use.
 
 <div align="center" padding=25px>
-    <img src="images/flink-workspace-1.png" width=50% height=50%>
+    <img src="images/create-flink-pool-updated-4.png" width=50% height=50%>
 </div>
 
-6. Set the default Catalog as your environment name.
+6. Change your workspace name by clicking the **settings icon** in the top right of your screen and entering a new name, something like `flink-workspace`. Click **Save changes** after you have finished.
 
 <div align="center" padding=25px>
-    <img src="images/flink-workspace-2.png" width=50% height=50%>
+    <img src="images/flink-workspace-updated-1.png" width=50% height=50%>
 </div>
 
-7. Set the default Database as your cluster name.
+7. There are two *Use* labels above the Flink query window. For the left-most *Use* label, click the dropdown and select your new environment.
+8. For the right-most *Use* label, click the dropdown and select your cluster.
 
 <div align="center" padding=25px>
-    <img src="images/flink-workspace-2.png" width=50% height=50%>
+    <img src="images/flink-workspace-updated-2.png" width=50% height=50%>
 </div>
 
-***
+## <a name="step-4"></a>Create Topics
 
-***
+1. Click on the *Environments* icon that is second from the top in the left side icon navigation menu.
+2. Select your workshop environment.
+3. Click into your workshop cluster.
 
-## <a name="step-4"></a>Creates Topic and Walk Through Cloud Dashboard
-
-1. On the navigation menu, you will see **Cluster Overview**. 
-
-> **Note:** This section shows Cluster Metrics, such as Throughput and Storage. This page also shows the number of Topics, Partitions, Connectors, and ksqlDB Applications.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud. 
+> [!Note]
+> **Cluster Overview**
+>
+> This section shows Cluster Metrics, such as *Throughput* and *Storage*. This page also shows the number of *Topics*, *Partitions*, *Connectors*, and *ksqlDB Clusters*.  Below is an example of the metrics dashboard once you have data flowing through Confluent Cloud.
 
 <div align="center" padding=25px>
     <img src="images/cluster-metrics.png" width=75% height=75%>
 </div>
 
-2. Click on **Cluster Settings**. This is where you can find your *Cluster ID, Bootstrap Server, Cloud Details, Cluster Type,* and *Capacity Limits*.
-3. On the same navigation menu, select **Topics** and click **Create Topic**. 
-4. Enter **users_topic** as the topic name, **1** as the number of partitions, and then click **Create with defaults**. 
+4. In the left navigation menu, select **Topics** and click **Create topic**.
+5. Enter **users-topic** as the topic name, **1** as the number of partitions, do not toggle the *Enable infinite retention* for this topic, and then click **Create with defaults**.
 
 <div align="center" padding=25px>
     <img src="images/create-topic.png" width=50% height=50%>
 </div>
 
-5. Repeat the previous step and create a second topic name **stocks_topic** and **1** as the number of partitions.
+5. Click **Skip** on the Data Contract prompt.
+6. Repeat the previous step and create a second topic named **stocks-topic** with **1** as the number of partitions.
 
-> **Note:** Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/using/broker-config.html). If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side. 
+> [!Note]
+> **Topic Parameters**
+>
+> Topics have many configurable parameters. A complete list of those configurations for Confluent Cloud can be found [here](https://docs.confluent.io/cloud/current/topics/overview.html#cloud-topics-manage).
+>
+> If you are interested in viewing the default configurations, you can view them in the Topic Summary on the right side.
 
 7. After topic creation, the **Topics UI** allows you to monitor production and consumption throughput metrics and the configuration parameters for your topics. When you begin sending messages to Confluent Cloud, you will be able to view those messages and message schemas.
-8. Below is a look at the topic, **users_topic**, but you need to send data to this topic before you see any metrics.
+8. Navigate to the **users-topic** to see that no data is being produced or consumed yet.
 
 <div align="center" padding=25px>
-    <img src="images/users-topic.png" width=75% height=75%>
+    <img src="images/users-topic-updated.png" width=75% height=75%>
 </div>
 
 ***
-
 
 ## <a name="step-5"></a>Create an API Key
 
-1. Click **API Keys** on the navigation menu. 
-2. Click **Create Key** in order to create your first API Key. If you have an existing API Key select **+ Add Key** to create another API Key.
+1. Click on the hamburger icon (three horizontal lines) in the top right of the screen.
+2. Click **API Keys** in the menu under *Administration*.
+3. Click **Create Key** in order to create your first API Key. If you have an existing API Key, click **+ Add Key** to create another API Key.
 
 <div align="center" padding=25px>
-    <img src="images/create-apikey.png" width=75% height=75%>
+    <img src="images/create-apikey-updated.png" width=75% height=75%>
 </div>
 
-3. Select **Global Access** and then click **Next**. 
-4. Copy or save your API Key and Secret somewhere. You will need these later on in the lab, you will not be able to view the secret again once you close this dialogue. 
-5. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the **API Keys** section. If you don’t see the API key populate right away, refresh the browser.
+4. Select **My account** and then click **Next**.
+5. Select **Kafka cluster**, then select your workshop environment and cluster under the *Specify Kafka cluster* dropdowns. Click **Next**.
 
-***
+<div align="center" padding=25px>
+    <img src="images/create-apikey-resource-scope.png" width=75% height=75%>
+</div>
+
+6. Give your API Key a name, something like `flink-workshop-apikey`.
+7. Enter a description for your API Key (e.g. `API Key to source data from connectors`).
+8. Click **Create API Key**.
+9. Click **Download API key** to save both the *Key* and *Secret* to your computer.
+10. Click **Complete**.
+11. After creating and saving the API key, you will see this API key in the Confluent Cloud UI in the *API Keys* table. If you don’t see the API key populate right away, try refreshing your browser.
 
 ## <a name="step-6"></a>Create Datagen Connectors for Users and Stocks
 
-The next step is to produce sample data using the Datagen Source connector. You will create three Datagen Source connectors. One connector will send sample customer data to **users_topic** topic, the other connector will send sample product data to **stocks_topic** topic.
+The next step is to produce sample data using the Datagen Source connector. You will create three Datagen Source connectors.
 
-1. First, you will create the connector that will send data to **users_topic**. From the Confluent Cloud UI, click on the **Connectors** tab on the navigation menu. Click on the **Datagen Source** icon.
+The first connector will send sample customer data to the **users-topic** topic, while the next connector will send sample product data to the **stocks-topic** topic.
+
+1. First, navigate to your workshop cluster.
+2. Next, click on the **Connectors** link on the navigation menu.
+3. Now click on the **Datagen Source** icon.
 
 <div align="center" padding=25px>
     <img src="images/connectors.png" width=75% height=75%>
 </div>
 
-2. Enter the following configuration details. The remaining fields can be left blank.
-
+4. Click the **Additional Configuration** link.
+5. Enter the following configuration details in the setup wizard. The remaining fields can be left blank or default.
 <div align="center">
 
-| setting                            | value                        |
+| Setting                            | Value                        |
 |------------------------------------|------------------------------|
-| name                               | DatagenSourceConnector_users |
-| api key                            | [*from step 5* ](#step-5)    |
-| api secret                         | [*from step 5* ](#step-5)    |
-| topic                              | users_topic                  |
-| output message format              | AVRO                         |
-| quickstart                         | Users                        |
-| max interval between messages (ms) | 1000                         |
-| tasks                              | 1                            |
+| Topic                              | users-topic                  |
+| API Key                            | [*from step 5*](#step-5)     |
+| API Secret                         | [*from step 5*](#step-5)     |
+| Output message format              | AVRO                         |
+| Quickstart                         | Users                        |
+| Max interval between messages (ms) | 1000                         |
+| Tasks                              | 1                            |
+| Name                               | user-data-connector          |
+
 </div>
 
 <br>
 
 <div align="center" padding=25px>
-    <img src="images/datagen-1.png" width=75% height=75%>
-    <img src="images/datagen-2.png" width=75% height=75%>
+    <img src="images/datagen-configuration.png" width=75% height=75%>
 </div>
 
-3. Click on **Show advanced configurations** and complete the necessary fields and click **Continue**.
+6. Continue through the setup wizard and click **Continue** to launch the wizard.
 
 <div align="center" padding=25px>
-    <img src="images/datagen-3.png" width=75% height=75%>
-</div>
-   
-4. Before launching the connector, you should see something similar to the following. If everything looks similar, select **Launch**. 
-
-<div align="center" padding=25px>
-    <img src="images/datagen-4.png" width=50% height=50%>
+    <img src="images/datagen-user-success.png" width=75% height=75%>
 </div>
 
-5. Next, create the second connector that will send data to **stocks_topic**. Click on **+ Add Connector** and then the **datagen Source** icon again. 
+7. Next, create the second connector that will send data to **stocks-topic**. Click on **+ Add Connector** and then the **Datagen Source** icon again.
 
-6. Enter the following configuration details. The remaining fields can be left blank. 
+8. Enter the following configuration details. The remaining fields can be left blank or default.
 
 <div align="center">
 
 | setting                            | value                        |
 |------------------------------------|------------------------------|
-| name                               | DatagenSourceConnector_stocks|
-| api key                            | [*from step 5* ](#step-5)    |
-| api secret                         | [*from step 5* ](#step-5)    |
-| topic                              | stocks_topic                 |
-| output message format              | AVRO                         |
-| quickstart                         | Stocks trade                 |
-| max interval between messages (ms) | 1000                         |
-| tasks                              | 1                            |
+| API key                            | [*from step 5* ](#step-5)    |
+| API secret                         | [*from step 5* ](#step-5)    |
+| Topic                              | stocks-topic                 |
+| Output message format              | AVRO                         |
+| Quickstart                         | Stocks trade                 |
+| Max interval between messages (ms) | 1000                         |
+| Tasks                              | 1                            |
+| Name                               | stock-data-connector         |
 </div>
 
-<br> 
+<br>
 
-7. Review the output again and then select **Launch**.
+9. Review your selections and then click **Launch**.
 
 > **Note:** It may take a few moments for the connectors to launch. Check the status and when both are ready, the status should show *running*. <br> <div align="center"><img src="images/running-connectors.png" width=75% height=75%></div>
 
@@ -294,176 +290,180 @@ The next step is to produce sample data using the Datagen Source connector. You 
 > * If neither of these steps work, try creating another Datagen connector.
 
 
-8. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users_topic**. You can view the production and consumption throughput metrics here.
+10. You can view the sample data flowing into topics in real time. Navigate to  the **Topics** tab and then click on the **users-topic**. You can view the production and consumption throughput metrics here.
 
-9. Click on **Messages**.
-
-* You should now be able to see the messages within the UI. You can view the specific messages by clicking the icon. 
+11. Click on **Messages**.
+12. Click on a row in the table and you should see something like this:
 
 <div align="center">
     <img src="images/message-view-1.png" width=75% height=75%>
-</div> 
-
-* The message details should look something like the following. 
-
-<div align="center">
-    <img src="images/message-view-2.png" width=75% height=75%>
 </div>
 
-***
-
 ## <a name="step-7"></a>Flink Queries
-Kafka topics and schemas are always in sync with our Flink cluster. Any topic created in Kafka is visible directly as a table in Flink, and any table created in Flink is visible as a topic in Kafka. Effectively, Flink provides a SQL interface on top of Confluent Cloud.
+Kafka topics and schemas are always in sync with our Flink compute pool. Any topic created in Kafka is visible directly as a table in Flink, and any table created in Flink is visible as a topic in Kafka.
 
-Following mappings exist:
-| Kafka          | Flink     | 
+**Effectively, Flink provides a SQL interface on top of Confluent Cloud.**
+
+This table illustrates how Kafka and Flink resources map to each other.
+
+| Kafka          | Flink     |
 | ------------   | --------- |
-| Environment    | Catalog   | 
+| Environment    | Catalog   |
 | Cluster        | Database  |
 | Topic + Schema | Table     |
 
-1. Familiarize with **Flink SQL** Basics.
+1. Navigate to your flink workspace by clicking on the **Stream Processing** icon on the very far left navigation sidebar.
+
+<div align="center">
+    <img src="images/stream-processing-nav-item.png" width=75% height=75%>
+</div>
+
+2. Familiarize yourself with **Flink SQL** Basics with these commands:
+
 ```sql
 SHOW CATALOGS;
 ```
 
-```
+```sql
 SHOW DATABASES;
 ```
 
 ```sql
 SHOW TABLES;
 ```
-<div align="center">
-    <img src="images/show-tables.png" width=75% height=75%>
-</div>
 
-Understand how the table `stocks_topic` was created:
+Understand how the table `stocks-topic` was created:
 
 ```sql
-SHOW CREATE TABLE stocks_topic;
+SHOW CREATE TABLE `stocks-topic`;
 ```
 
 You can find more information about all DDL Statements [here.](https://docs.confluent.io/cloud/current/flink/reference/statements/overview.html)
 
-Let us first check the table schema for our `stocks_topic` catalog. This should be the same as the topic schema in Schema Registry.
+3. Check the table schema for your `stocks-topic` catalog. This should be the same as the topic schema in Schema Registry.
+
 ```sql
-DESCRIBE stocks_topic;
+DESCRIBE `stocks-topic`;
 ```
 
-2. Let's check if any product records exist in the table.
+4. Verify if any product records exist in the table.
+
 ```sql
-SELECT * FROM stocks_topic;
+SELECT * FROM `stocks-topic`;
 ```
 
-3. Check if the `users_topic` schema  exists. 
+5. Evaluate if the `users-topic` schema  exists.
+
 ```sql
-DESCRIBE users_topic;
+DESCRIBE `users-topic`;
 ```
 
-4. Check the customers in Texas whose name start with `B`.
-```sql
-SELECT * FROM users_topic
-  WHERE `userid` = 'User_8' AND `gender` LIKE 'MA%';
-```
+6. Check the first five stocks trades for `User_8`.
 
-5. Check the first five stocks trades for one customer.
 ```sql
 SELECT side,
        quantity,
        symbol,
        $rowtime AS ingestion_time
-  FROM stocks_topic
+  FROM `stocks-topic`
   WHERE userid = 'User_8'
   LIMIT 5;
 ```
 
+7. Find the message timestamps for all stocks trades of one user.
 
-6. Find the message timestamps for all stocks trades of one user.
 ```sql
 SELECT side,
        quantity,
        symbol,
        $rowtime AS ingestion_time
-  FROM stocks_topic
+  FROM `stocks-topic`
   WHERE userid = 'User_8';
 ```
 
+8. Enrich Stocks Trades information with the `users-topic`. Create a new table for enriched order information.
 
-7. Enrich Stocks Trades information with Users Topic. Create a new table for enriched order information..
 ```sql
 CREATE TABLE stocks_trades_enriched_user_detail(
   userid STRING,
-  regionid STRING, 
-  gender STRING, 
-  side STRING, 
-  quantity INT, 
-  symbol STRING, 
-  price INT, 
+  regionid STRING,
+  gender STRING,
+  side STRING,
+  quantity INT,
+  symbol STRING,
+  price INT,
   account STRING
 )  DISTRIBUTED INTO 3 BUCKETS WITH (
     'changelog.mode' = 'retract'
 );
 ```
 
-8. Insert joined data from 2 tables into the new table. Keep this query running.
+9. Insert joined data from 2 tables into the new table. Keep this query running
+
 ```sql
-INSERT INTO stocks_trades_enriched_user_detail
-     SELECT ut.userid AS userid, 
-           regionid, 
-           gender, 
-           side, 
-           quantity, 
-           symbol, 
-           price, 
+INSERT INTO `stocks_trades_enriched_user_detail`
+     SELECT ut.userid AS userid,
+           regionid,
+           gender,
+           side,
+           quantity,
+           symbol,
+           price,
            account
-    FROM stocks_topic st
-    LEFT JOIN users_topic ut
+    FROM `stocks-topic` st
+    LEFT JOIN `users-topic` ut
     ON st.userid = ut.userid;
 ```
-9. Add Flink Statement windows by click (+). Check the enriched table by running this query.
+
+10. Add Flink Statement cells by clicking (+). Check the enriched table by running this query.
+
 ```sql
-select * from stocks_trades_enriched_user_detail;
+SELECT * FROM `stocks_trades_enriched_user_detail`;
 ```
+
 <div align="center">
     <img src="images/stocks-enriched-query.png" width=75% height=75%>
-</div> 
-
-
-***
+</div>
 
 ## <a name="step-8"></a>Flink Aggregations
+
 1. Find the number of users records.
+
 ```sql
 SELECT COUNT(userid) AS num_records
-FROM users_topic;
+FROM `users-topic`;
 ```
 
 2. Find the number of unique users records.
+
 ```sql
 SELECT COUNT(DISTINCT userid) AS num_customers
-FROM users_topic;
+FROM `users-topic`;
 ```
 
-3. For each userid, find the number of stock symbol, average quantity and maximum model price. 
+3. For each userid, find the number of stock symbol, average quantity and maximum model price.
+
 ```sql
-SELECT userid as user_id, 
+SELECT userid as user_id,
        COUNT(DISTINCT symbol) as stock_by_symbol,
        ROUND(AVG(quantity),2) as avg_quantity,
        MAX(price) as max_price
-FROM stocks_topic
+FROM `stocks-topic`
 GROUP BY userid;
 ```
-4. Running query to aggregate the data by counting buys of stocks. 
+
+4. Running query to aggregate the data by counting stock *BUY*s.
+
 ```sql
 SELECT symbol,
        COUNT(quantity) AS total_times_bought
-FROM stocks_topic
+FROM `stocks-topic`
 WHERE side = 'BUY'
 GROUP BY symbol
 ```
 
-5. Create new table number_of_times_stock_bought to store the result. 
+5. Create new table `number_of_times_stock_bought` to store the result.
+
 ```sql
 CREATE TABLE number_of_times_stock_bought(
   symbol STRING,
@@ -472,28 +472,36 @@ CREATE TABLE number_of_times_stock_bought(
 ) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
-6. Insert all the aggregate the data by counting buys of stocks to the number_of_times_stock_bought table. 
+6. Insert aggregate data by inserting *BUY*s of stocks into the number_of_times_stock_bought table. This query will continue executing.
+
 ```sql
-INSERT INTO number_of_times_stock_bought
+INSERT INTO `number_of_times_stock_bought`
 SELECT symbol,
-       COUNT(quantity) AS total_times_bought
-FROM stocks_topic
+    COUNT(quantity) AS total_times_bought
+FROM `stocks-topic`
 WHERE side = 'BUY'
-GROUP BY symbol
+GROUP BY symbol;
 ```
-7. Add Flink Statement windows by click (+). Running query to the number_of_times_stock_bought table. 
+
+1. Run this query against the `number_of_times_stock_bought` table.
+
 ```sql
-select * from number_of_times_stock_bought;
+SELECT *
+FROM `number_of_times_stock_bought`;
 ```
-8. Next, create a table that calculates the total number of stocks purchased per symbol.  
+
+8. Next, create a table that calculates the total number of stocks purchased per symbol.
+
 ```sql
 SELECT symbol,
-           SUM(quantity) AS total_quantity
-FROM stocks_topic
+    SUM(quantity) AS total_quantity
+FROM `stocks-topic`
 WHERE side = 'BUY'
-GROUP BY symbol
+GROUP BY symbol;
 ```
-9. Create new table total_stock_purchased to store the result. 
+
+9. Create new table `total_stock_purchased` to store the result.
+
 ```sql
 CREATE TABLE total_stock_purchased(
   symbol STRING,
@@ -502,63 +510,74 @@ CREATE TABLE total_stock_purchased(
 ) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
-10. Insert all the aggregate the data by counting buys of stocks to the number_of_times_stock_bought table. 
-```sql
-INSERT INTO total_stock_purchased
-SELECT symbol,
-       SUM(quantity) AS total_quantity 
-FROM stocks_topic
-WHERE side = 'BUY'
-GROUP BY symbol
-```
-11. Add Flink Statement windows by click (+). Check the result by running query to the total_stock_purchased table. 
-```sql
-select * from total_stock_purchased;
-```
-> **Note:** Check this [link](https://docs.confluent.io/cloud/current/flink/reference/functions/aggregate-functions.html) for more information about Flink aggregation functions.
+10.  Insert aggregate data by inserting the sum of *BUY*s of stocks to the `total_stock_purchased` table.
 
-***
+```sql
+INSERT INTO `total_stock_purchased`
+SELECT symbol,
+       SUM(quantity) AS total_quantity
+FROM `stocks-topic`
+WHERE side = 'BUY'
+GROUP BY symbol;
+```
+
+11. Check the result by running this query against the `total_stock_purchased` table.
+
+```sql
+SELECT *
+FROM `total_stock_purchased`;
+```
+
+> [!Note]
+> **Flink Aggregate Functions**
+>
+> Check this [link](https://docs.confluent.io/cloud/current/flink/reference/functions/aggregate-functions.html) for more information about Flink aggregation functions.
 
 ## <a name="step-9"></a>Flink Windowing Functions
-Windows are central to processing infinite streams. Windows split the stream into “buckets” of finite size, over which you can apply computations. This document focuses on how windowing is performed in Confluent Cloud for Apache Flink and how you can benefit from windowed functions.
 
-Flink provides several window table-valued functions (TVF) to divide the elements of your table into windows, including:
+*Windows* are central to processing infinite streams. Windows split the stream into “buckets” of finite size, over which you can apply computations.
 
-a. [Tumble Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-tumble)
-<br> 
-b. [Hop Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-hop)
-<br> 
-c. [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-cumulate)
-<br> 
+The goal of this section is describe how windowing is performed in Confluent Cloud for Apache Flink, and how you can benefit from windowed functions.
+
+Flink provides several window *table-valued functions* (TVF) to divide the elements of your table into windows, including:
+
+- [Tumble Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-tumble)
+- [Hop Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-hop)
+- [Cumulate Windows](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html#flink-sql-window-tvfs-cumulate)
 
 1. Find the amount of stocks trades for five minute intervals (tumbling window aggregation).
+
 ```sql
 SELECT window_end,
        COUNT(side) AS num_orders
 FROM TABLE(
-  TUMBLE(TABLE stocks_topic, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))
+  TUMBLE(TABLE `stocks-topic`, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))
 GROUP BY window_end;
 ```
 
 2. Find the amount of stocks trades for ten minute intervals advanced by five minutes (hopping window aggregation).
+
 ```sql
 SELECT window_start,
        window_end,
        COUNT(side) AS num_orders
 FROM TABLE(
-  HOP(TABLE stocks_topic, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES, INTERVAL '10' MINUTES))
+  HOP(TABLE `stocks-topic`, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES, INTERVAL '10' MINUTES))
 GROUP BY window_start, window_end;
 ```
 
-> **Note:** Check this [link](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html) for the detailed information about Flink Window aggregations.
-
-***
+Visit this [link](https://docs.confluent.io/cloud/current/flink/reference/queries/window-tvf.html) for detailed information about Flink Window aggregations.
 
 ## <a name="step-10"></a>Fraud Detection
 
-After we walked through a few examples on how to use Flink for Windowing, Tumble Windows and Hop Windows, We will use it including how to use it for anomaly or fraud detection. Flink enables aggregation operations on tables, as you saw in the previous step, and you have the ability to set time boundaries named windows. A window has a start time and an end time, which you access in your queries by using WINDOWSTART and WINDOWEND. When using Windowing, aggregate functions are applied only to the records that occur within the specified time window. 
+Now that you have gone through a few examples on how to use Flink for Windowing, including Tumble and Hop Windows, you will use it for anomaly/fraud detection.
 
-1. Create table stocks_purchased_today
+Flink enables aggregation operations on tables, as you saw in the previous step, and you have the ability to set time boundaries named windows. A window has a start time and an end time, which you access in your queries by using `window_start` and `window_end`.
+
+When using Windowing, aggregate functions are applied only to the records that occur within the specified time window.
+
+1. Create a table for `stocks_purchased_today`
+
 ```sql
 CREATE TABLE stocks_purchased_today(
   symbol STRING,
@@ -569,25 +588,29 @@ CREATE TABLE stocks_purchased_today(
 ) DISTRIBUTED INTO 3 BUCKETS;
 ```
 
-2. Insert data into the new table created above.
+2. Insert data into the `stocks_purchased_today` table.
+
 ```sql
-insert into stocks_purchased_today
+INSERT INTO `stocks_purchased_today`
 SELECT symbol,window_start,
-  window_end,     
+  window_end,
   COUNT(*) AS quantity
 FROM TABLE(
-  TUMBLE(TABLE stocks_topic, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))
+  TUMBLE(TABLE `stocks-topic`, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))
 GROUP BY symbol,window_end,window_start;
 ```
 
-3. Add Flink Statement windows by click (+). Once you have created the windowed table, and you have inserted the data , use the Flink Workspace to query the table. If you construct the statement on your own, make sure it looks like the following..
+3. Verify data is flowing into the `stocks_purchased_today` table.
+
 ```sql
-select * from stocks_purchased_today
+SELECT *
+FROM `stocks_purchased_today`;
 ```
 
-4. Going along with the theme of fraud detection, create a table named accounts_to_monitor with accounts to monitor based on their activity during a given time frame. In the Flink Workspace , paste the following statement and run the query. Change XXX with your random number.
+4. Going along with the theme of fraud detection, create a table named `accounts_to_monitor` based on user activity during a given time frame. In your Flink workspace , paste the following statement and run the query.
+
 ```sql
-CREATE TABLE accounts_to_monitor_XXX(
+CREATE TABLE accounts_to_monitor(
   window_start_key TIMESTAMP,
   window_end_key TIMESTAMP,
   accountid STRING,
@@ -598,48 +621,53 @@ CREATE TABLE accounts_to_monitor_XXX(
   PRIMARY KEY (window_start_key,window_end_key,accountid) NOT ENFORCED
 ) DISTRIBUTED INTO 3 BUCKETS;
 ```
-5. Insert data into the new table created above.
+
+5. Insert data into the `accounts_to_monitor` table.
+
 ```sql
-INSERT INTO accounts_to_monitor_XXX
+INSERT INTO `accounts_to_monitor`
 SELECT window_start as window_start_key,
   window_end as window_end_key,
   account as accountid,
   window_start,
   window_end,
-  account, 
+  account,
   COUNT(*) AS quantity
 FROM TABLE(
-  TUMBLE(TABLE stocks_topic, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))
+  TUMBLE(TABLE `stocks-topic`, DESCRIPTOR(`$rowtime`), INTERVAL '5' MINUTES))
 GROUP BY window_end,window_start,account
 HAVING COUNT(*)>10;
 ```
-6. Add Flink Statement windows by click (+). Verify the result.
-  ```sql
-Select * from  accounts_to_monitor_XXX;
-``` 
-***
+
+6. Verify the result.
+
+```sql
+SELECT *
+FROM `accounts_to_monitor`;
+```
 
 ## <a name="step-11"></a>Check Flink Queries
 
-Building on our Fraud Detection example from the last step, let’s say our fraud service wants to check on high frequency accounts. Then we can monitor the activity for a suspicious account. 
+Building on the Fraud Detection example from the previous step, you want to check on high frequency accounts to monitor for and uncover potentially fraudulent activity.
 
-
-1. In the Flink Statement Editor. We run this query in the Editor to see how our accounts are behaving.  
+1. Find accounts with a lot of activity.
 
 ```sql
-SELECT * FROM accounts_to_monitor_XXX
-     WHERE quantity > 100;
+SELECT *
+FROM `accounts_to_monitor`
+    WHERE quantity > 100;
 ```
-2. Once we have identified a potential troublemaker, we can create an ephemeral push query to monitor future trades from our **STOCKS_ENRICHED** stream. This will continue to push trades to the fraud service for further analysis until it is stopped. 
+
+2. Now that you have identified potential fraud, you can create an ephemeral push query to monitor future trades from our **stocks_enriched** stream. This will continue to push trades to the fraud service for further analysis until it is stopped.
+
+<!-- TODO: Why selecting a hardcoded account id? why not join on -->
 
 ```sql
-SELECT * FROM stocks_trades_enriched_user_detail 
+SELECT * FROM stocks_trades_enriched_user_detail
 	WHERE account = 'ABC123';
 ```
 
-***
-
-## <a name="step-12"></a>Connect BigQuery sink to Confluent Cloud
+## <a name="step-12"></a>(Optional) Connect BigQuery sink to Confluent Cloud
 
 The next step is to sink data from Confluent Cloud into BigQuery using the [fully-managed BigQuery Sink connector](https://docs.confluent.io/cloud/current/connectors/cc-gcp-bigquery-storage-sink.html). The connector will send real time data on **accounts_to_monitor** into BigQuery.
 
@@ -726,9 +754,9 @@ The next step is to sink data from Confluent Cloud into BigQuery using the [full
 
 ## <a name="step-13"></a>Clean Up Resources
 
-Deleting the resources you created during this workshop will prevent you from incurring additional charges. 
+Deleting the resources you created during this workshop will prevent you from incurring additional charges.
 
-1. The first item to delete is the Apache Flink Compute Pool. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion. 
+1. The first item to delete is the Apache Flink Compute Pool. Select the **Delete** button under **Actions** and enter the **Application Name** to confirm the deletion.
 
 <div align="center">
     <img src="images/flink-delete-compute-pool.png" width=50% height=50%>
@@ -740,7 +768,7 @@ Deleting the resources you created during this workshop will prevent you from in
     <img src="images/delete-connector.png" width=60% height=60%>
 </div>
 
-3. Next, delete the Datagen Source connectors for **users** and **stocks**. 
+3. Next, delete the Datagen Source connectors for **users** and **stocks**.
 
 4. Delete the Cluster by going to the **Settings** tab and then selecting **Delete cluster**.
 
@@ -750,7 +778,7 @@ Deleting the resources you created during this workshop will prevent you from in
 
 5. Delete the Environment by expanding right hand menu and going to **Environments** tab and then clicking on **Delete** for the associated Environment you would like to delete
 
-*** 
+***
 
 ## <a name="step-14"></a>Confluent Resources and Further Testing
 
@@ -758,9 +786,3 @@ Here are some links to check out if you are interested in further testing:
 - [Confluent Cloud Documentation](https://docs.confluent.io/cloud/current/overview.html)
 - [Best Practices for Developing Apache Kafka Applications on Confluent Cloud](https://assets.confluent.io/m/14397e757459a58d/original/20200205-WP-Best_Practices_for_Developing_Apache_Kafka_Applications_on_Confluent_Cloud.pdf)
 - [Stream Processing with Confluent Cloud for Apache Flink](https://docs.confluent.io/cloud/current/flink/overview.html)
-
-
-
-
-
-

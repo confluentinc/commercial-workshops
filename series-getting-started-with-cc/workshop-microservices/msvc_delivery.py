@@ -37,6 +37,7 @@ from utils import (
     import_state_store_class,
 )
 
+from confluent_kafka.serialization import StringSerializer
 
 ####################
 # Global variables #
@@ -97,7 +98,7 @@ with GRACEFUL_SHUTDOWN as _:
 def pizza_delivered(order_id: str):
     PRODUCER.produce(
         PRODUCE_TOPIC_DELIVERED,
-        key=order_id,
+        key=order_id.encode('utf-8'),
         value=json.dumps(
             {
                 "status": SYS_CONFIG["status-id"]["delivered"],
@@ -111,7 +112,7 @@ def pizza_delivered(order_id: str):
 def pizza_pending(order_id: str):
     PRODUCER.produce(
         PRODUCE_TOPIC_PENDING,
-        key=order_id,
+        key=order_id.encode('utf-8'),
         value=json.dumps(
             {
                 "status": SYS_CONFIG["status-id"]["pending"],
@@ -153,7 +154,7 @@ def receive_pizza_baked():
 
                         log_event_received(event)
 
-                        order_id = event.key().decode()
+                        order_id = event.key().decode('utf-8')
                         topic = event.topic()
 
                         if topic == TOPIC_PIZZA_ORDERED:

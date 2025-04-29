@@ -37,7 +37,6 @@ from utils import (
     set_producer_consumer,
 )
 
-
 ####################
 # Global variables #
 ####################
@@ -84,7 +83,7 @@ def pizza_assembled(
     # Produce to kafka topic
     PRODUCER.produce(
         PRODUCE_TOPIC_ASSEMBLED,
-        key=order_id,
+        key=order_id.encode('utf-8'),
         value=json.dumps(
             {
                 "status": SYS_CONFIG["status-id"]["pizza_assembled"],
@@ -112,7 +111,7 @@ def receive_orders():
 
                         log_event_received(event)
 
-                        order_id = event.key().decode()
+                        order_id = event.key().decode('utf-8')
                         try:
                             order_details = json.loads(event.value().decode())
                             order = order_details.get("order", dict())

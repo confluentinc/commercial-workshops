@@ -87,6 +87,7 @@ with GRACEFUL_SHUTDOWN as _:
         sys_config=SYS_CONFIG,
     ) as db:
         db.create_order_table()
+        db.create_status_table()
         db.delete_past_timestamp(
             SYS_CONFIG["state-store-orders"]["table_orders"],
             hours=int(SYS_CONFIG["state-store-orders"]["table_orders_retention_hours"]),
@@ -225,7 +226,7 @@ def order_pizza():
         # Produce to kafka topic
         PRODUCER.produce(
             PRODUCE_TOPIC_ORDERED,
-            key=order_id,
+            key=order_id.encode('utf-8'),
             value=json.dumps(order_details).encode(),
         )
         PRODUCER.flush()
@@ -359,7 +360,7 @@ def view_logs_ajax(order_id: str):
             msvc_logs[k].sort()  # sort lines by timestamp
             msvc_logs[k] = "<br><br>".join(msvc_logs[k])
             headers = re.findall(
-                "(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3} \[.+?\].+?:)",
+                r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3} \[.+?\].+?:)",
                 msvc_logs[k],
             )
             for header in headers:

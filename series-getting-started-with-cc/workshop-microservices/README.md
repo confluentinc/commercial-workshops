@@ -1,3 +1,8 @@
+<!-- TODO
+Add more details about Flink
+Add more details about Stream Lineage, including how to navigate to it from Flink workspace
+ -->
+
 <div align="center">
     <img src="static/images/docs/confluent_logo.png" width=75% height=75%>
 </div>
@@ -57,13 +62,17 @@ Knowledge of Python is NOT mandatory.
 - **CQRS:** Divides your application into command (write) and query (read) purviews
 - **Event Sourcing:** Records all changes to application state as a sequence of events
 
-This pizza application demonstrates CQRS by separating the ordering system (command) from the status tracking system (query), using Kafka as the communication layer that facilitates event sourcing.
+In this pizza shop use case, CQRS elegantly separates the order creation system (command) from the status tracking system (query), allowing each to be optimized for its specific purpose without interference.
+
+Event sourcing captures every state change in the pizza's journey as immutable events, creating a complete and reliable history that enables accurate status tracking and simplified recovery from failures.
+
+Together, these patterns form a robust foundation for the microservices architecture, where each pizza-related event flows through Kafka topics as the source of truth, and Flink SQL transforms these distributed events into a unified status view that powers the customer-facing experience with real-time updates.
 
 ## **Architecture Overview**
 
 ### <div align="center">High level view</div>
 
-Here's how our pizza shop microservices architecture breaks down:
+Here's how your pizza shop microservices architecture breaks down:
 
 #### Web Application (`webapp.py`)
 
@@ -140,16 +149,14 @@ git clone https://github.com/confluentinc/commercial-workshops.git
 cd commercial-workshops/series-getting-started-with-cc/workshop-microservices
 ```
 
-## **Moving From Theory to Practice**
-
 ## **Workshop Steps**
 
-## <a name="step-1"></a>Step 1: Log Into Confluent Cloud
+### <a name="step-1"></a>Step 1: Log Into Confluent Cloud
 
 1. Access [Confluent Cloud](https://confluent.cloud) and sign in.
 2. If you're logging in for the first time, you may see a wizard - minimize it to follow this guide.
 
-## <a name="step-2"></a>Step 2: Create Environment and Cluster
+### <a name="step-2"></a>Step 2: Create Environment and Cluster
 
 An environment is a container for Confluent clusters and components like Connect, Flink, and Schema Registry.
 
@@ -173,7 +180,7 @@ An environment is a container for Confluent clusters and components like Connect
 9. Select **99.9%** Uptime SLA
 10. Click **Launch cluster**
 
-## <a name="step-3"></a>Step 3: Setup Flink
+### <a name="step-3"></a>Step 3: Setup Flink
 
 1. Click your environment name at the top of the page
 2. Click **Flink**
@@ -190,7 +197,7 @@ An environment is a container for Confluent clusters and components like Connect
 > CFUs measure processing resources for Flink computations. Each SQL statement you run consumes at least 1 CFU-minute, so you'll be able to monitor exactly how resources are being used.
 > [Learn more about CFU billing](https://docs.confluent.io/cloud/current/flink/operate-and-deploy/flink-billing.html)
 
-## <a name="step-4"></a>Step 4: Create Kafka Topics
+### <a name="step-4"></a>Step 4: Create Kafka Topics
 
 1. Navigate to your cluster's **Topics** section
 2. Click **Create topic**
@@ -206,7 +213,7 @@ An environment is a container for Confluent clusters and components like Connect
 Your Topics page should now look like this:
 ![image](static/images/topics.png)
 
-## <a name="step-5"></a>Step 5: Create an API Key Pair
+### <a name="step-5"></a>Step 5: Create an API Key Pair
 
 1. Select **API keys** under Cluster Overview
 2. Click **Create key** or **+ Add key**
@@ -215,7 +222,7 @@ Your Topics page should now look like this:
 5. Click **Download and continue**
    - Save the key details securely - you'll need them in the next step
 
-## <a name="step-6"></a>Step 6: Configure Kafka Client
+### <a name="step-6"></a>Step 6: Configure Kafka Client
 
 Open the file `config_kafka/example.ini` and make these changes:
 
@@ -234,16 +241,22 @@ sasl.username = XXXXXXXXXXXXXX
 sasl.password = XXXXXXXX####XX##X#XXXXXXXXX###
 ```
 
-## <a name="step-7"></a>Step 7: Create Stream Processing with Flink
+### <a name="step-7"></a>Step 7: Create Stream Processing with Flink
 
-Now that we have our infrastructure and topics in place, let's add some real-time stream processing power with Flink SQL!
+Now that we have your infrastructure and topics in place, let's add some real-time stream processing power with Flink SQL!
+
+Apache Flink in Confluent Cloud provides real-time stream processing capabilities for your pizza shop, transforming disjointed events from multiple topics into a cohesive view of each order's journey.
+
+With Flink SQL, you can easily aggregate data across the entire pizza preparation process—from order placement through assembly, baking, and delivery—creating a unified status table that powers real-time customer updates.
+
+This powerful stream processing enables operators to monitor the health of the delivery pipeline, detect stuck orders, and improve the customer experience without requiring deep technical knowledge of distributed systems or programming expertise.
 
 > [!NOTE]
 > **Flink mapping to Confluent**
 >
 > In Confluent, clusters map to Flink databases and Kafka topics map to Flink tables.
 
-Follow these steps to create a real-time aggregate view of our pizza orders:
+Follow these steps to create a real-time aggregate view of your pizza orders:
 
 1. Navigate to your Flink compute pool.
 2. Click **Open SQL workspace**.
@@ -300,9 +313,9 @@ SELECT * FROM `pizza-status`;
 >
 > Results will only appear after you start sending pizza orders through the microservices application in the next two steps!
 
-## <a name="step-8"></a>Step 8: Run the Microservices
+### <a name="step-8"></a>Step 8: Run the Microservices
 
-Let's build and launch our microservices locally with Docker:
+Let's build and launch your microservices locally with Docker:
 
 ```shell
 # Build the Docker image - this may take a few minutes
@@ -324,7 +337,7 @@ When successfully started, you'll see output like this:
 >
 > For simplicity, this demo runs one instance of each microservice. In production, you would likely run multiple instances to match the number of partitions in your topics.
 
-## <a name="step-9"></a>Step 9: Use the Application
+### <a name="step-9"></a>Step 9: Use the Application
 
 1. Open your browser and navigate to http://127.0.0.1:8000.
 2. Login (any text input for the username will work).
@@ -340,19 +353,24 @@ Watch the event-driven magic happen as your order flows through the system:
 
 You can watch the order status update in real-time on the order details page.
 
-## <a name="step-10"></a>Step 10: View Stream Lineage
+### <a name="step-10"></a>Step 10: View Stream Lineage
 
-1. Click **Stream Lineage** in the left navigation
+[Stream Lineage](https://docs.confluent.io/cloud/current/stream-governance/stream-lineage.html) in Confluent Cloud provides a visual map of your pizza journey, showing how data flows from order placement through assembly, baking, and delivery.
 
-Stream lineage provides a visual representation of data flows, showing:
+This visualization helps you identify where bottlenecks might occur in the pizza-making process, troubleshoot delivery delays, and understand the complete lifecycle of each order across your microservices.
 
-- Where data comes from
-- Where it goes
-- How it's transformed along the way
+With *Stream Lineage*, you can easily monitor the health of your pizza shop operations, ensure order quality, and better explain the event-driven architecture to stakeholders unfamiliar with distributed systems.
+
+Follow these steps to view *Stream Lineage*:
+
+1. Go back to Confluent Cloud
+2. Click **Stream Lineage** in the left navigation
+2.
+
 
 ![Stream Lineage](static/images/docs/cc_stream_lineage.png)
 
-## <a name="step-11"></a>Step 11: Stop the Demo
+### <a name="step-11"></a>Step 11: Stop the Demo
 
 ```shell
 # Stop the container
@@ -393,7 +411,7 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0x86 in position 3: invalid 
 
 This error happens because of a serialization format mismatch. When you see keys beginning with `\x00\x00\x01\x86`, they're using Confluent's Schema Registry wire format (which includes schema metadata), but your consumer is expecting plain UTF-8 encoded strings.
 
-**Solution:** This can be solved by adding contracts to our data via the [Schema Registry](https://www.confluent.io/product/confluent-platform/data-compatibility/), which is out of scope for this version of the workshop but may get added at a later date.
+**Solution:** This can be solved by adding contracts to your data via the [Schema Registry](https://www.confluent.io/product/confluent-platform/data-compatibility/), which is out of scope for this version of the workshop but may get added at a later date.
 
 ### Docker Container Exits Immediately
 
@@ -433,8 +451,9 @@ Ready to keep learning? Check out these additional resources:
 ## **Confluent Resources and Further Testing**
 
 - Confluent Cloud [Basics](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html)
-- Confluent Cloud [Quickstart](https://docs.confluent.io/cloud/current/get-started/index.html
+- Confluent Cloud [Quickstart](https://docs.confluent.io/cloud/current/get-started/index.html)
 - Confluent Cloud Flink [Quickstart](https://docs.confluent.io/cloud/current/get-started/flink.html)
 - Confluent Cloud [Demos/Examples](https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html)
 - Flink [Tutorials](https://kafka-tutorials.confluent.io/)
+- Stream Lineage [video](https://developer.confluent.io/courses/governing-data-streams/stream-lineage/)
 - Full repository of Connectors within [Confluent Hub](https://www.confluent.io/hub/)

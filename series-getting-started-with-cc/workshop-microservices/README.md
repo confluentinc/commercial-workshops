@@ -6,7 +6,7 @@
 
 ## **Introduction**
 
-Dive into the world of event-driven architecture with this hands-on workshop! You'll build a complete pizza delivery ecosystem using the CQRS pattern, all powered by Confluent Cloud. Who doesn't love pizza and microservices? :blush:
+Dive into the world of event-driven architecture with this hands-on workshop! You'll run a pre-built pizza delivery ecosystem using the CQRS pattern, all powered by Confluent Cloud. Who doesn't love pizza and microservices? :blush:
 
 ## **Objectives**
 
@@ -52,9 +52,9 @@ Knowledge of Python is NOT mandatory.
 
 ### CQRS and Event Sourcing
 
-**CQRS** (Command Query Responsibility Segregation) and Event Sourcing are powerful architectural patterns that work brilliantly together. Here's why they matter for modern applications:
+*CQRS* (Command Query Responsibility Segregation) and *Event Sourcing* are powerful architectural patterns that work brilliantly together. Here's why they matter for modern applications:
 
-- **CQRS:** Divides your application into command (write) and query (read) sides
+- **CQRS:** Divides your application into command (write) and query (read) purviews
 - **Event Sourcing:** Records all changes to application state as a sequence of events
 
 This pizza application demonstrates CQRS by separating the ordering system (command) from the status tracking system (query), using Kafka as the communication layer that facilitates event sourcing.
@@ -63,7 +63,7 @@ This pizza application demonstrates CQRS by separating the ordering system (comm
 
 ### <div align="center">High level view</div>
 
-Here's how our pizza shop's microservices architecture breaks down:
+Here's how our pizza shop microservices architecture breaks down:
 
 #### Web Application (`webapp.py`)
 
@@ -109,20 +109,36 @@ Follow these steps to get set up to run this workshop:
 
 ### 2. Local Environment Setup
 
-- **Network Requirements**: Ensure ports `443` and `9092` allow outbound traffic to the internet
-  - Test with: `curl portquiz.net:443` and `curl portquiz.net:9092`
+#### Network Requirements
 
-- **Required Software**: Install [Docker Desktop](https://docs.docker.com/desktop/)
+Ensure ports `443` and `9092` allow outbound traffic to the internet
 
-- **Get the Workshop Code**:
+Test with these commands:
 
-  ```shell
-  # Clone the repository
-  git clone https://github.com/confluentinc/commercial-workshops.git
+```curl
+curl portquiz.net:443
+```
 
-  # Navigate to workshop directory
-  cd commercial-workshops/series-getting-started-with-cc/workshop-microservices
-  ```
+and
+
+```curl
+curl portquiz.net:9092
+```
+
+#### Required Software
+
+- Install [Docker Desktop](https://docs.docker.com/desktop/)
+- Install [git](https://git-scm.com/downloads)
+
+#### Get the Workshop Code
+
+```shell
+# Clone the repository
+git clone https://github.com/confluentinc/commercial-workshops.git
+
+# Navigate to workshop directory
+cd commercial-workshops/series-getting-started-with-cc/workshop-microservices
+```
 
 ## **Moving From Theory to Practice**
 
@@ -408,7 +424,7 @@ The **Process Status** service includes a watchdog to monitor stuck orders. In a
 
 ## **Congratulations!**
 
-You've successfully built and deployed a complete event-driven microservices application using Confluent Cloud!
+You've successfully deployed and interacted with a complete event-driven microservices application using Confluent Cloud!
 
 This pattern can be extended to all kinds of real-world applications beyond pizza delivery - from financial transactions, to IoT systems, to customer experiences.
 

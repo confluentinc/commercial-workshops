@@ -13,18 +13,21 @@ Dive into the world of event-driven architecture with this hands-on workshop! Yo
 This workshop is perfect for those looking to build Event Driven Architecture and get started with Confluent Cloud.
 
 In this workshop you will:
+
 - Understand the key concepts of event-driven architecture
 - Experience firsthand how Confluent Cloud simplifies building event-driven microservices
 - Use a pre-built Python microservices application to process pizza orders
-- Transform data in real-time with Flink SQL
+- Aggregate data in real-time with Flink SQL
 
 By the end, you'll have gained practical experience with:
+
 - Getting started with key features from Confluent Cloud
-- Creating scalable and robust event-driven systems
+- Running a scalable and robust event-driven system
 
 Knowledge of Python is NOT mandatory.
 
 ## **Table of Contents**
+
 - [Key Concepts](#key-concepts)
 - [Architecture Overview](#architecture-overview)
 - [Prerequisites](#prerequisites)
@@ -47,13 +50,14 @@ Knowledge of Python is NOT mandatory.
 
 ## **Key Concepts**
 
-### CQRS vs Event Sourcing
-CQRS (Command Query Responsibility Segregation) and Event Sourcing are powerful architectural patterns that work brilliantly together. Here's why they matter for modern applications:
+### CQRS and Event Sourcing
+
+**CQRS** (Command Query Responsibility Segregation) and Event Sourcing are powerful architectural patterns that work brilliantly together. Here's why they matter for modern applications:
 
 - **CQRS:** Divides your application into command (write) and query (read) sides
 - **Event Sourcing:** Records all changes to application state as a sequence of events
 
-This pizza application demonstrates CQRS by separating the ordering system (command) from the status tracking system (query), using Kafka as the communication layer.
+This pizza application demonstrates CQRS by separating the ordering system (command) from the status tracking system (query), using Kafka as the communication layer that facilitates event sourcing.
 
 ## **Architecture Overview**
 
@@ -62,12 +66,13 @@ This pizza application demonstrates CQRS by separating the ordering system (comm
 Here's how our pizza shop's microservices architecture breaks down:
 
 #### Web Application (`webapp.py`)
-- Built with `Flask`
+
 - Enables users to login, customize pizzas, place orders, and track status
 - Acts as the *Command* portion of the CQRS pattern
 - Uses `SQLite3` as the materialized view (in a production system, this would be a distributed database)
 
 #### Four Microservices
+
 The pizza order flows through these services:
 
 1. **Assemble the pizza** (`msvc_assemble.py`) - Prepares the pizza based on the order
@@ -75,7 +80,7 @@ The pizza order flows through these services:
 3. **Deliver the pizza** (`msvc_delivery.py`) - Manages delivery logistics
 4. **Process status** (`msvc_status.py`) - Updates the web application with order status (acts as the *Query* portion of CQRS)
 
-**All communication between services occurs via Apache Kafka topics**
+**All communication** between services occurs via Apache Kafka topics.
 
 ### <div align="center">Technical Architecture</div>
 
@@ -85,27 +90,32 @@ The pizza order flows through these services:
 > **Local and Cloud Components**
 >
 > This workshop uses a hybrid architecture:
+>
 > - Kafka cluster and Flink run on Confluent Cloud
 > - Microservices and web server run in a docker container on your local machine
 
 ## **Prerequisites**
 
+Follow these steps to get set up to run this workshop:
+
 ### 1. Confluent Cloud Account
-* Sign-up [here](https://www.confluent.io/confluent-cloud/tryfree/?utm_medium=commercial-workshop-microservices)
-* New signups receive $400 to spend during the first 30 days (no credit card required)
-* Click on the menu icon at top right → "Billing & payment" to see your credits
+
+- Sign-up [here](https://www.confluent.io/confluent-cloud/tryfree/?utm_medium=commercial-workshop-microservices).
+- New signups receive $400 to spend during the first 30 days (no credit card required).
+- Click on the menu icon at top right → "Billing & payment" to see your credits.
 
 > [!NOTE]
-> Resources created during this workshop will incur costs covered by your free credits
+> Resources created during this workshop will incur costs covered by your free credits.
 
 ### 2. Local Environment Setup
 
-* **Network Requirements**: Ensure ports `443` and `9092` allow outbound traffic to the internet
-  * Test with: `curl portquiz.net:443` and `curl portquiz.net:9092`
+- **Network Requirements**: Ensure ports `443` and `9092` allow outbound traffic to the internet
+  - Test with: `curl portquiz.net:443` and `curl portquiz.net:9092`
 
-* **Required Software**: Install [Docker Desktop](https://docs.docker.com/desktop/)
+- **Required Software**: Install [Docker Desktop](https://docs.docker.com/desktop/)
 
-* **Get the Workshop Code**:
+- **Get the Workshop Code**:
+
   ```shell
   # Clone the repository
   git clone https://github.com/confluentinc/commercial-workshops.git
@@ -120,12 +130,12 @@ The pizza order flows through these services:
 
 ## <a name="step-1"></a>Step 1: Log Into Confluent Cloud
 
-1. Access [Confluent Cloud](https://confluent.cloud) and sign in
-2. If you're logging in for the first time, you may see a wizard - minimize it to follow this guide
+1. Access [Confluent Cloud](https://confluent.cloud) and sign in.
+2. If you're logging in for the first time, you may see a wizard - minimize it to follow this guide.
 
 ## <a name="step-2"></a>Step 2: Create Environment and Cluster
 
-An environment contains Confluent clusters and components like Connect, Flink, and Schema Registry.
+An environment is a container for Confluent clusters and components like Connect, Flink, and Schema Registry.
 
 1. Select **Environments** from the left navigation
 2. Click **+ Add cloud environment**
@@ -146,7 +156,6 @@ An environment contains Confluent clusters and components like Connect, Flink, a
 8. Select a region with $0/hr pricing
 9. Select **99.9%** Uptime SLA
 10. Click **Launch cluster**
-11. In Cluster Settings, copy the **Bootstrap server** URL for later use
 
 ## <a name="step-3"></a>Step 3: Setup Flink
 
@@ -177,7 +186,6 @@ An environment contains Confluent clusters and components like Connect, Flink, a
    - `pizza-assembled`
    - `pizza-baked`
    - `pizza-delivered`
-   - `pizza-status`
 
 Your Topics page should now look like this:
 ![image](static/images/topics.png)
@@ -189,17 +197,17 @@ Your Topics page should now look like this:
 3. Select **My account** and click **Next**
 4. Enter `pizza-shop-api-key` as the description
 5. Click **Download and continue**
-   > Save the key details securely - you'll need them in the next step
+   - Save the key details securely - you'll need them in the next step
 
 ## <a name="step-6"></a>Step 6: Configure Kafka Client
 
-Open the file `config_kafka/example.ini` and update it with:
+Open the file `config_kafka/example.ini` and make these changes:
 
 1. Replace `{{ HOST:PORT }}` with your cluster's bootstrap server URL
 2. Replace `{{ CLUSTER_API_KEY }}` with your API key
 3. Replace `{{ CLUSTER_API_SECRET }}` with your API secret
 
-Your completed file should look like:
+Your updated `config_kafka/example.ini` file should look like:
 
 ```ini
 [kafka]
@@ -213,6 +221,13 @@ sasl.password = XXXXXXXX####XX##X#XXXXXXXXX###
 ## <a name="step-7"></a>Step 7: Create Stream Processing with Flink
 
 Now that we have our infrastructure and topics in place, let's add some real-time stream processing power with Flink SQL!
+
+> [!NOTE]
+> **Flink mapping to Confluent**
+>
+> In Confluent, clusters map to Flink databases and Kafka topics map to Flink tables.
+
+Follow these steps to create a real-time aggregate view of our pizza orders:
 
 1. Navigate to your Flink compute pool.
 2. Click **Open SQL workspace**.
@@ -258,13 +273,16 @@ SELECT
 FROM `pizza-delivered`;
 ```
 
-You can view the results with:
+You can view the results with this query:
+
 ```sql
 SELECT * FROM `pizza-status`;
 ```
 
 > [!NOTE]
-> Results will only appear after you start sending orders through the system later in Step 9
+> **Empty Results**
+>
+> Results will only appear after you start sending pizza orders through the microservices application in the next two steps!
 
 ## <a name="step-8"></a>Step 8: Run the Microservices
 
@@ -283,11 +301,12 @@ docker run --rm --interactive --name=pizza-shop-container -p 443:443 -p 9092:909
 
 When successfully started, you'll see output like this:
 
-<!-- TODO REPLACE -->
-![image](https://github.com/gsvamsikrishna/python-kafka-microservices/assets/73946498/edfcd90a-6711-4926-9eea-afe40c6635a2)
+![Logs of the web app starting up successfully](static/images/docs/webapp_startup_success.png)
 
 > [!NOTE]
-> For simplicity, this demo runs one instance of each microservice. In production, you would run multiple instances to match the number of partitions in your topics.
+> **Production vs Demo**
+>
+> For simplicity, this demo runs one instance of each microservice. In production, you would likely run multiple instances to match the number of partitions in your topics.
 
 ## <a name="step-9"></a>Step 9: Use the Application
 
@@ -310,6 +329,7 @@ You can watch the order status update in real-time on the order details page.
 1. Click **Stream Lineage** in the left navigation
 
 Stream lineage provides a visual representation of data flows, showing:
+
 - Where data comes from
 - Where it goes
 - How it's transformed along the way
@@ -350,7 +370,8 @@ To avoid continued charges:
 ### Schema Registry Message Format Issues
 
 If you encounter errors like:
-```
+
+```shell
 UnicodeDecodeError: 'utf-8' codec can't decode byte 0x86 in position 3: invalid start byte
 ```
 
@@ -370,6 +391,7 @@ If your container exits after starting:
 ### Stateful Microservices
 
 The **Deliver Pizza** service demonstrates a stateful design with two steps:
+
 1. Receive early warning when order is placed (`pizza-ordered` topic)
 2. Receive notification when pizza is baked (`pizza-baked` topic)
 
@@ -378,6 +400,7 @@ Because these events come from different topics, their ordering is not guarantee
 ### Order Status Watchdog
 
 The **Process Status** service includes a watchdog to monitor stuck orders. In a production system, this helps:
+
 - Identify failed or stalled processes
 - Alert operators to issues
 - Trigger recovery mechanisms
@@ -393,9 +416,9 @@ Ready to keep learning? Check out these additional resources:
 
 ## **Confluent Resources and Further Testing**
 
-* Confluent Cloud [Basics](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html)
-* Confluent Cloud [Quickstart](https://docs.confluent.io/cloud/current/get-started/index.html
-* Confluent Cloud Flink [Quickstart](https://docs.confluent.io/cloud/current/get-started/flink.html)
-* Confluent Cloud [Demos/Examples](https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html)
-* Flink [Tutorials](https://kafka-tutorials.confluent.io/)
-* Full repository of Connectors within [Confluent Hub](https://www.confluent.io/hub/)
+- Confluent Cloud [Basics](https://docs.confluent.io/cloud/current/client-apps/cloud-basics.html)
+- Confluent Cloud [Quickstart](https://docs.confluent.io/cloud/current/get-started/index.html
+- Confluent Cloud Flink [Quickstart](https://docs.confluent.io/cloud/current/get-started/flink.html)
+- Confluent Cloud [Demos/Examples](https://docs.confluent.io/platform/current/tutorials/examples/ccloud/docs/ccloud-demos-overview.html)
+- Flink [Tutorials](https://kafka-tutorials.confluent.io/)
+- Full repository of Connectors within [Confluent Hub](https://www.confluent.io/hub/)

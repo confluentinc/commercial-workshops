@@ -39,6 +39,8 @@ from utils import (
     import_state_store_class,
 )
 
+from confluent_kafka.serialization import Deserializer, SerializationContext, MessageField
+
 
 ####################
 # Global variables #
@@ -125,8 +127,49 @@ def get_pizza_status():
                 else:
                     try:
                         log_event_received(event)
+                        raw_key = event.key()
 
-                        order_id = event.key().decode()
+                        if raw_key is None:
+                            logging.error("Received event with null key")
+                            continue # Skip processing if key is null
+
+                        try:
+                            # First attempt: standard UTF-8 decoding
+                            order_id = raw_key.decode('utf-8')
+                        except UnicodeDecodeError:
+                            # Second attempt: extract order ID from schema registry format
+                            logging.error(f"Could not decode key as UTF-8, trying schema registry format: {raw_key!r}")
+                            # The format appears to be: magic bytes + schema ID + actual ID at the end
+                            try:
+
+                                # Create a proper context for deserialization
+                                key_context = SerializationContext(event.topic(), MessageField.KEY)
+
+                                # Define a string deserializer if not already defined
+                                string_deserializer = Deserializer(lambda v, ctx: v.decode('utf-8') if v is not None else None)
+
+                                # Use the current event, not an undefined 'msg' variable
+                                key = string_deserializer(event.key(), key_context)
+
+                                logging.info(f"Successfully deserialized key: {key}")
+
+                                # Try to extract the last 8 characters which seem to be the order ID
+                                # Convert to string first to handle both text and bytes representations
+                                raw_key_str = str(raw_key)
+
+                                # Find the 8-character hex ID at the end
+                                import re
+                                match = re.search(r'([0-9a-f]{8})', raw_key_str)
+                                if match:
+                                    order_id = match.group(1)
+                                    logging.info(f"Extracted order_id '{order_id}' from Schema Registry formatted key")
+                                else:
+                                    logging.error(f"Failed to extract order_id pattern from key: {raw_key!r}")
+                                    continue  # Skip this message
+                            except Exception as e:
+                                logging.error(f"Failed to extract order_id from key: {raw_key!r}. Error: {str(e)}")
+                                continue  # Skip this message
+
                         with DB(
                             ORDERS_DB,
                             sys_config=SYS_CONFIG,

@@ -28,7 +28,8 @@ from configparser import ConfigParser
 from confluent_kafka import Producer, Consumer
 from logging.handlers import TimedRotatingFileHandler
 from confluent_kafka.admin import AdminClient
-
+from confluent_kafka.serialization import StringSerializer
+from confluent_kafka.serialization import StringDeserializer
 
 ####################
 # Global variables #
@@ -367,49 +368,6 @@ def http_request(
     except Exception as err:
         logging.error(f"Unable to send request to '{url}': {err}")
         return (500, {err})
-
-
-def ksqldb(
-    end_point: str,
-    statement: str,
-    username: str = None,
-    password: str = None,
-    offset_reset_earliest: bool = True,
-):
-    """Submit HTTP POST request to ksqlDB"""
-    try:
-        # Clean-up statement
-        statement = statement.replace("\r", " ")
-        statement = statement.replace("\t", " ")
-        statement = statement.replace("\n", " ")
-        while statement.find("  ") > -1:
-            statement = statement.replace("  ", " ")
-
-        url = f"{end_point.strip('/')}/ksql"
-        status_code, response = http_request(
-            url,
-            headers={
-                "Accept": "application/vnd.ksql.v1+json",
-                "Content-Type": "application/vnd.ksql.v1+json; charset=utf-8",
-            },
-            payload={
-                "ksql": statement,
-                "streamsProperties": {
-                    "ksql.streams.auto.offset.reset": "earliest"
-                    if offset_reset_earliest
-                    else "latest",
-                    "ksql.streams.cache.max.bytes.buffering": "0",
-                },
-            },
-            username=username,
-            password=password,
-        )
-        if status_code == 200:
-            logging.debug(f"ksqlDB ({status_code}): {statement}")
-        else:
-            raise Exception(f"{response} (Status code {status_code})")
-    except Exception as err:
-        logging.error(f"Unable to send request to '{url}': {err}")
 
 
 ###################

@@ -165,8 +165,13 @@ An environment is a container for Confluent clusters and components like Connect
 3. Enter a name like `pizza-shop-env`
 4. Select **Essentials** under Stream Governance package
 5. Click **Create**
+
+![Environment form filled out](static/images/docs/create_environment.png)
+
 6. Name your cluster `pizza-shop-cluster`
 7. Select **Basic** cluster type
+
+![Create cluster form](static/images/docs/create_cluster.png)
 
 > [!NOTE]
 > **Cluster Types**
@@ -176,11 +181,12 @@ An environment is a container for Confluent clusters and components like Connect
 >
 > Choose **Basic** for this workshop to keep costs low.
 
-8. Select a region with $0/hr pricing
-9. Select **99.9%** Uptime SLA
-10. Click **Launch cluster**
+8. Select a Provider and Region with $0/hr pricing
+9. Click **Launch cluster**
 
 ### <a name="step-3"></a>Step 3: Setup Flink
+
+Now let's get Flink set up to process and aggregate the pizza status topic data so we have a single view of the status of the orders.
 
 1. Click your environment name at the top of the page
 2. Click **Flink**
@@ -191,11 +197,17 @@ An environment is a container for Confluent clusters and components like Connect
 7. Set Max size to 10 CFU
 8. Click **Create**
 
+![Flink Compute Pool form](static/images/docs/create_flink_pool.png)
+
 > [!NOTE]
 > **Confluent Flink Units (CFU)**
 >
 > CFUs measure processing resources for Flink computations. Each SQL statement you run consumes at least 1 CFU-minute, so you'll be able to monitor exactly how resources are being used.
 > [Learn more about CFU billing](https://docs.confluent.io/cloud/current/flink/operate-and-deploy/flink-billing.html)
+
+Once your Flink compute pool has been spun up you should see a screen like this:
+
+![Flink Compute Pool created](static/images/docs/create_flink_pool2.png)
 
 ### <a name="step-4"></a>Step 4: Create Kafka Topics
 
@@ -211,7 +223,7 @@ An environment is a container for Confluent clusters and components like Connect
    - `pizza-delivered`
 
 Your Topics page should now look like this:
-![image](static/images/topics.png)
+![List of pizza state topics](static/images/topics.png)
 
 ### <a name="step-5"></a>Step 5: Create an API Key Pair
 
@@ -262,7 +274,7 @@ Follow these steps to create a real-time aggregate view of your pizza orders:
 2. Click **Open SQL workspace**.
 3. Select your `pizza-shop-cluster` from the Database dropdown.
 
-Now execute these Flink SQL statements:
+The following statement creates a Flink table called `pizza-status`, which maps to a Kafka topic of the same name.
 
 ```sql
 /* Create a table to track pizza status */
@@ -273,6 +285,10 @@ CREATE TABLE `pizza-status` (
   PRIMARY KEY (orderid) NOT ENFORCED
 )
 ```
+
+You should see this type of result output after executing the statement:
+
+![Create table statement is successful](static/images/docs/flink_create_table.png)
 
 ```sql
 /* Combine data from all pizza-related topics */
@@ -302,7 +318,11 @@ SELECT
 FROM `pizza-delivered`;
 ```
 
-You can view the results with this query:
+This is a streaming query and will continue to run. Only stop it once you are finished with this workshop.
+
+![Streaming query is successful](static/images/docs/flink_streaming_statment.png)
+
+You can view the status of the pizzas ordered in our microservices application with this streaming query:
 
 ```sql
 SELECT * FROM `pizza-status`;
@@ -355,7 +375,7 @@ You can watch the order status update in real-time on the order details page.
 
 ### <a name="step-10"></a>Step 10: View Stream Lineage
 
-[Stream Lineage](https://docs.confluent.io/cloud/current/stream-governance/stream-lineage.html) in Confluent Cloud provides a visual map of your pizza journey, showing how data flows from order placement through assembly, baking, and delivery.
+[Stream Lineage](https://docs.confluent.io/cloud/current/stream-governance/stream_lineage.html) in Confluent Cloud provides a visual map of your pizza journey, showing how data flows from order placement through assembly, baking, and delivery.
 
 This visualization helps you identify where bottlenecks might occur in the pizza-making process, troubleshoot delivery delays, and understand the complete lifecycle of each order across your microservices.
 
@@ -365,8 +385,6 @@ Follow these steps to view *Stream Lineage*:
 
 1. Go back to Confluent Cloud
 2. Click **Stream Lineage** in the left navigation
-2.
-
 
 ![Stream Lineage](static/images/docs/cc_stream_lineage.png)
 

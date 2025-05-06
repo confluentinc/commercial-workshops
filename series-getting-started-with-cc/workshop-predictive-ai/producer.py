@@ -25,6 +25,7 @@ def read_schema():
     schema_config = {}
     with open("schema.properties") as sp:
      for line in sp:
+        line = line.strip()
         if len(line) != 0 and line[0] != "#":
            parameter, value = line.strip().split('=', 1)
            schema_config[parameter] = value.strip()

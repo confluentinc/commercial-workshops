@@ -320,7 +320,7 @@ FROM `pizza-delivered`;
 
 This is a streaming query and will continue to run. Only stop it once you are finished with this workshop.
 
-![Streaming query is successful](static/images/docs/flink_streaming_statment.png)
+![Streaming query is successful](static/images/docs/flink_streaming_statement.png)
 
 You can view the status of the pizzas ordered in our microservices application with this streaming query:
 

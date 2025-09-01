@@ -1,7 +1,7 @@
 # Workshop: Build an Agentic AI Data Streaming Pipeline with Confluent Data Streaming Platform
 
 <div align="center">
-  <img src="images/confluent.png" width="50%" height="50%">
+  <img src="https://github.com/dr3jitsu/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-mining/images/confluent.png" width="50%" height="50%">
 </div>
 
 This workshop is a **hands-on lab** where you’ll learn how to combine real-time data streaming with agentic AI (LLMs) to make automated, intelligent decisions.
@@ -13,7 +13,7 @@ Instead of just moving data around, you’ll see how modern platforms can react 
 Goal: Show how to design and run an intelligent, event-driven decision system by combining Kafka, Flink, and LLMs in Confluent Cloud.
 
 <div align="center" padding=25px>
-    <img src="images/overview-ws.png" width=100% height=100%>
+    <img src="https://github.com/dr3jitsu/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-mining/images/overview-ws.png" width=100% height=100%>
 </div>
 
 
@@ -57,7 +57,7 @@ Design and implement **a real-time streaming pipeline** where **Flink** processe
 - Connect Flink to an **AI Agent** and run real-time inference that classifies equipment health as **HEALTHY, WARNING, or CRITICAL with reasoning**.
 
 <div align="center" padding=25px>
-    <img src="images/detail.png" width=100% height=100%>
+    <img src="https://github.com/dr3jitsu/commercial-workshops/tree/master/series-getting-started-with-cc/workshop-mining/images/detail.png" width=100% height=100%>
 </div>
 
 ---
